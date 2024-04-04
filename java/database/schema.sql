@@ -6,8 +6,14 @@ CREATE TABLE users (
 	user_id SERIAL,
 	username varchar(50) NOT NULL UNIQUE,
 	password_hash varchar(200) NOT NULL,
+	email varchar(100) NOT NULL,
+	avatar varchar(200),
+	name varchar(100),
 	role varchar(50) NOT NULL,
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
+INSERT INTO users (username,password_hash, email, role) VALUES ('jake','jake1','jake@gmail.com','USER');
+
 COMMIT TRANSACTION;
+--ROLLBACK; 

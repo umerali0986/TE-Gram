@@ -10,20 +10,36 @@ public class User {
 
    private int id;
    private String username;
+   private String name;
    @JsonIgnore
    private String password;
    @JsonIgnore
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
 
+   private String email;
+
+   private String avatar; // This is a file path
+
    public User() { }
 
-   public User(int id, String username, String password, String authorities) {
+   public User(int id, String username, String name, String password, String authorities, String email, String avatar) {
       this.id = id;
       this.username = username;
+      this.name = name;
       this.password = password;
       if (authorities != null) this.setAuthorities(authorities);
       this.activated = true;
+      this.email = email;
+      this.avatar = avatar;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
    }
 
    public int getId() {
@@ -32,6 +48,22 @@ public class User {
 
    public void setId(int id) {
       this.id = id;
+   }
+
+   public String getEmail() {
+      return email;
+   }
+
+   public void setEmail(String email) {
+      this.email = email;
+   }
+
+   public String getAvatar() {
+      return avatar;
+   }
+
+   public void setAvatar(String avatar) {
+      this.avatar = avatar;
    }
 
    public String getUsername() {
