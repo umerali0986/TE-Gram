@@ -16,7 +16,7 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    //TODO add get users 
+    //TODO add get users
     @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
     public void deleteUserById(@PathVariable int id){          //TODO add validation
         userDao.deleteUserById(id);
