@@ -110,12 +110,15 @@ public class JdbcUserDao implements UserDao {
     public User updateUser(User user) {
         User updatedUser = null;
 
-        String sql = "UPDATE users SET username = ?, password_hash = ?, email = ?, avatar = ?, name = ?" +
+        String sql = "UPDATE users SET username = ?, email = ?, avatar = ?, name = ? " +
                       "WHERE user_id = ?";
+
+//        , password_hash = ?
+//        , user.getPassword()
 
         try{
             int numberOfRows = 0;
-            numberOfRows = jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail()
+            numberOfRows = jdbcTemplate.update(sql, user.getUsername(), user.getEmail()
                             , user.getAvatar(), user.getName(), user.getId());
 
             if(numberOfRows == 0){
