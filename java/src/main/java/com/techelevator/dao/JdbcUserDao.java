@@ -90,10 +90,12 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
+        if (email == null) throw new IllegalArgumentException("Username cannot be null");
+
         User user = null;
 
-        String sql = "SELECT user_id, username, email, name, avatar, role FROM users " +
-                    "WHERE email = ?;";
+        String sql = "SELECT user_id, username, email, password_hash, name, avatar, role FROM users " +
+                "WHERE email = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, email);
             if (results.next()) {
@@ -111,12 +113,12 @@ public class JdbcUserDao implements UserDao {
         User updatedUser = null;
 
         String sql = "UPDATE users SET username = ?, email = ?, avatar = ?, name = ? " +
-                      "WHERE user_id = ?";
+                "WHERE user_id = ?";
 
         try{
             int numberOfRows = 0;
             numberOfRows = jdbcTemplate.update(sql, user.getUsername(), user.getEmail()
-                            , user.getAvatar(), user.getName(), user.getId());
+                    , user.getAvatar(), user.getName(), user.getId());
 
             if(numberOfRows == 0){
                 throw new DaoException("No number of rows affected");
@@ -134,15 +136,18 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public void deleteUserById(int userId) {
+    public int deleteUserById(int userId) {
+        int numberOfRows = 0;
         String sql = "DELETE FROM users WHERE user_id = ?";
         try{
-            jdbcTemplate.update(sql, userId);
+            numberOfRows = jdbcTemplate.update(sql, userId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
+
+        return numberOfRows;
     }
 
     private User mapRowToUser(SqlRowSet rs) {
