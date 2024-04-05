@@ -13,7 +13,6 @@ CREATE TABLE users (
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 );
 
-INSERT INTO users (username,password_hash, email, role) VALUES ('jake','jake1','jake@gmail.com','USER');
 
 COMMIT TRANSACTION;
 --ROLLBACK; 
