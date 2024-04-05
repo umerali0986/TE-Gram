@@ -42,7 +42,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT user_id, username, email, password_hash, name, avatar, role FROM users";
+        String sql = "SELECT user_id, username, email, name, avatar, role FROM users";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -74,11 +74,11 @@ public class JdbcUserDao implements UserDao {
     @Override
     public User createUser(RegisterUserDto user) {
         User newUser = null;
-        String insertUserSql = "INSERT INTO users (username, password_hash, role) values (LOWER(TRIM(?)), ?, ?) RETURNING user_id";
+        String insertUserSql = "INSERT INTO users (username, email, password_hash, role) values (LOWER(TRIM(?)),? , ?, ?) RETURNING user_id";
         String password_hash = new BCryptPasswordEncoder().encode(user.getPassword());
         String ssRole = user.getRole().toUpperCase().startsWith("ROLE_") ? user.getRole().toUpperCase() : "ROLE_" + user.getRole().toUpperCase();
         try {
-            int newUserId = jdbcTemplate.queryForObject(insertUserSql, int.class, user.getUsername(), password_hash, ssRole);
+            int newUserId = jdbcTemplate.queryForObject(insertUserSql, int.class, user.getUsername(), user.getEmail(), password_hash, ssRole);
             newUser = getUserById(newUserId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -92,7 +92,7 @@ public class JdbcUserDao implements UserDao {
     public User getUserByEmail(String email) {
         User user = null;
 
-        String sql = "SELECT user_id, username, email, password_hash, name, avatar, role FROM users " +
+        String sql = "SELECT user_id, username, email, name, avatar, role FROM users " +
                     "WHERE email = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, email);
@@ -109,7 +109,6 @@ public class JdbcUserDao implements UserDao {
     @Override
     public User updateUser(User user) {
         User updatedUser = null;
-
 
         String sql = "UPDATE users SET username = ?, email = ?, avatar = ?, name = ? " +
                       "WHERE user_id = ?";
