@@ -42,7 +42,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT user_id, username, email, password_hash, name, avatar, role FROM users";
+        String sql = "SELECT user_id, username, email, name, avatar, role FROM users";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -92,7 +92,7 @@ public class JdbcUserDao implements UserDao {
     public User getUserByEmail(String email) {
         User user = null;
 
-        String sql = "SELECT user_id, username, email, password_hash, name, avatar, role FROM users " +
+        String sql = "SELECT user_id, username, email, name, avatar, role FROM users " +
                     "WHERE email = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, email);
@@ -112,9 +112,6 @@ public class JdbcUserDao implements UserDao {
 
         String sql = "UPDATE users SET username = ?, email = ?, avatar = ?, name = ? " +
                       "WHERE user_id = ?";
-
-//        , password_hash = ?
-//        , user.getPassword()
 
         try{
             int numberOfRows = 0;
