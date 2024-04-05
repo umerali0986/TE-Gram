@@ -27,7 +27,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public User getUserById(int userId) {
         User user = null;
-        String sql = "SELECT user_id, username, password_hash, role FROM users WHERE user_id = ?";
+        String sql = "SELECT user_id, username, email, password_hash, name, avatar, role FROM users WHERE user_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()) {
@@ -42,7 +42,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT user_id, username, password_hash, role FROM users";
+        String sql = "SELECT user_id, username, email, password_hash, name, avatar, role FROM users";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -59,7 +59,7 @@ public class JdbcUserDao implements UserDao {
     public User getUserByUsername(String username) {
         if (username == null) throw new IllegalArgumentException("Username cannot be null");
         User user = null;
-        String sql = "SELECT user_id, username, password_hash, role FROM users WHERE username = LOWER(TRIM(?));";
+        String sql = "SELECT user_id, username, password_hash, email, name, avatar, role FROM users WHERE username = LOWER(TRIM(?));";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
             if (rowSet.next()) {
@@ -88,11 +88,71 @@ public class JdbcUserDao implements UserDao {
         return newUser;
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        User user = null;
+
+        String sql = "SELECT user_id, username, email, password_hash, name, avatar, role FROM users " +
+                    "WHERE email = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, email);
+            if (results.next()) {
+                user = mapRowToUser(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return user;
+
+    }
+
+    @Override
+    public User updateUser(User user) {
+        User updatedUser = null;
+
+        String sql = "UPDATE users SET username = ?, password_hash = ?, email = ?, avatar = ?, name = ?" +
+                      "WHERE user_id = ?";
+
+        try{
+            int numberOfRows = 0;
+            numberOfRows = jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail()
+                            , user.getAvatar(), user.getName(), user.getId());
+
+            if(numberOfRows == 0){
+                throw new DaoException("No number of rows affected");
+            }
+            else{
+                updatedUser = getUserById(user.getId());
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
+        return updatedUser;
+    }
+
+    @Override
+    public void deleteUserById(int userId) {
+        String sql = "DELETE FROM users WHERE user_id = ?";
+        try{
+            jdbcTemplate.update(sql, userId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+    }
+
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getInt("user_id"));
         user.setUsername(rs.getString("username"));
         user.setPassword(rs.getString("password_hash"));
+        user.setEmail(rs.getString("email"));
+        user.setName(rs.getString("name"));
+        user.setAvatar(rs.getString("avatar"));
         user.setAuthorities(Objects.requireNonNull(rs.getString("role")));
         user.setActivated(true);
         return user;
