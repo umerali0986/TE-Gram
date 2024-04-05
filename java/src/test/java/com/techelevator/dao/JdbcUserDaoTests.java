@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.List;
 
 public class JdbcUserDaoTests extends BaseDaoTests {
-    protected static final User USER_1 = new User(1, "user1", "name", "user1", "ROLE_USER", "email.com", "ourPic");
+    protected static final User USER_1 = new User(1, "user1", "name", "user1", "ROLE_USER", "email.com", "yourPic");
     protected static final User USER_2 = new User(2, "user2", "name", "user2", "ROLE_USER", "email.net", "yourPic");
     private static final User USER_3 = new User(3, "user3", "name", "user3", "ROLE_USER", "email.gov", "myPic");
 
@@ -100,6 +100,7 @@ public class JdbcUserDaoTests extends BaseDaoTests {
         user.setUsername("new");
         user.setPassword("user");
         user.setRole("ROLE_USER");
+        user.setEmail("new@gmail.com");
         User createdUser = sut.createUser(user);
 
         Assert.assertNotNull(createdUser);
@@ -107,4 +108,60 @@ public class JdbcUserDaoTests extends BaseDaoTests {
         User retrievedUser = sut.getUserByUsername(createdUser.getUsername());
         Assert.assertEquals(retrievedUser, createdUser);
     }
+
+    @Test
+    public void updateUser_should_update_user_in_db(){
+        User user = sut.getUserById(1);
+        user.setName("user1");
+
+        User updatedUser = sut.updateUser(user);
+
+        Assert.assertNotNull(updatedUser);
+
+        User retrievedUser = sut.getUserById(1);
+
+        assertUserMatch(updatedUser,retrievedUser);
+
+    }
+
+    @Test
+    public void deleteUserById_should_delete_User(){
+        int numberOfRows = sut.deleteUserById(USER_1.getId());
+
+        Assert.assertEquals("Number of rows affected doesn't match",1, numberOfRows);
+
+        User user = sut.getUserById(USER_1.getId());
+        Assert.assertNull(user);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getUserByEmail_given_null_throws_exception() {
+        sut.getUserByEmail(null);
+    }
+
+    @Test
+    public void getUserByEmail_given_invalid_email_returns_null() {
+        Assert.assertNull(sut.getUserByEmail("invalid"));
+    }
+
+    @Test
+    public void getUserByEmail_given_valid_user_returns_user() {
+        User actualUser = sut.getUserByEmail(USER_1.getEmail());
+
+        Assert.assertEquals(USER_1, actualUser);
+    }
+
+
+    public void assertUserMatch(User expect, User actual){
+
+        Assert.assertEquals("User Id doesn't match",expect.getId(), actual.getId());
+        Assert.assertEquals("User avatar doesn't match",expect.getAvatar(), actual.getAvatar());
+        Assert.assertEquals("User authorities doesn't match",expect.getAuthorities(), actual.getAuthorities());
+        Assert.assertEquals("User email doesn't match",expect.getEmail(), actual.getEmail());
+        Assert.assertEquals("User name doesn't match",expect.getName(), actual.getName());
+        Assert.assertEquals("User username doesn't match",expect.getUsername(), actual.getUsername());
+        Assert.assertEquals("User password doesn't match",expect.getPassword(), actual.getPassword());
+
+    }
+
 }
