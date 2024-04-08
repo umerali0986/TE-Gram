@@ -1,7 +1,7 @@
 const style = "flex"
 
 <template>
-  <header class="container sticky top-0 h-14 border-2 border-red-500 flex items-center">
+  <header class="container top-0 h-14 flex items-center">
     <h1 class="pr-4 font-bold text-2xl">Logo</h1>
 
     <div class="flex-1 hidden md:flex">
