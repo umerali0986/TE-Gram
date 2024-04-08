@@ -2,6 +2,7 @@
   <div id="login">
     <form v-on:submit.prevent="login">
       <h1 >Please Sign In</h1>
+      <Button>Button</Button>
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
@@ -25,9 +26,12 @@
 
 <script>
 import authService from "../services/AuthService";
+import { Button } from '@/components/ui/button';
 
 export default {
-  components: {},
+  components: {
+    Button
+  },
   data() {
     return {
       user: {
