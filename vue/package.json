@@ -1,4 +1,4 @@
-  {
+{
   "name": "final-vue-capstone-seed",
   "version": "0.1.0",
   "private": true,
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@radix-icons/vue": "^1.0.0",
+    "@vueuse/core": "^10.9.0",
     "axios": "^0.21.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
