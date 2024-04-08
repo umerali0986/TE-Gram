@@ -1,10 +1,14 @@
 <template>
-  <div class="home">
-
+  <div class="home flex justify-center items-center min-h-screen">
+    <Herobanner />
   </div>
 </template>
 
 <script>
-export default {
-};
+  import Herobanner from '@/components/Herobanner.vue';
+  export default {
+    components: {
+      Herobanner
+    }
+  };
 </script>
