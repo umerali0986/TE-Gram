@@ -1,6 +1,6 @@
 <template>
   <div id="capstone-app" class="">
-      <Navbar/>
+      <Navbar />
     <router-view />
   </div>
 </template>
