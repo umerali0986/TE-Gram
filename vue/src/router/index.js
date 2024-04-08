@@ -20,9 +20,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
-    meta: {
-      requiresAuth: true
-    }
+  },
+  {
+    path: '/app',
+    name: 'app',
+    component: HomeView,
   },
   {
     path: "/login",
