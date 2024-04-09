@@ -1,21 +1,40 @@
 <template>
-  <header class="top-0 h-14 flex items-center">
-    <h1 class="pr-4 font-bold text-2xl">Logo</h1>
+  <header
+      class="top-0 h-14 flex items-center px-6"
+      :class="{'container px-0 bg-transparent' : $route.path === '/', 'sticky left-0 bg-background' : $route.path === '/app'}"
 
-    <div class="flex-1 hidden md:flex">
-      <Navbar v-if="$route.path === '/'"/>
+  >
+      <a href="/">
+        <h1 class="pr-4 font-bold text-2xl">Logo</h1>
+      </a>
+
+    <div v-if="$route.path === '/'" class="flex-1 hidden md:flex">
+      <Navbar />
     </div>
 
+<<<<<<< HEAD
     <div class="md:flex hidden gap-2 items-center">
+=======
+    <div
+        class="md:flex hidden gap-2 items-center"
+        :class="{'flex-1 justify-end' : $route.path === '/app'}"
+    >
+>>>>>>> 84ee13d4b6f7776f4d4df4fdd751b2e5f9b80aa0
       <a v-if="!$store.state.isValidated" href="/login">
         <Button variant="ghost">
           Login
         </Button>
       </a>
 
+<<<<<<< HEAD
       <router-link @click="logout" :to="{name: 'login'}">Logout</router-link>
 
       <a href="/app">
+=======
+      <router-link v-else @click="logout" :to="{name: 'login'}">Logout</router-link>
+
+      <a href="/app" v-if="$route.path === '/'">
+>>>>>>> 84ee13d4b6f7776f4d4df4fdd751b2e5f9b80aa0
         <Button>
           Try App
         </Button>
