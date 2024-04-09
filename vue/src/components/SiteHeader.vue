@@ -7,11 +7,13 @@
     </div>
 
     <div class="md:flex hidden gap-2 items-center">
-      <a href="/login">
+      <a v-if="!$store.state.isValidated" href="/login">
         <Button variant="ghost">
           Login
         </Button>
       </a>
+
+      <router-link @click="logout" :to="{name: 'login'}">Logout</router-link>
 
       <a href="/app">
         <Button>
@@ -59,7 +61,7 @@
             Team
           </Button>
 
-          <a href="/login">
+          <a v-if="!$store.state.isValidated" href="/login">
             <Button variant="link" class="text-3xl">
               Login
             </Button>
@@ -107,6 +109,11 @@ export default defineComponent({
   computed: {
     currentRouteName() {
       return this.$route.path;
+    }
+  },
+  methods: {
+    logout(){
+      this.$store.commit("TOGGLE_VALIDATION_STATUS");
     }
   },
   components: {
