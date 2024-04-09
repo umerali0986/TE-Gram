@@ -2,7 +2,7 @@
   <NavigationMenu>
     <NavigationMenuList>
       <NavigationMenuItem>
-        <NavigationMenuLink href="/" :class="navigationMenuTriggerStyle()">
+        <NavigationMenuLink href="#about" :class="navigationMenuTriggerStyle()">
           Home
         </NavigationMenuLink>
       </NavigationMenuItem>
