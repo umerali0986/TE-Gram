@@ -8,12 +8,12 @@
         <h2 class="text-5xl font-extrabold leading-[48px]">Sign In</h2>
         <p class="w-[450px] text-center text-slate-900 text-xl font-normal font-['Geist'] leading-relaxed">Enter your info below to sign into your account.</p>
 
-        <form class=" flex flex-col w-full justify-start" @submit="onSubmit">
-          <FormField v-slot="{ componentField }" name="username">
+        <form class=" flex flex-col w-full justify-start" @submit.prevent="login">
+          <FormField name="username">
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="johndoe" v-bind="componentField" />
+                <Input type="text" placeholder="johndoe" v-model="user.username" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -21,17 +21,17 @@
             <FormItem class="mt-4">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="*************" v-bind="componentField" />
+                <Input type="password" placeholder="*************" v-model="user.password" />
               </FormControl>
               <FormMessage />
             </FormItem>
           </FormField>
           <Button type="submit" class="mt-6 mx-[10%] py-2">
-            Sign Up
+            Sign In
           </Button>
         </form>
 
-        <p class="mt-2">Don't have an account? <router-link class="underline" v-bind:to="{ name : 'login'}">Sign Up</router-link></p>
+        <p class="mt-2">Don't have an account? <router-link class="underline" v-bind:to="{ name : 'register'}">Sign Up</router-link></p>
       </div>
     </div>
     <div class="flex-1 self-stretch flex bg-foreground/20  rounded-lg"></div>
@@ -88,6 +88,7 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+            this.$store.commit("TOGGLE_VALIDATION_STATUS");
             this.$router.push("/");
           }
         })
