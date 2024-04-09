@@ -6,6 +6,7 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
+import AppView from '../views/AppView.vue';
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -24,7 +25,7 @@ const routes = [
   {
     path: '/app',
     name: 'app',
-    component: HomeView,
+    component: AppView,
   },
   {
     path: "/login",
