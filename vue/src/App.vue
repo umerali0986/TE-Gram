@@ -9,8 +9,7 @@ import Navbar from './components/SiteHeader.vue'
 import SiteFooter from "@/components/SiteFooter.vue";
   export default {
     components: {
-      SiteFooter,
-      Navbar
+      
     }
   }
 </script>
