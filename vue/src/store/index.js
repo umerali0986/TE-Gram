@@ -6,7 +6,15 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {},
-      isValidated: false
+      isValidated: false,
+      imageCollections : [
+        {id:1, username:'john Doe', updated : '3 hours ago', path:"https://images.pexels.com/photos/1366909/pexels-photo-1366909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"},
+        {id:2, username:'test2', updated : '5 hours ago', path:"https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg"},
+        {id:3, username:'tes3', updated : '10 hours ago', path:"https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"},
+        {id:4, username:'test4', updated : '4 hours ago', path:"https://images.pexels.com/photos/33201/aurora-borealis-lofoten-norway-night.jpg"},
+        {id:5, username:'test5', updated : '2 hours ago', path:"https://images.pexels.com/photos/7919366/pexels-photo-7919366.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"},
+        {id:6, username:'test6', updated : '3 hours ago', path:"https://images.pexels.com/photos/10163188/pexels-photo-10163188.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"},
+      ]
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
