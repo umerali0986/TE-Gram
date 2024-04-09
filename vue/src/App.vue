@@ -1,4 +1,6 @@
 <template>
+  
+      <Navbar />
   <div id="capstone-app" class="font-['Geist']">
     <router-view />
   </div>
@@ -6,7 +8,7 @@
 
 <script>
 import Navbar from './components/SiteHeader.vue'
-import SiteFooter from "@/components/SiteFooter.vue";
+import SiteFooter from "./components/SiteFooter.vue";
   export default {
     components: {
       SiteFooter,
