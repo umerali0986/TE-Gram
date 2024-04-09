@@ -1,5 +1,5 @@
 <template>
-      <SiteHeader v-if="$route.path === '/' || $route.path === '/app'" />
+      <SiteHeader v-if="$route.path === '/' || $route.path.includes('/app')" />
   <div id="capstone-app" class="font-['Geist']">
     <router-view />
   </div>

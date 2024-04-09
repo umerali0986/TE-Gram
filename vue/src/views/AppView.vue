@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full w-full">
+  <div class="flex h-full w-full ">
     <nav v-if="$store.state.isValidated"  class="w-80 h-[95vh] fixed left-0">
       <div class=" px-4">
         <button class="flex items-center w-full font-lg gap-4 hover:bg-foreground/5 px-4 py-2 rounded-md">
@@ -67,10 +67,11 @@
     </nav>
 
     <div
-        class="container grid grid-cols-2 w-full h-full gap-20 grid-flow-row"
-        :class="{'pl-72' : $store.state.isValidated}"
+        class="container grid grid-cols-2 w-full h-full gap-20"
+        :class="{ '' : $store.state.isValidated}"
     >
-      <PostCard v-for="(img, index) in imageArray" :key="index" :img="img" />
+
+    <PostCard v-for="(img, index) in imageArray" :key="index" :img="img" />
     </div>
   </div>
 </template>
@@ -84,14 +85,7 @@ export default defineComponent({
   components: {PostCard},
   data() {
     return {
-      imageArray: [
-          "https://images.pexels.com/photos/1366909/pexels-photo-1366909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-          "https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg",
-          "https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-          "https://images.pexels.com/photos/33201/aurora-borealis-lofoten-norway-night.jpg",
-          "https://images.pexels.com/photos/7919366/pexels-photo-7919366.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-          "https://images.pexels.com/photos/10163188/pexels-photo-10163188.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-      ]
+        imageArray : this.$store.state.imageCollections
     }
   }
 })

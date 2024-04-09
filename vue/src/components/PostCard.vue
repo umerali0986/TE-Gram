@@ -3,7 +3,9 @@
       class="flex flex-col min-w-[576px] w-full"
   >
       <div class="h-[588px] bg-foreground/20 rounded-md overflow-hidden">
-        <img :src="img" alt="Nature Picture" class="h-full w-full" />
+        <router-link :to="{path:`app/post/${img.id}`, params:{id:img.id}}">
+        <img :src="img.path" alt="Nature Picture" class="h-full w-full" />
+        </router-link>
       </div>
      <div class="flex my-4">
        <div class="flex gap-2">
@@ -13,8 +15,8 @@
          </Avatar>
          
          <div class="flex flex-col gap-0 items-center justify-center">
-           <h5 class="font-semibold leading-[1rem]">john_doe</h5>
-           <p class="text-xs">3 hours ago</p>
+           <h5 class="font-semibold leading-[1rem]">{{ img.username }}</h5>
+           <p class="text-xs">{{ img.updated }}</p>
          </div>
        </div>
 
