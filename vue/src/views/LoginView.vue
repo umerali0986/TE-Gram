@@ -89,7 +89,11 @@ export default {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
             this.$store.commit("TOGGLE_VALIDATION_STATUS");
+<<<<<<< HEAD
+            this.$router.push("/");
+=======
             this.$router.push("/app");
+>>>>>>> 84ee13d4b6f7776f4d4df4fdd751b2e5f9b80aa0
           }
         })
         .catch(error => {
