@@ -12,29 +12,19 @@
       <Navbar />
     </div>
 
-<<<<<<< HEAD
-    <div class="md:flex hidden gap-2 items-center">
-=======
     <div
         class="md:flex hidden gap-2 items-center"
         :class="{'flex-1 justify-end' : $route.path === '/app'}"
     >
->>>>>>> 84ee13d4b6f7776f4d4df4fdd751b2e5f9b80aa0
       <a v-if="!$store.state.isValidated" href="/login">
         <Button variant="ghost">
           Login
         </Button>
       </a>
 
-<<<<<<< HEAD
-      <router-link @click="logout" :to="{name: 'login'}">Logout</router-link>
-
-      <a href="/app">
-=======
       <router-link v-else @click="logout" :to="{name: 'login'}">Logout</router-link>
 
       <a href="/app" v-if="$route.path === '/'">
->>>>>>> 84ee13d4b6f7776f4d4df4fdd751b2e5f9b80aa0
         <Button>
           Try App
         </Button>
