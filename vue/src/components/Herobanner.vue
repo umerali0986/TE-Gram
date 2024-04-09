@@ -1,43 +1,47 @@
 <template>
-    <div class="container overflow-hidden w-full max-h-screen py-96 flex items-center flex-col justify-center relative text-center">
-        <h1 class="text-6xl font-bold w-[60%]">
-            Medium length hero heading goes here
+    <div class="flex py-64 mt-4 relative items-center justify-center overflow-hidden">
+      <div class="flex flex-col text-center justify-between items-center px-96 gap-6 z-20">
+        <h1 class="text-5xl font-bold">
+          Medium length hero heading goes here
         </h1>
-        <p class="w-[60%]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
-
+        <p class="">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
         </p>
-        <div>
+        <div class="flex gap-4">
+          <a href="/register">
             <Button>Get Started</Button>
-            <Button>Learn More</Button>
+          </a>
+          <Button variant="ghost">Learn More</Button>
         </div>
+      </div>
 
-        <div class="w-full h-full absolute top-0 left-0">
-            <div class="w-full h-full flex gap-1" >
-                <div class="w-full">
-                    <div v-for="(pic, index) in pictures" :key="index" class="mb-1">
-                        <PictureCard v-if="index <= 4" />
-                    </div>
-                </div>
-                <div class="w-full">
-                    <div v-for="(pic, index) in pictures" :key="index" class="mb-1">
-                        <PictureCard v-if="index > 4 && index <= 9" />
-                    </div>
-                </div>
-                <div class="w-full">
-                    <div v-for="(pic, index) in pictures" :key="index" class="mb-1">
-                        <PictureCard v-if="index > 9 && index <= 14" />
-                    </div>
-                </div>
-                <div class="w-full">
-                    <div v-for="(pic, index) in pictures" :key="index" class="mb-1">
-                        <PictureCard v-if="index > 14 && index <= 19" />
-                    </div>
-                </div>            
+      <div class="absolute w-full h-full z-10 bg-gradient-to-b from-background/70 via-background/90 to-background/80"/>
+
+      <div class="absolute w-fit lg:w-full h-[920px] bottom-96 lg:bottom-0 flex gap-5 justify-center items-start">
+          <div class="flex flex-col w-full min-w-[308px] h-full gap-5 mt-20">
+            <div v-for="(pic, index) in pictures" :key="index" class="">
+              <PictureCard v-if="index <= 4" />
             </div>
-        </div>
-        
+          </div>
 
+        <div class="flex flex-col w-full min-w-[308px] gap-5">
+          <div v-for="(pic, index) in pictures" :key="index" class="">
+            <PictureCard v-if="index <= 4" />
+          </div>
+        </div>
+
+        <div class="flex flex-col w-full h-full min-w-[308px] gap-5 mt-20">
+          <div v-for="(pic, index) in pictures" :key="index" class="">
+            <PictureCard v-if="index <= 4" />
+          </div>
+        </div>
+
+        <div class="flex flex-col w-full min-w-[308px] gap-5">
+          <div v-for="(pic, index) in pictures" :key="index" class="">
+            <PictureCard v-if="index <= 4" />
+          </div>
+        </div>
+        </div>
     </div>
 </template>
 
