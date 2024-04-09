@@ -10,12 +10,12 @@
         <p class="text-xl">Enter your info below to create your account</p>
       </div>
 
-      <form class=" flex flex-col w-full justify-start" @submit="onSubmit">
-        <FormField v-slot="{ componentField }" name="username">
+      <form class=" flex flex-col w-full justify-start" @submit.prevent="register">
+        <FormField name="username">
           <FormItem>
             <FormLabel>Username</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="johndoe" v-bind="componentField" />
+              <Input type="text" placeholder="johndoe" v-model="user.username" />
             </FormControl>          
             <FormMessage />
           </FormItem>
@@ -23,7 +23,7 @@
           <FormItem class="mt-4">
             <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="name@example.com" v-bind="componentField" />
+              <Input type="email" placeholder="name@example.com" v-model="user.email" />
             </FormControl>
           
             <FormMessage />
@@ -32,7 +32,7 @@
           <FormItem class="mt-4">
             <FormLabel>Password</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="*************" v-bind="componentField" />
+              <Input type="password" placeholder="*************" v-model="user.password"  />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -40,7 +40,7 @@
           <FormItem class="mt-4">
             <FormLabel>Confirm Password</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="*************" v-bind="componentField" />
+              <Input type="password" placeholder="*************" v-model="user.confirmPassword"  />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -61,15 +61,11 @@
 </template>
 
 
-<script setup lang="ts">
-import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
-
+<script>
+import authService from '@/services/AuthService';
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -77,66 +73,60 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-
-const formSchema = toTypedSchema(z.object({
-  username: z.string().min(2).max(50),
-}))
-
-const form = useForm({
-  validationSchema: formSchema,
-})
-
-const onSubmit = form.handleSubmit((values) => {
-  console.log('Form submitted!', values)
-})
-
-
-
-// export default {
-//   data() {
-//     return {
-//       user: {
-//         username: '',
-//         email: '',
-//         password: '',
-//         confirmPassword: '',
-//         role: 'user',
-//       },
-//       registrationErrors: false,
-//       registrationErrorMsg: 'There were problems registering this user.',
-//     };
-//   },
-//   methods: {
-//     register() {
-//       if (this.user.password != this.user.confirmPassword) {
-//         this.registrationErrors = true;
-//         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
-//       } else {
-//         authService
-//           .register(this.user)
-//           .then((response) => {
-//             if (response.status == 201) {
-//               this.$router.push({
-//                 path: '/login',
-//                 query: { registration: 'success' },
-//               });
-//             }
-//           })
-//           .catch((error) => {
-//             const response = error.response;
-//             this.registrationErrors = true;
-//             if (response.status === 400) {
-//               this.registrationErrorMsg = 'Bad Request: Validation Errors';
-//             }
-//           });
-//       }
-//     },
-//     clearErrors() {
-//       this.registrationErrors = false;
-//       this.registrationErrorMsg = 'There were problems registering this user.';
-//     },
-//   },
-// });
+export default {
+  data() {
+    return {
+      user: {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        role: 'user',
+      },
+      registrationErrors: false,
+      registrationErrorMsg: 'There were problems registering this user.',
+    };
+  },
+  components: {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    Button,
+    Input
+  },
+  methods: {
+    register() {
+      if (this.user.password != this.user.confirmPassword) {
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Password & Confirm Password do not match.';
+      } else {
+        authService
+          .register(this.user)
+          .then((response) => {
+            if (response.status == 201) {
+              this.$router.push({
+                path: '/login',
+                query: { registration: 'success' },
+              });
+            }
+          })
+          .catch((error) => {
+            const response = error.response;
+            this.registrationErrors = true;
+            if (response.status === 400) {
+              this.registrationErrorMsg = 'Bad Request: Validation Errors';
+            }
+          });
+      }
+    },
+    clearErrors() {
+      this.registrationErrors = false;
+      this.registrationErrorMsg = 'There were problems registering this user.';
+    },
+  },
+};
 
 </script>
 
