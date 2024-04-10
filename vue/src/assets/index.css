@@ -76,3 +76,37 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Assuming your font files are in /public/fonts */
+@font-face {
+  font-family: 'Geist';
+  src: url('./fonts/Geist-Regular.woff2') format('woff2'),
+  url('./fonts/Geist-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('./fonts/Geist-Bold.woff2') format('woff2'),
+  url('./fonts/Geist-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('./fonts/Geist-Black.woff2') format('woff2'),
+  url('./fonts/Geist-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('./fonts/Geist-Medium.woff2') format('woff2'),
+  url('./fonts/Geist-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
