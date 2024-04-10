@@ -1,6 +1,6 @@
 <template>
   <header
-      class="top-0 h-14 flex items-center px-6"
+      class="top-0 h-14 flex items-center px-6 border-b  z-10"
       :class="{'container px-0 bg-transparent' : $route.path === '/', 'sticky left-0 bg-background' : $route.path === '/app'}"
 
   >
@@ -16,6 +16,27 @@
         class="md:flex hidden gap-2 items-center"
         :class="{'flex-1 justify-end' : $route.path === '/app'}"
     >
+<!--      <DropdownMenu>-->
+<!--        <DropdownMenuTrigger as-child>-->
+<!--          <Button variant="outline">-->
+<!--            <MoonIcon class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />-->
+<!--            <SunIcon class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />-->
+<!--            <span class="sr-only">Toggle theme</span>-->
+<!--          </Button>-->
+<!--        </DropdownMenuTrigger>-->
+<!--        <DropdownMenuContent align="end">-->
+<!--          <DropdownMenuItem @click="mode = 'light'">-->
+<!--            Light-->
+<!--          </DropdownMenuItem>-->
+<!--          <DropdownMenuItem @click="mode = 'dark'">-->
+<!--            Dark-->
+<!--          </DropdownMenuItem>-->
+<!--          <DropdownMenuItem @click="mode = 'auto'">-->
+<!--            System-->
+<!--          </DropdownMenuItem>-->
+<!--        </DropdownMenuContent>-->
+<!--      </DropdownMenu>-->
+
       <a v-if="!$store.state.isValidated" href="/login">
         <Button variant="ghost">
           Login
@@ -30,26 +51,7 @@
         </Button>
       </a>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-          <Button variant="outline">
-            <MoonIcon class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <SunIcon class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span class="sr-only">Toggle theme</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem @click="mode = 'light'">
-            Light
-          </DropdownMenuItem>
-          <DropdownMenuItem @click="mode = 'dark'">
-            Dark
-          </DropdownMenuItem>
-          <DropdownMenuItem @click="mode = 'auto'">
-            System
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+
     </div>
 
     <div class="flex-1 flex md:hidden items-center justify-end">

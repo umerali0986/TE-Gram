@@ -1,10 +1,10 @@
 <template>
-    <div class="flex py-64 mt-4 relative items-center justify-center overflow-hidden">
-      <div class="flex flex-col text-center justify-between items-center px-96 gap-6 z-20">
+    <div class="flex py-40 lg:py-60 mt-4 relative items-center justify-center overflow-hidden">
+      <div class="flex flex-col text-center justify-between items-center px-10 lg:px-80 gap-6 z-20">
         <h1 class="text-5xl font-bold">
           Medium length hero heading goes here
         </h1>
-        <p class="">
+        <p class="text-lg">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
         </p>
         <div class="flex gap-4">
@@ -18,29 +18,41 @@
       <div class="absolute w-full h-full z-10 bg-gradient-to-b from-background/70 via-background/90 to-background/80"/>
 
       <div class="absolute w-fit lg:w-full h-[920px] bottom-96 lg:bottom-0 flex gap-5 justify-center items-start">
-          <div class="flex flex-col w-full min-w-[308px] h-full gap-5 mt-20">
+
+        <Motion :animate="{ y: 100 }" :initial="{ y: 200 }" :transition="{duration: 1}">
+            <div class="flex flex-col w-full min-w-[308px] h-full gap-5 mt-20">
+              <div v-for="(pic, index) in pictures" :key="index" class="">
+                <PictureCard v-if="index <= 4" />
+              </div>
+            </div>
+          </Motion>
+
+        <Motion :animate="{ y: 100 }" :initial="{ y: -100 }" :transition="{duration: 1}">
+          <div class="flex flex-col w-full min-w-[308px] gap-5">
             <div v-for="(pic, index) in pictures" :key="index" class="">
               <PictureCard v-if="index <= 4" />
             </div>
           </div>
+        </Motion>
 
-        <div class="flex flex-col w-full min-w-[308px] gap-5">
-          <div v-for="(pic, index) in pictures" :key="index" class="">
-            <PictureCard v-if="index <= 4" />
-          </div>
-        </div>
 
-        <div class="flex flex-col w-full h-full min-w-[308px] gap-5 mt-20">
-          <div v-for="(pic, index) in pictures" :key="index" class="">
-            <PictureCard v-if="index <= 4" />
+        <Motion :animate="{ y: 100 }" :initial="{ y: 300 }" :transition="{duration: 1}">
+          <div class="flex flex-col w-full h-full min-w-[308px] gap-5 mt-20">
+            <div v-for="(pic, index) in pictures" :key="index" class="">
+              <PictureCard v-if="index <= 4" />
+            </div>
           </div>
-        </div>
+        </Motion>
 
-        <div class="flex flex-col w-full min-w-[308px] gap-5">
-          <div v-for="(pic, index) in pictures" :key="index" class="">
-            <PictureCard v-if="index <= 4" />
+
+        <Motion :animate="{ y: 100 }" :initial="{ y: -100 }" :transition="{duration: 1}">
+          <div class="flex flex-col w-full min-w-[308px] gap-5">
+            <div v-for="(pic, index) in pictures" :key="index" class="">
+              <PictureCard v-if="index <= 4" />
+            </div>
           </div>
-        </div>
+        </Motion>
+
         </div>
     </div>
 </template>
@@ -48,6 +60,7 @@
 <script>
     import {Button} from "@/components/ui/button";
     import PictureCard from "./PictureCard.vue";
+    import { Motion } from "@oku-ui/motion";
 
     export default{
 
@@ -58,7 +71,8 @@
         },
         components: {
             Button,
-            PictureCard
+            PictureCard,
+            Motion
         }
     }
 </script>

@@ -10,6 +10,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore src"
   },
   "dependencies": {
+    "@oku-ui/motion": "^0.3.4",
     "@radix-icons/vue": "^1.0.0",
     "@vee-validate/zod": "^4.12.6",
     "@vueuse/core": "^10.9.0",

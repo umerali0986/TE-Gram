@@ -1,8 +1,8 @@
 <template>
   <div class="container min-h-screen flex flex-col">
     <Herobanner />
-    <div id="about" class="w-full h-fit flex my-28 gap-32">
-      <div class="w-2/3 flex flex-col gap-4">
+    <div id="about" class="w-full h-fit flex my-28 gap-20 lg:gap-32 flex-wrap lg:flex-nowrap lg:flex-nowrap">
+      <div class="lg:w-2/3 flex flex-col gap-4">
         <p class="text-foreground text-base font-semibold leading-7">Features</p>
         <h2 class="text-foreground text-5xl font-extrabold leading-[48px]">
           Medium length section heading goes here
@@ -12,8 +12,8 @@
         </p>
       </div>
 
-      <div class="w-full flex h-full gap-10">
-        <div class="w-full h-full flex flex-col gap-10">
+      <div class="w-full flex h-full gap-10 flex-wrap lg:flex-nowrap">
+        <div class="w-full h-full flex lg:flex-col flex-wrap gap-10">
           <div class="flex flex-col gap-4">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M40.8402 9.15998C39.8368 8.15313 38.6446 7.35425 37.3318 6.80915C36.0191 6.26405 34.6116 5.98346 33.1902 5.98346C31.7687 5.98346 30.3613 6.26405 29.0485 6.80915C27.7358 7.35425 26.5435 8.15313 25.5402 9.15998L24.0002 10.72L22.4602 9.15998C21.4568 8.15313 20.2646 7.35425 18.9518 6.80915C17.6391 6.26405 16.2316 5.98346 14.8102 5.98346C13.3887 5.98346 11.9813 6.26405 10.6685 6.80915C9.35577 7.35425 8.16353 8.15313 7.16017 9.15998C2.92017 13.4 2.66017 20.56 8.00017 26L24.0002 42L40.0002 26C45.3402 20.56 45.0802 13.4 40.8402 9.15998Z" fill="black" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -74,12 +74,10 @@
 
 
         </div>
-
-
       </div>
     </div>
     
-    <div class="my-28 flex flex-col gap-10">
+    <div id="team" class="lg:my-28 flex flex-col gap-10">
       <div class="w-full flex flex-col gap-3">
         <p class="text-foreground text-base font-semibold leading-7">Features</p>
         <h2 class="text-foreground text-5xl font-extrabold leading-[48px]">
@@ -90,37 +88,53 @@
         </p>
       </div>
       
-      <div class="flex w-full h-fit gap-12">
-        <div class="w-full min-w-[372px] h-fit leading-7">
-          <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
-          <h4 class="text-xl font-semibold mt-3">Dustin Dobos</h4>
-          <h5 class="font-medium">Job Title</h5>
-          <p class="mt-1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
-          </p>
-        </div>
+      <div class="flex w-full h-fit gap-12 flex-col overflow-hidden">
+       <Motion :animate="{ x: location }">
+         <div class="flex w-full h-fit gap-12 flex-wrap md:flex-nowrap">
+           <div class="w-full min-w-[372px] h-fit leading-7">
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
+             <h4 class="text-2xl font-semibold mt-3">Dustin Dobos</h4>
+             <h5 class="font-medium text-lg">Job Title</h5>
+             <p class="mt-1">
+               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+             </p>
+           </div>
 
-        <div class="w-full min-w-[372px] h-fit leading-7">
-          <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
-          <h4 class="text-xl font-semibold mt-3">Enrique Cedeno</h4>
-          <h5 class="font-medium">Job Title</h5>
-          <p class="mt-1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
-          </p>
-        </div>
+           <div class="w-full min-w-[372px] h-fit leading-7">
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
+             <h4 class="text-2xl font-semibold mt-3">Enrique Cedeno</h4>
+             <h5 class="font-medium text-lg">Job Title</h5>
+             <p class="mt-1">
+               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+             </p>
+           </div>
 
-        <div class="w-full min-w-[372px] h-fit leading-7">
-          <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
-          <h4 class="text-xl font-semibold mt-3">Umer Abubeker</h4>
-          <h5 class="font-medium">Job Title</h5>
-          <p class="mt-1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
-          </p>
+           <div class="w-full min-w-[372px] h-fit leading-7">
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
+             <h4 class="text-2xl font-semibold mt-3">Umer Abubeker</h4>
+             <h5 class="font-medium text-lg">Job Title</h5>
+             <p class="mt-1">
+               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+             </p>
+           </div>
+         </div>
+       </Motion>
+
+        <div  class="self-end hidden gap-2 sm:flex xl:hidden">
+            <Button v-on:click="location = 0" variant="ghost" class=" w-10 h-10 text-foreground items-center flex">
+              <svg class="w-6 h-6 scale-[2.0]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </Button>
+
+           <Button v-on:click="location = -372" variant="ghost" class=" w-10 h-10 text-foreground items-center flex">
+             <svg class="w-6 h-6 scale-[2.0]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>
+           </Button>
         </div>
       </div>
     </div>
-    <SiteFooter/>
-
   </div>
 </template>
 
@@ -129,10 +143,21 @@
   import Herobanner from '@/components/Herobanner.vue';
   import Navbar from "@/components/SiteHeader.vue";
   import SiteFooter from "@/components/SiteFooter.vue";
+  import {Button} from "@/components/ui/button";
+  import { Motion } from "@oku-ui/motion";
+
   export default {
     components: {
+      Button,
       SiteFooter,
-      Navbar,
-      Herobanner,}
+      Herobanner,
+      Motion
+    },
+
+    data() {
+      return {
+        location: 0
+      }
+    }
   };
 </script>
