@@ -95,20 +95,21 @@ export default {
   },
   methods: {
     register() {
+      this.$store.commit("SET_LOADING", true);
       if (this.user.username === ''){
-        this.registrationErrors = true; 
+        this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter username.';
       }
       else if (this.user.email === ''){
-        this.registrationErrors = true; 
+        this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter email.';
       }
       else if (this.user.password === ''){
-        this.registrationErrors = true; 
+        this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter password.';
       }
       else if (this.user.confirmPassword === ''){
-        this.registrationErrors = true; 
+        this.registrationErrors = true;
         this.registrationErrorMsg = 'Please confirm password.';
       }
       else if (this.user.password != this.user.confirmPassword) {
@@ -120,6 +121,7 @@ export default {
           .then((response) => {
             if (response.status == 201) {
               this.$store.commit("TOGGLE_VALIDATION_STATUS");
+              this.$store.commit("SET_LOADING", false);
               this.$router.push({
                 path: '/app',
                 query: { registration: 'success' },
