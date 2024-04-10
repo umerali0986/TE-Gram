@@ -11,7 +11,9 @@
           <a href="/register">
             <Button>Get Started</Button>
           </a>
-          <Button variant="ghost">Learn More</Button>
+          <a href="#about">
+            <Button variant="ghost">Learn More</Button>
+          </a>
         </div>
       </div>
 

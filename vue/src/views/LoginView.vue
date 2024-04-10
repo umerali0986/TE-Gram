@@ -1,14 +1,16 @@
 <template>
   <div class="w-full min-h-screen flex items-center justify-center p-3 gap-3">
-    <div class="self-stretch flex-1 flex flex-col">
+    <div class="self-stretch w-full lg:w-1/2 flex flex-col">
       <a href="/">
         <h1 class="pr-4 font-bold text-2xl mx-2">LOGO</h1>
       </a>
-      <div class="w-full h-full flex flex-col items-center justify-center gap-2 px-56">
-        <h2 class="text-5xl font-extrabold leading-[48px]">Sign In</h2>
-        <p class="w-[450px] text-center text-slate-900 text-xl font-normal font-['Geist'] leading-relaxed">Enter your info below to sign into your account.</p>
+      <div class="w-full h-full flex flex-col items-center justify-center gap-5 px-20 md:px-40 lg:px-20 2xl:px-56">
+        <div class="flex flex-col items-center gap-2">
+          <h2 class="text-5xl font-extrabold leading-[48px]">Sign In</h2>
+          <p class="w-[450px] text-center text-slate-900 text-xl font-normal leading-relaxed">Enter your info below to sign into your account.</p>
+        </div>
 
-        <form class=" flex flex-col w-full justify-start" @submit.prevent="login">
+        <form class="flex flex-col w-[450px] justify-start" @submit.prevent="login">
           <FormField name="username">
             <FormItem>
               <FormLabel>Username</FormLabel>
@@ -34,7 +36,7 @@
         <p class="mt-2">Don't have an account? <router-link class="underline" v-bind:to="{ name : 'register'}">Sign Up</router-link></p>
       </div>
     </div>
-    <div class="flex-1 self-stretch flex bg-foreground/20  rounded-lg"></div>
+    <div class="w-1/2 hidden self-stretch lg:flex bg-foreground/20 rounded-lg"></div>
   </div>
 </template>
 
