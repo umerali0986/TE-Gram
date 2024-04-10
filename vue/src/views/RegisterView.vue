@@ -19,7 +19,6 @@
              <FormControl>
                <Input type="text" placeholder="johndoe" v-model="user.username" />
              </FormControl>
-             <FormMessage />
            </FormItem>
 
            <FormItem class="mt-4">
@@ -27,8 +26,6 @@
              <FormControl>
                <Input type="email" placeholder="name@example.com" v-model="user.email" />
              </FormControl>
-
-             <FormMessage />
            </FormItem>
 
            <FormItem class="mt-4">
@@ -36,7 +33,6 @@
              <FormControl>
                <Input type="password" placeholder="*************" v-model="user.password"  />
              </FormControl>
-             <FormMessage />
            </FormItem>
 
            <FormItem class="mt-4">
@@ -44,8 +40,8 @@
              <FormControl>
                <Input type="password" placeholder="*************" v-model="user.confirmPassword"  />
              </FormControl>
-             <FormMessage />
            </FormItem>
+           <p class="text-red-500" v-if="registrationErrors">{{ registrationErrorMsg }}</p>
          </FormField>
          <Button type="submit" class="mt-6 mx-[10%] py-2">
            Sign Up
@@ -72,7 +68,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
@@ -95,13 +90,28 @@ export default {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
     Button,
     Input
   },
   methods: {
     register() {
-      if (this.user.password != this.user.confirmPassword) {
+      if (this.user.username === ''){
+        this.registrationErrors = true; 
+        this.registrationErrorMsg = 'Please enter username.';
+      }
+      else if (this.user.email === ''){
+        this.registrationErrors = true; 
+        this.registrationErrorMsg = 'Please enter email.';
+      }
+      else if (this.user.password === ''){
+        this.registrationErrors = true; 
+        this.registrationErrorMsg = 'Please enter password.';
+      }
+      else if (this.user.confirmPassword === ''){
+        this.registrationErrors = true; 
+        this.registrationErrorMsg = 'Please confirm password.';
+      }
+      else if (this.user.password != this.user.confirmPassword) {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
       } else {
@@ -109,6 +119,7 @@ export default {
           .register(this.user)
           .then((response) => {
             if (response.status == 201) {
+              this.$store.commit("TOGGLE_VALIDATION_STATUS");
               this.$router.push({
                 path: '/app',
                 query: { registration: 'success' },
