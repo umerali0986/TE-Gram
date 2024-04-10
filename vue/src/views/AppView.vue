@@ -1,7 +1,7 @@
 <template>
     <div class="flex h-full w-full justify-center py-4 px-2">
     <div
-        class="container grid grid-cols-2 w-full h-full gap-10"
+        class="container grid grid-cols-1 xl:grid-cols-2 w-full h-full gap-10"
         :class="{ '' : $store.state.isValidated}"
     >
 

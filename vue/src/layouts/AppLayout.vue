@@ -2,7 +2,7 @@
   <div>
     <SiteHeader/>
     <div class="flex bg-foreground/5">
-      <Sidebar/>
+      <Sidebar :show="true"/>
       <router-view/>
     </div>
 
