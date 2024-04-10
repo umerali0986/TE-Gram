@@ -38,28 +38,6 @@
   </div>
 </template>
 
-<!--<form v-on:submit.prevent="login">-->
-<!--<h1 >Please Sign In</h1>-->
-<!--<Button>Button</Button>-->
-<!--<div role="alert" v-if="invalidCredentials">-->
-<!--  Invalid username and password!-->
-<!--</div>-->
-<!--<div role="alert" v-if="this.$route.query.registration">-->
-<!--  Thank you for registering, please sign in.-->
-<!--</div>-->
-<!--<div class="form-input-group">-->
-<!--  <label for="username">Username</label>-->
-<!--  <input type="text" id="username" v-model="user.username" required autofocus />-->
-<!--</div>-->
-<!--<div class="form-input-group">-->
-<!--  <label for="password">Password</label>-->
-<!--  <input type="password" id="password" v-model="user.password" required />-->
-<!--</div>-->
-<!--<button type="submit">Sign in</button>-->
-<!--<p>-->
-<!--  <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>-->
-<!--</form>-->
-
 <script>
 import authService from "../services/AuthService";
 import { Button } from '@/components/ui/button';
@@ -82,6 +60,8 @@ export default {
   },
   methods: {
     login() {
+      this.$store.commit("SET_LOADING", true);
+
       authService
         .login(this.user)
         .then(response => {
@@ -89,6 +69,7 @@ export default {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
             this.$store.commit("TOGGLE_VALIDATION_STATUS");
+            this.$store.commit("SET_LOADING", false);
             this.$router.push("/app");
           }
         })

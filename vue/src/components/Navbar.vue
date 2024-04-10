@@ -3,18 +3,12 @@
     <NavigationMenuList>
       <NavigationMenuItem>
         <NavigationMenuLink href="#about" :class="navigationMenuTriggerStyle()">
-          Home
-        </NavigationMenuLink>
-      </NavigationMenuItem>
-
-      <NavigationMenuItem>
-        <NavigationMenuLink href="/" :class="navigationMenuTriggerStyle()">
           Features
         </NavigationMenuLink>
       </NavigationMenuItem>
 
       <NavigationMenuItem>
-        <NavigationMenuLink href="/" :class="navigationMenuTriggerStyle()">
+        <NavigationMenuLink href="#team" :class="navigationMenuTriggerStyle()">
           Team
         </NavigationMenuLink>
       </NavigationMenuItem>

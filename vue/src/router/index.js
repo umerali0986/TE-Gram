@@ -20,13 +20,18 @@ import PostDetailsView from '../views/PostDetailsView.vue';
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView,
+    component: () => import('@/layouts/DefaultLayout.vue'),
+    children: [
+      { path: '', name: 'home', component: HomeView },
+    ],
   },
   {
     path: '/app',
-    name: 'app',
-    component: AppView,
+    component: () => import('@/layouts/AppLayout.vue'),
+    children: [
+      { path: '', name: 'app', component: AppView },
+      { path: 'post/:id', name: 'postDetails', component: PostDetailsView },
+    ],
   },
   {
     path: "/login",

@@ -1,16 +1,20 @@
 <template>
-      <SiteHeader v-if="$route.path === '/' || $route.path.includes('/app')" />
-  <div id="capstone-app" class="font-['Geist']">
+  <LoadingView/>
+  <div id="capstone-app" class="font-geist">
     <router-view />
   </div>
 </template>
 
 <script>
 import SiteHeader from './components/SiteHeader.vue'
+import SiteFooter from "@/components/SiteFooter.vue";
+import LoadingView from "@/views/LoadingView.vue";
 
   export default {
     components: {
-      SiteHeader
+      LoadingView,
+      SiteHeader,
+      SiteFooter
     }
   }
 </script>

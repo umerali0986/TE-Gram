@@ -1,6 +1,6 @@
 <template>
   <div
-      class="flex flex-col min-w-[576px] w-full"
+      class="flex flex-col max-w-[576px] w-full"
   >
       <div class="h-[588px] bg-foreground/20 rounded-md overflow-hidden">
         <router-link :to="{path:`app/post/${img.id}`, params:{id:img.id}}">
@@ -14,7 +14,7 @@
            <AvatarFallback>CN</AvatarFallback>
          </Avatar>
          
-         <div class="flex flex-col gap-0 items-center justify-center">
+         <div class="flex flex-col gap-0   justify-center">
            <h5 class="font-semibold leading-[1rem]">{{ img.username }}</h5>
            <p class="text-xs">{{ img.updated }}</p>
          </div>
