@@ -1,10 +1,10 @@
 <template>
   <div
-      class="flex flex-col max-w-[576px] w-full"
+      class="flex flex-col min-w-[376px] max-w-[576px] w-full mx-auto"
   >
-      <div class="h-[588px] bg-foreground/20 rounded-md overflow-hidden">
+      <div class="max-h-[588px] bg-foreground/20 rounded-md overflow-hidden">
         <router-link :to="{path:`app/post/${img.id}`, params:{id:img.id}}">
-        <img :src="img.path" alt="Nature Picture" class="h-full w-full" />
+        <img :src="img.path" alt="Nature Picture" class="h-full w-full aspect-square" />
         </router-link>
       </div>
      <div class="flex my-4">
