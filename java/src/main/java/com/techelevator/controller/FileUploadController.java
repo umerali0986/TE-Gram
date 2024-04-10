@@ -1,7 +1,10 @@
 package com.techelevator.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.techelevator.dao.JdbcImageDao;
+import com.techelevator.model.Image;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
@@ -9,9 +12,15 @@ import java.io.File;
 @RestController
 public class FileUploadController {
 
-    File file;
+    @Autowired
+    private JdbcImageDao jdbcImageDao;
 
-    public FileUploadController(File file){
-        this.file = file;
+    @RequestMapping(method = RequestMethod.POST)
+    public Image createImage(@RequestParam("image") MultipartFile file){
+
+        return jdbcImageDao.createImage(file);
     }
+
+
+
 }
