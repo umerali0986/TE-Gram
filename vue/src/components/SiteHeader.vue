@@ -4,6 +4,17 @@
       :class="{'container px-0 bg-transparent' : $route.path === '/', 'sticky left-0 bg-background' : $route.path === '/app'}"
 
   >
+    <div v-if="$route.path === '/app'" class="flex mr-3 md:hidden items-center justify-end">
+      <Sheet>
+        <SheetTrigger>
+          <HamburgerMenuIcon class="h-5 w-5"/>
+        </SheetTrigger>
+        <SheetContent side="left" class="min-h-screen flex flex-col items-center justify-center">
+          <Sidebar :show="false"/>
+        </SheetContent>
+      </Sheet>
+    </div>
+
       <a href="/">
         <h1 class="pr-4 font-bold text-2xl">Logo</h1>
       </a>
@@ -54,7 +65,7 @@
 
     </div>
 
-    <div class="flex-1 flex md:hidden items-center justify-end">
+    <div v-if="$route.path === '/'" class="flex-1 flex md:hidden items-center justify-end">
       <Sheet>
         <SheetTrigger>
           <HamburgerMenuIcon class="h-5 w-5"/>
@@ -110,6 +121,7 @@ import {
 import {defineComponent} from "vue";
 import {Button} from "@/components/ui/button";
 import Navbar from "@/components/Navbar.vue";
+import Sidebar from "@/components/Sidebar.vue";
 
 export default defineComponent({
   data() {
@@ -128,6 +140,7 @@ export default defineComponent({
     }
   },
   components: {
+    Sidebar,
     Button,
     Sheet,
     SheetContent,
