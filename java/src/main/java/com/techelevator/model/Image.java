@@ -5,13 +5,32 @@ public class Image {
 
     private String imagePath;
 
-    public Image(int imageId, String imagePath){
+    private String imageType;
+
+    public Image() {
+    }
+
+    public Image(int imageId, String imagePath, String imageType){
         this.imageId = imageId;
         this.imagePath = imagePath;
+        this.imageType = imageType;
+    }
+
+    public Image(String imagePath, String imageType) {
+        this.imagePath = imagePath;
+        this.imageType = imageType;
     }
 
     public int getImageId() {
         return imageId;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
     }
 
     public void setImageId(int imageId) {
