@@ -1,59 +1,62 @@
 <!-- eslint-disable no-undef -->
 <!-- eslint-disable no-undef -->
 <template>
-  <div class="grid grid-cols-2 h-screen w-full ">
+  <div class="w-full min-h-screen flex items-center justify-center p-3 gap-3">
+    <div class="self-stretch w-full lg:w-1/2 flex flex-col">
+      <a href="/">
+        <h1 class="pr-4 font-bold text-2xl mx-2">LOGO</h1>
+      </a>
+     <div class="w-full h-full flex flex-col items-center justify-center gap-5 px-20 md:px-40 lg:px-20 2xl:px-56">
+       <div class="flex flex-col items-center gap-2">
+         <h1 class="text-5xl font-extrabold leading-[48px]">Sign Up</h1>
+         <p class="w-[450px] text-center text-slate-900 text-xl font-normal leading-relaxed">Enter your info below to create your account</p>
+       </div>
 
-    <div class=" container px-[30%] bg-white flex flex-col  justify-center items-center">
-      
-      <div class="text-center mb-8">
-        <h1 class="text-6xl font-bold mb-3">Sign Up</h1>
-        <p class="text-xl">Enter your info below to create your account</p>
-      </div>
+       <form class="flex flex-col w-[450px] justify-start" @submit.prevent="register">
+         <FormField name="username">
+           <FormItem>
+             <FormLabel>Username</FormLabel>
+             <FormControl>
+               <Input type="text" placeholder="johndoe" v-model="user.username" />
+             </FormControl>
+             <FormMessage />
+           </FormItem>
 
-      <form class=" flex flex-col w-full justify-start" @submit.prevent="register">
-        <FormField name="username">
-          <FormItem>
-            <FormLabel>Username</FormLabel>
-            <FormControl>
-              <Input type="text" placeholder="johndoe" v-model="user.username" />
-            </FormControl>          
-            <FormMessage />
-          </FormItem>
+           <FormItem class="mt-4">
+             <FormLabel>Email</FormLabel>
+             <FormControl>
+               <Input type="email" placeholder="name@example.com" v-model="user.email" />
+             </FormControl>
 
-          <FormItem class="mt-4">
-            <FormLabel>Email</FormLabel>
-            <FormControl>
-              <Input type="email" placeholder="name@example.com" v-model="user.email" />
-            </FormControl>
-          
-            <FormMessage />
-          </FormItem>
+             <FormMessage />
+           </FormItem>
 
-          <FormItem class="mt-4">
-            <FormLabel>Password</FormLabel>
-            <FormControl>
-              <Input type="password" placeholder="*************" v-model="user.password"  />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+           <FormItem class="mt-4">
+             <FormLabel>Password</FormLabel>
+             <FormControl>
+               <Input type="password" placeholder="*************" v-model="user.password"  />
+             </FormControl>
+             <FormMessage />
+           </FormItem>
 
-          <FormItem class="mt-4">
-            <FormLabel>Confirm Password</FormLabel>
-            <FormControl>
-              <Input type="password" placeholder="*************" v-model="user.confirmPassword"  />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <Button type="submit" class="mt-6 mx-[10%] py-2">
-          Sign Up
-        </Button>
-      </form>
+           <FormItem class="mt-4">
+             <FormLabel>Confirm Password</FormLabel>
+             <FormControl>
+               <Input type="password" placeholder="*************" v-model="user.confirmPassword"  />
+             </FormControl>
+             <FormMessage />
+           </FormItem>
+         </FormField>
+         <Button type="submit" class="mt-6 mx-[10%] py-2">
+           Sign Up
+         </Button>
+       </form>
 
-      <p class="mt-2">Already have an account? <router-link class="underline" v-bind:to="{ name : 'login'}">Sign In</router-link></p>
-    </div>
+       <p class="mt-2">Already have an account? <router-link class="underline" v-bind:to="{ name : 'login'}">Sign In</router-link></p>
+     </div>
+     </div>
 
-    <div class="flex justify-center bg-black">
+    <div class="w-1/2 hidden self-stretch lg:flex bg-black justify-center rounded-lg overflow-hidden">
       <img src="../assets/background image.avif" class="h-full">
     </div>
 
@@ -107,7 +110,7 @@ export default {
           .then((response) => {
             if (response.status == 201) {
               this.$router.push({
-                path: '/login',
+                path: '/app',
                 query: { registration: 'success' },
               });
             }
