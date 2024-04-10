@@ -1,6 +1,29 @@
 BEGIN TRANSACTION;
-
-INSERT INTO users (username,password_hash,role, email) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER', 'user@email.com');
-INSERT INTO users (username,password_hash,role, email) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN', 'admin@email.com');
-
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+	user_id SERIAL,
+	username varchar(50) NOT NULL UNIQUE,
+	password_hash varchar(200) NOT NULL,
+	email varchar(100) NOT NULL,
+	avatar varchar(200),
+	name varchar(100),
+	role varchar(50) NOT NULL,
+	CONSTRAINT PK_users PRIMARY KEY (user_id)
+);
+CREATE TABLE images(
+	image_id SERIAL,
+	image_path varchar(200) NOT NULL,
+	CONSTRAINT PK_images PRIMARY KEY (image_id)
+);
 COMMIT TRANSACTION;
+--ROLLBACK;
+
+
+
+
+
+
+
+
+
+
