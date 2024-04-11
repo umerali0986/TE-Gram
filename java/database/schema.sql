@@ -1,5 +1,6 @@
 BEGIN TRANSACTION;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS images;
 CREATE TABLE users (
 	user_id SERIAL,
 	username varchar(50) NOT NULL UNIQUE,
@@ -13,6 +14,7 @@ CREATE TABLE users (
 CREATE TABLE images(
 	image_id SERIAL,
 	image_path varchar(200) NOT NULL,
+	image_type varchar(50) NOT NULL,
 	CONSTRAINT PK_images PRIMARY KEY (image_id)
 );
 COMMIT TRANSACTION;
