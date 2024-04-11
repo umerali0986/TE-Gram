@@ -7,13 +7,16 @@ public class Image {
 
     private String imageType;
 
+    private int postId;
+
     public Image() {
     }
 
-    public Image(int imageId, String imagePath, String imageType){
+    public Image(int imageId, String imagePath, String imageType, int postId){
         this.imageId = imageId;
         this.imagePath = imagePath;
         this.imageType = imageType;
+        this.postId = postId;
     }
 
     public Image(String imagePath, String imageType) {
@@ -43,5 +46,13 @@ public class Image {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 }

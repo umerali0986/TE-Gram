@@ -21,6 +21,11 @@ public class FileUploadController {
         return jdbcImageDao.createImage(file);
     }
 
+    @RequestMapping(path="/{postId}", method=RequestMethod.GET)
+    public Image getImageByPostId(@PathVariable int postId){
+        return jdbcImageDao.getImageByPostId(postId);
+    }
+
 
 
 }
