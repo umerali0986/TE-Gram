@@ -19,9 +19,10 @@ public class Image {
         this.postId = postId;
     }
 
-    public Image(String imagePath, String imageType) {
+    public Image(String imagePath, String imageType,int postId) {
         this.imagePath = imagePath;
         this.imageType = imageType;
+        this.postId = postId;
     }
 
     public int getImageId() {
