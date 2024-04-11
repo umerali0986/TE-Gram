@@ -4,7 +4,7 @@
       :class="{'container px-0 bg-transparent' : $route.path === '/', 'sticky left-0 bg-background' : $route.path === '/app'}"
 
   >
-    <div v-if="$route.path === '/app/'" class="flex mr-3 md:hidden items-center justify-end">
+    <div v-if="$route.path === '/app' && $store.state.isValidated" class="flex mr-3 md:hidden items-center justify-end">
       <Sheet>
         <SheetTrigger>
           <HamburgerMenuIcon class="h-5 w-5"/>
