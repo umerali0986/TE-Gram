@@ -48,11 +48,11 @@
 <script>
 
 import {defineComponent} from "vue";
-import {Avatar} from "@/components/ui/avatar";
+import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar";
 import {Button} from "@/components/ui/button";
 
 export default defineComponent({
-  components: {Button, Avatar},
+  components: {Button, Avatar, AvatarImage, AvatarFallback},
   props: ['img']
 })
 </script>

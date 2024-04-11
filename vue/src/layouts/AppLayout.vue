@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="">
     <SiteHeader/>
-    <div class="flex bg-foreground/5">
+    <div class="flex bg-foreground/5 ">
       <Sidebar :show="true"/>
       <router-view/>
     </div>
