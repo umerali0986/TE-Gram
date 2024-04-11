@@ -8,4 +8,8 @@ public interface ImageDao {
     Image createImage(MultipartFile file);
 
     Image getImageById(int id);
+
+    Image getImageByPath(String path);
+
+    Image getImageByPostId(int postId);
 }

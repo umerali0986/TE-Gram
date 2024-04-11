@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class JdbcImageDao implements ImageDao{
@@ -30,7 +32,8 @@ public class JdbcImageDao implements ImageDao{
 
         Image createdImage = null;
 
-        String filePath = ABSOLUTE_PATH + file.getOriginalFilename();
+        String[] words = file.getContentType().split("/");
+        String filePath = ABSOLUTE_PATH + UUID.randomUUID() + "." + words[1];
 
         Image image = new Image(filePath,file.getContentType());
 
@@ -80,14 +83,56 @@ public class JdbcImageDao implements ImageDao{
         return image;
     }
 
+    @Override
+    public Image getImageByPath(String path){
+        Image image = null;
+
+        String sql = "SELECT * FROM images WHERE image_path = ?";
+
+        try{
+
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, path);
+
+            if(result.next()) {
+                image = mapRowToImage(result);
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return image;
+    }
+
+
+    @Override
+    public Image getImageByPostId(int postId){
+        Image image = null;
+
+        String sql = "SELECT * FROM images WHERE post_id = ?";
+
+        try{
+
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, postId);
+
+            if(result.next()) {
+                image = mapRowToImage(result);
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return image;
+    }
+
 
     public Image mapRowToImage(SqlRowSet result){
         Image image = new Image();
-
         image.setImageId(result.getInt("image_id"));
         image.setImagePath(result.getString("image_path"));
         image.setImageType(result.getString("image_type"));
-
+        image.setPostId(result.getInt("post_id"));
         return image;
     }
 
