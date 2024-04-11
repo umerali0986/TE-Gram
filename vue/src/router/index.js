@@ -30,7 +30,7 @@ const routes = [
     component: () => import('@/layouts/AppLayout.vue'),
     children: [
       { path: '', name: 'app', component: AppView },
-      { path: 'post/:id', name: 'postDetails', component: PostDetailsView },
+      // { path: 'post/:id', name: 'postDetails', component: PostDetailsView },
     ],
   },
   {
@@ -44,9 +44,17 @@ const routes = [
   {
     path: '/app/post/:id',
     name: 'postDetails',
-    component: PostDetailsView
-
+    component: () => import('@/layouts/AppLayout.vue'),
+    children: [
+      { path: '', name: 'postDetails', component: PostDetailsView }
+    ],
   },
+  // {
+  //   path: '/app/post/:id',
+  //   name: 'postDetails',
+  //   component: PostDetailsView
+
+  // },
   {
     path: "/logout",
     name: "logout",
