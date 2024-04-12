@@ -1,5 +1,5 @@
 BEGIN TRANSACTION;
-DROP TABLE IF EXISTS users, images, posts CASCADE;
+DROP TABLE IF EXISTS users, images, posts, comments, likes CASCADE;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -22,16 +22,38 @@ CREATE TABLE posts(
 
 CREATE TABLE images(
 	image_id SERIAL,
-	image_path varchar(200) NOT NULL,
 	image_type varchar(50) NOT NULL,
 	post_id int NOT NULL,
+	alt_desc varchar(100) NULL,
 	CONSTRAINT FK_images_posts FOREIGN KEY(post_id) REFERENCES posts(post_id),
 	CONSTRAINT PK_images PRIMARY KEY (image_id)
 );
 
+CREATE TABLE comments(
+	comment_id SERIAL,
+	post_id int NOT NULL,
+    text varchar(200) NOT NULL,
+    author_name varchar(100) NOT NULL,
+    created_on timestamp NOT NULL ,
+	CONSTRAINT FK_comments_posts FOREIGN KEY(post_id) REFERENCES posts(post_id),
+    CONSTRAINT FK_comments_users FOREIGN KEY(author_name) REFERENCES users(username),
+	CONSTRAINT PK_comments PRIMARY KEY (comment_id)
+);
+
+CREATE TABLE likes(
+	post_id int NOT NULL,
+    author_name varchar(100) NOT NULL,
+	CONSTRAINT FK_likes_posts FOREIGN KEY(post_id) REFERENCES posts(post_id),
+    CONSTRAINT FK_likes_users FOREIGN KEY(author_name) REFERENCES users(username),
+	CONSTRAINT PK_likes PRIMARY KEY (post_id, author_name)
+);
+
 INSERT INTO users (username, password_hash, email, avatar, name, role) VALUES ('billy', '1234billy1', 'billy@email.com', '', '', 'USER');
+INSERT INTO users (username, password_hash, email, avatar, name, role) VALUES ('ben', '1234billy1', 'ben@email.com', '', '', 'USER');
 INSERT INTO posts (caption, post_creator) VALUES ('this is post 1', 'billy');
-INSERT INTO images (image_path, image_type, post_id) VALUES ('thispath/path', 'jpeg', 1); 
+INSERT INTO likes (post_id, author_name) VALUES (1, 'ben');
+INSERT INTO comments (post_id, author_name, text, created_on) VALUES (1, 'ben', 'This is fabulous!!', NOW());
+INSERT INTO images (image_type, post_id) VALUES ('jpeg', 1);
 
 COMMIT TRANSACTION;
 --ROLLBACK;
