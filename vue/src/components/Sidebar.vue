@@ -1,9 +1,8 @@
 <template>
-  <!--  v-if="$store.state.isValidated"-->
-
   <div
       class="h-full bg-background px-4 pb-16 md:flex lg:w-80 xl:w-96"
       :class="{'hidden' : show }"
+      v-if="$store.state.isValidated"
   >
     <div class="h-full w-full pb-2 ">
       <Toaster />
@@ -248,6 +247,8 @@ export default {
   methods: {
     logout(){
       this.$store.commit("TOGGLE_VALIDATION_STATUS");
+      this.$store.commit("LOGOUT")
+      window.location.reload()
     },
     selectFile(event) {
       const files = event.target.files;
