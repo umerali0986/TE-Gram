@@ -9,6 +9,7 @@
 
     <PostCard v-for="(img, index) in imageArray" :key="index" :img="img" />
     </div>
+
   </div>
 </template>
 
@@ -16,9 +17,10 @@
 
 import {defineComponent} from "vue";
 import PostCard from "@/components/PostCard.vue";
+import {Toaster} from "vue-sonner";
 
 export default defineComponent({
-  components: {PostCard},
+  components: {Toaster, PostCard},
   data() {
     return {
         imageArray : this.$store.state.imageCollections

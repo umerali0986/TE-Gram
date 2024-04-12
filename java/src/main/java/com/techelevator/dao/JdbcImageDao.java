@@ -2,7 +2,11 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Image;
+<<<<<<< HEAD
 import com.techelevator.model.Post;
+=======
+import com.techelevator.util.ImageFileProvider;
+>>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -13,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class JdbcImageDao implements ImageDao{
@@ -24,22 +26,26 @@ public class JdbcImageDao implements ImageDao{
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final String ABSOLUTE_PATH = "C:/Users/Student/workspace/java-gray-finalcapstone-team2/java/src/ImageFiles/";
-
     public JdbcImageDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+<<<<<<< HEAD
 
 
 
     public Image createImage(MultipartFile file, int postId) {
+=======
+    public Image createImage(MultipartFile file, int postId, String altDesc) {
+>>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
 
         Image createdImage = null;
 
-        String[] words = file.getContentType().split("/");
-        String filePath = ABSOLUTE_PATH + UUID.randomUUID() + "." + words[1];
+        String contentType = file.getContentType();
+        if (null == contentType)
+            throw new IllegalArgumentException("Unsupported content type");
 
+<<<<<<< HEAD
 
         Image image = new Image(filePath,file.getContentType(),postId);
 
@@ -48,10 +54,20 @@ public class JdbcImageDao implements ImageDao{
         try{
 
             int imageId = jdbcTemplate.queryForObject(sql, int.class, image.getImagePath(), image.getImageType(), image.getPostId());
+=======
+        String imageType = contentType.split("/")[1];
+
+        String sql = "INSERT INTO images (image_type, post_id, alt_desc) VALUES (?,?, ?) RETURNING image_id;";
+
+        try{
+
+            int imageId = jdbcTemplate.queryForObject(sql, int.class, imageType, postId, altDesc);
+>>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
 
             createdImage = getImageById(imageId);
 
-            file.transferTo(new File(filePath));
+            File imageFile = new ImageFileProvider().createImageFile(createdImage);
+            file.transferTo(imageFile);
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -66,9 +82,7 @@ public class JdbcImageDao implements ImageDao{
         return createdImage;
     }
 
-
-    @Override
-    public Image getImageById(int id){
+    private Image getImageById(int id){
 
         Image image = null;
 
@@ -88,28 +102,6 @@ public class JdbcImageDao implements ImageDao{
 
         return image;
     }
-
-    @Override
-    public Image getImageByPath(String path){
-        Image image = null;
-
-        String sql = "SELECT * FROM images WHERE image_path = ?";
-
-        try{
-
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, path);
-
-            if(result.next()) {
-                image = mapRowToImage(result);
-            }
-
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-
-        return image;
-    }
-
 
     @Override
     public Image getImageByPostId(int postId){
@@ -132,6 +124,7 @@ public class JdbcImageDao implements ImageDao{
         return image;
     }
 
+<<<<<<< HEAD
 
 //    public byte[] getImageByUUID(String fileName) throws IOException {
 //        Optional<FileData> fileData = fileDataRepository.findByName(fileName);
@@ -140,11 +133,13 @@ public class JdbcImageDao implements ImageDao{
 //        return images;
 //    }
 
+=======
+>>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
     public Image mapRowToImage(SqlRowSet result){
         Image image = new Image();
         image.setImageId(result.getInt("image_id"));
-        image.setImagePath(result.getString("image_path"));
         image.setImageType(result.getString("image_type"));
+        image.setAltDesc(result.getString("alt_desc"));
         image.setPostId(result.getInt("post_id"));
         return image;
     }
