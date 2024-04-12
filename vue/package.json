@@ -22,8 +22,10 @@
     "tailwindcss-animate": "^1.0.7",
     "vee-validate": "^4.12.6",
     "vue": "^3.3.4",
-    "vue-picture-cropper": "^0.7.0",
+    "vue-advanced-cropper": "^2.8.8",
+    "vue-cropperjs": "^5.0.0",
     "vue-router": "^4.2.1",
+    "vue-sonner": "^1.1.2",
     "vuex": "^4.1.0",
     "zod": "^3.22.4"
   },

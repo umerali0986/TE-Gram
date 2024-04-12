@@ -1,7 +1,7 @@
 <template>
   <header
-      class="top-0 h-14 flex items-center px-6 border-b  z-10"
-      :class="{'container px-0 bg-transparent' : $route.path === '/', 'sticky left-0 bg-background' : $route.path === '/app'}"
+      class="top-0 h-14 flex items-center px-6 border-b z-10"
+      :class="{'container px-0 bg-transparent' : $route.path === '/', ' bg-background' : $route.path === '/app'}"
 
   >
     <div v-if="$route.path === '/app' && $store.state.isValidated" class="flex mr-3 md:hidden items-center justify-end">
@@ -49,12 +49,10 @@
 <!--      </DropdownMenu>-->
 
       <a v-if="!$store.state.isValidated" href="/login">
-        <Button variant="ghost">
+        <Button :variant="$route.path === '/' ? 'ghost' : ''">
           Login
         </Button>
       </a>
-
-      <router-link v-else @click="logout" :to="{name: 'login'}">Logout</router-link>
 
       <a href="/app" v-if="$route.path === '/'">
         <Button>
