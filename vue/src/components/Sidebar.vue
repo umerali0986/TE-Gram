@@ -2,11 +2,12 @@
   <!--  v-if="$store.state.isValidated"-->
 
   <div
-      class="sticky h-full bg-background px-4 md:flex md:w-96 top-0"
+      class="h-full bg-background px-4 pb-16 md:flex lg:w-80 xl:w-96"
       :class="{'hidden' : show }"
   >
-    <div class=" h-screen w-full">
-      <nav class="flex flex-col w-full h-full pt-10 md:pt-4 items-center justify-between">
+    <div class="h-full w-full pb-2 ">
+      <Toaster />
+      <nav class="flex flex-col w-full h-full md:pt-4 items-center justify-between">
         <div class="flex flex-col items-center gap-2">
           <a href="/app">
             <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
@@ -96,20 +97,11 @@
 
               <div v-if="isShowModal" class="flex w-fit gap-10">
                 <div class="h-[30rem] flex w-[30rem] rounded-lg">
-                  <VuePictureCropper
-                      :boxStyle="{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#f8f8f8',
-                margin: 'auto',
-              }"
-                      :img="pic"
-                      :options="{
-                viewMode: 1,
-                dragMode: 'crop',
-                aspectRatio: 1,
-              }"
-                      @ready="ready"
+                  <Cropper
+                      ref="cropper"
+                      :src="pic"
+                      :stencil-props="{ aspectRatio: 1 }"
+                      class="cropper"
                   />
                 </div>
 
@@ -125,7 +117,7 @@
                     </div>
                   </div>
 
-                  <Textarea class="h-40 resize-none" placeholder="Write caption..." />
+                  <Textarea v-model="post.caption" class="h-40 resize-none" placeholder="Write caption..." />
                   <Accordion type="single" collapsible>
                     <AccordionItem value="item-1">
                       <AccordionTrigger class="font-semibold">Privacy</AccordionTrigger>
@@ -148,7 +140,7 @@
                           Alt text describes your photos for people with visual impairments. Alt text will be automatically created for your photos or you can choose to write your own.
                         </p>
 
-                        <Input type="text" placeholder="Write alt text..."/>
+                        <Input v-model="post.altDescription" type="text" placeholder="Write alt text..."/>
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
@@ -170,7 +162,7 @@
           </Dialog>
         </div>
 
-        <div class="flex flex-col items-center gap-2 pb-5">
+        <div class="flex flex-col items-center gap-2">
           <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -185,7 +177,7 @@
             Settings
           </button>
 
-          <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
+          <button v-on:click="logout" class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                   d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"
@@ -215,16 +207,20 @@ import {
 } from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
-import VuePictureCropper, { cropper } from 'vue-picture-cropper'
+import { Cropper } from 'vue-advanced-cropper'
+import 'vue-advanced-cropper/dist/style.css';
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar";
 import {Textarea} from "@/components/ui/textarea";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
+import axios from "axios";
+import {toast, Toaster} from 'vue-sonner'
 
 
 export default {
   components: {
+    Toaster,
     Switch,
     Label,
     AccordionContent,
@@ -235,71 +231,57 @@ export default {
     Avatar,
     Input,
     DialogFooter,
-    VuePictureCropper,
+    Cropper,
     Button, DialogDescription, DialogTitle, AvatarImage, AvatarFallback, DialogHeader, DialogContent, DialogTrigger, Dialog
   },
   data() {
     return {
       isShowModal: false,
-      pic: "",
-      result: {
-        dataURL: "",
-        blobURL: ""
-      }
+      pic: null,
+     post: {
+        caption: '',
+        altDescription: '',
+     }
     }
   },
   props: ['show'],
   methods: {
-    selectFile(e) {
-      // Reset last selection and results
-      this.pic = ''
-      this.result.dataURL = ''
-      this.result.blobURL = ''
-
-      // Get selected files
-      const {files} = e.target
-      if (!files || !files.length) return
-
-      // Convert to dataURL and pass to the cropper component
-      const file = files[0]
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => {
-        // Update the picture source of the `img` prop
-        this.pic = String(reader.result)
-
-        // Show the modal
-        this.isShowModal = true
-
-        // Clear selected files of input element
-        if (!this.$refs.uploadInput) return
-        this.$refs.uploadInput.value = ''
-      }
+    logout(){
+      this.$store.commit("TOGGLE_VALIDATION_STATUS");
     },
-    async getResult() {
-      if (!this.cropper) return
-      const base64 = this.cropper.getDataURL()
-      const blob = await this.cropper.getBlob()
-      if (!blob) return
-
-      const file = await this.cropper.getFile({
-        fileName: this.locales.fileName,
-      })
-
-      console.log({base64, blob, file})
-      this.result.dataURL = base64
-      this.result.blobURL = URL.createObjectURL(blob)
-      this.isShowModal = false
-    },
-    clear() {
-      if (!cropper) return
-      cropper.clear()
-    },
-    ready() {
-      console.log('Cropper is ready.')
+    selectFile(event) {
+      const files = event.target.files;
+      if (!files.length) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.pic = e.target.result;
+        this.isShowModal = true; // Show modal with cropper
+      };
+      reader.readAsDataURL(files[0]);
     },
     handleSubmit() {
+      const { canvas } = this.$refs.cropper.getResult();
+      canvas.toBlob((blob) => {
+        const formData = new FormData();
+        formData.append('image', blob, 'cropped.jpg');
+        formData.append('caption', this.post.caption);
+        formData.append('alt_desc', this.post.altDescription);
 
+        axios.post('/posts', formData).then(response => {
+          if (response.status === 200) {
+            toast('Picture uploaded successfully.');
+            setTimeout(() => {
+              window.location.reload();
+            }, 100)
+            // Optionally emit an event or handle response
+            console.log('Post created successfully!');
+          } else {
+            console.error('Failed to create post.');
+          }
+        }).catch(error => {
+          console.error('Error:', error);
+        });
+      });
     }
   }
 }
