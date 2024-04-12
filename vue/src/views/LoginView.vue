@@ -3,6 +3,7 @@
     <div class="self-stretch w-full lg:w-1/2 flex flex-col">
       <a href="/">
         <h1 class="pr-4 font-bold text-2xl mx-2">LOGO</h1>
+        <Toaster />
       </a>
       <div class="w-full h-full flex flex-col items-center justify-center gap-5 px-20 md:px-40 lg:px-20 2xl:px-56">
         <div class="flex flex-col items-center gap-2">
@@ -12,6 +13,14 @@
 
         <form class="flex flex-col w-[450px] justify-start" @submit.prevent="login">
           <FormField name="username">
+            <Alert class="my-4 bg-red-100" v-if="invalidCredentials">
+              <AlertTriangleIcon class="w-4 h-4"/>
+              <AlertTitle>Invalid Credentials</AlertTitle>
+              <AlertDescription>
+                Your username or password is incorrect, please try again.
+              </AlertDescription>
+            </Alert>
+
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
@@ -45,9 +54,18 @@ import authService from "../services/AuthService";
 import { Button } from '@/components/ui/button';
 import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
+import axios from "axios";
+import {toast, Toaster} from "vue-sonner";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
+import { AlertTriangleIcon } from 'lucide-vue-next'
 
 export default {
   components: {
+    AlertDescription,
+    AlertTitle,
+    AlertTriangleIcon,
+    Alert,
+    Toaster,
     FormControl, FormMessage, FormField, Input, FormLabel, FormItem,
     Button
   },
@@ -67,7 +85,7 @@ export default {
       authService
         .login(this.user)
         .then(response => {
-          if (response.status == 200) {
+          if (response.status === 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
             this.$store.commit("TOGGLE_VALIDATION_STATUS");
@@ -77,12 +95,21 @@ export default {
         })
         .catch(error => {
           const response = error.response;
+          this.$store.commit("SET_LOADING", false);
+          toast('Error', {
+            description: 'Something went wrong in our end, please try again',
+          })
 
           if (response.status === 401) {
             this.invalidCredentials = true;
+
+            toast('Invalid credentials', {
+              description: 'Your username or password is incorrect, please try again.',
+            })
           }
         });
-    }
+    },
+
   }
 };
 </script>

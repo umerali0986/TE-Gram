@@ -48,11 +48,17 @@
 <!--        </DropdownMenuContent>-->
 <!--      </DropdownMenu>-->
 
-      <a v-if="!$store.state.isValidated" href="/login">
-        <Button :variant="$route.path === '/' ? 'ghost' : ''">
+      <router-link :to="{name: 'register'}" v-if="$route.path === '/app' && !$store.state.isValidated" >
+        <Button  variant="outline" >
+          Register
+        </Button>
+      </router-link>
+
+      <router-link :to="{name: 'login'}" >
+        <Button v-if="!$store.state.isValidated" :variant="$route.path === '/' ? 'ghost' : ''">
           Login
         </Button>
-      </a>
+      </router-link>
 
       <a href="/app" v-if="$route.path === '/'">
         <Button>
