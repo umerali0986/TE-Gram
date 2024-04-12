@@ -59,7 +59,7 @@ public class JdbcImageDao implements ImageDao{
             throw new DaoException("Data integrity violation", e);
         }
         catch (IOException e){
-            throw new DaoException("Something went please try it again", e);
+            throw new DaoException("Something went wrong please try it again", e);
 
         }
 
