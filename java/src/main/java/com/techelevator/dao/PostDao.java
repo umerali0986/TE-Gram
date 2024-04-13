@@ -12,6 +12,8 @@ public interface PostDao {
 
     Post getPostById(int id);
 
+    List<Post> getPostsByCreator(String creator);
+
     boolean hasUserLikedPostById(int postId, String authorName);
 
     int deletePostById(int id);
