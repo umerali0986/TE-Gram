@@ -8,6 +8,7 @@ import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import AppView from '../views/AppView.vue';
 import PostDetailsView from '../views/PostDetailsView.vue';
+import UserProfileView from '../views/UserProfileView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -27,6 +28,7 @@ const routes = [
   },
   {
     path: '/app',
+    name: 'app',
     component: () => import('@/layouts/AppLayout.vue'),
     children: [
       { path: '', name: 'app', component: AppView },
@@ -49,12 +51,11 @@ const routes = [
       { path: '', name: 'postDetails', component: PostDetailsView }
     ],
   },
-  // {
-  //   path: '/app/post/:id',
-  //   name: 'postDetails',
-  //   component: PostDetailsView
-
-  // },
+  {
+    path: '/profile/:username',
+    name: 'userProfile',
+    component: UserProfileView
+  },
   {
     path: "/logout",
     name: "logout",

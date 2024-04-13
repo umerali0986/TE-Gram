@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
@@ -30,6 +31,11 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     public User getUserByEmail(@RequestParam("email") String email){
         return  userDao.getUserByEmail(email);
+    }
+
+    @RequestMapping(path="/profile/{username}", method=RequestMethod.GET)
+    public User getUserByUsername(@PathVariable String username){
+        return userDao.getUserByUsername(username);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
