@@ -8,7 +8,7 @@
       <Toaster />
       <nav class="flex flex-col w-full h-full md:pt-4 items-center justify-between">
         <div class="flex flex-col items-center gap-2">
-          <a href="/app">
+          <router-link to='/'>
             <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -19,7 +19,7 @@
               </svg>
               Home
             </button>
-          </a>
+          </router-link>
           <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -216,11 +216,13 @@ import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
 // import axios from "axios";
 import postService from '../services/PostService';
+import { RouterLink } from "vue-router";
 import {toast, Toaster} from 'vue-sonner'
 
 
 export default {
   components: {
+    RouterLink,
     Toaster,
     Switch,
     Label,

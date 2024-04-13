@@ -9,10 +9,12 @@
       </div>
      <div class="flex my-4">
        <div class="flex gap-2">
-         <Avatar>
-           <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
-           <AvatarFallback>CN</AvatarFallback>
-         </Avatar>
+        <router-link :to="{ name: 'userProfile', params: { username: post.postCreator}}">
+          <Avatar>
+            <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </router-link>
          
          <div class="flex flex-col gap-0 justify-center">
            <h5 class="font-semibold leading-[1rem]">{{ post.postCreator }}</h5>
