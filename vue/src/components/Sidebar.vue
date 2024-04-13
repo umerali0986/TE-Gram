@@ -214,12 +214,8 @@ import {Textarea} from "@/components/ui/textarea";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
-// import axios from "axios";
 import postService from '../services/PostService';
-<<<<<<< HEAD
 import { RouterLink } from "vue-router";
-=======
->>>>>>> cb5248f3aa5ec32062854c50128dbab390c09dea
 import {toast, Toaster} from 'vue-sonner'
 
 
