@@ -74,7 +74,7 @@
 
 import {defineComponent} from "vue";
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar";
-import axios from "axios";
+import postService from "@/services/PostService";
 import moment from "moment";
 import {
   AlertDialog,
@@ -135,13 +135,13 @@ export default defineComponent({
       }
 
       if (this.post.liked) {
-        axios.post(`/posts/${this.post.id}/unlike`).then(response => {
+        postService.unlikePostById(this.post.id).then(response => {
           if (response.status === 204) {
               this.$store.commit("SET_LIKED", this.post.id);
           }
         })
       } else {
-        axios.post(`/posts/${this.post.id}/like`).then(response => {
+        postService.likePostById(this.post.id).then(response => {
           if (response.status === 204) {
             this.$store.commit("SET_LIKED", this.post.id);
           }

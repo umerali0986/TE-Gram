@@ -88,7 +88,7 @@
           Our Team
         </h2>
         <p class="text-base font-normal leading-7">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Meet the Chat-TE development team!
         </p>
       </div>
       

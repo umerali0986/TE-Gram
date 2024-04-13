@@ -179,7 +179,7 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Separator} from "@/components/ui/separator";
 import {Textarea} from "@/components/ui/textarea";
-import axios from "axios";
+import postService from '../services/PostService'
 import moment from "moment";
 
 
@@ -192,7 +192,7 @@ export default {
   },
    methods: {
      getPost() {
-       axios.get(`/posts/${this.$route.params.id}`).then(response => {
+       postService.getByRouteParam(this.$route.params.id).then(response => {
          if (response.status === 200) {
            this.post = response.data
            console.log(this.post)
@@ -200,7 +200,7 @@ export default {
        }).catch(error => {
          console.error('Error: ', error)
        })
-     }
+     },
    },
     data() {
         return {
