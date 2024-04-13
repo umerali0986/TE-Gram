@@ -2,10 +2,15 @@
     <div class="flex py-40 lg:py-60 mt-4 relative items-center justify-center overflow-hidden">
       <div class="flex flex-col text-center justify-between items-center px-10 lg:px-80 gap-6 z-20">
         <h1 class="text-5xl font-bold">
-          Medium length hero heading goes here
+          Elevate your Tech Elevator experience with Chat-TE. 
         </h1>
         <p class="text-lg">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
+          Chat-TE doesn't claim to revolutionize the social media 
+          landscape. We do, however, offer a viable alternative 
+          to Tech Elevator students who seek something more 
+          personalized. Communicate with your fellow students, 
+          past students, and those simply interested in the 
+          culture of Tech Elevator. 
         </p>
         <div class="flex gap-4">
           <a href="/register">
