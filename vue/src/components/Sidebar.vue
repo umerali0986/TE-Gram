@@ -153,9 +153,10 @@
                   </Button>
                 </a>
 
-                <Button v-on:click="handleSubmit">
+                <Button v-on:click.prevent="handleSubmit">
                   Submit
                 </Button>
+                
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -213,7 +214,8 @@ import {Textarea} from "@/components/ui/textarea";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
-import axios from "axios";
+// import axios from "axios";
+import postService from '../services/PostService';
 import {toast, Toaster} from 'vue-sonner'
 
 
@@ -268,7 +270,7 @@ export default {
         formData.append('caption', this.post.caption);
         formData.append('alt_desc', this.post.altDescription);
 
-        axios.post('/posts', formData).then(response => {
+        postService.post(formData).then(response => {
           if (response.status === 200) {
             toast('Picture uploaded successfully.');
             setTimeout(() => {

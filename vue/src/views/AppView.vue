@@ -17,13 +17,14 @@
 
 import {defineComponent} from "vue";
 import PostCard from "@/components/PostCard.vue";
-import axios from "axios";
+import postService from '../services/PostService.js';
+// import axios from "axios";
 
 export default defineComponent({
   components: { PostCard},
   methods: {
     getPosts() {
-      axios.get('/posts').then(response => {
+      postService.get().then(response => {
         if (response.status === 200) {
           this.$store.commit("SET_CONTENT", JSON.parse(JSON.stringify(response.data)));
         }
@@ -40,6 +41,7 @@ export default defineComponent({
   },
   created() {
     this.getPosts()
+    console.log(this.$store.state.postCollection);
   },
 })
 </script>
