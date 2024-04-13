@@ -6,8 +6,12 @@ export default {
         return axios.get('/posts'); 
     },
 
-    getByRouteParam(routeParam){
-        return axios.get(`/posts/${routeParam}`)
+    getByRouteParam(username){
+        return axios.get(`/posts/${username}`)
+    },
+
+    getPostsByUsername(username){
+        return axios.get(`/posts/${username}/posts`)
     },
 
     post(formData){

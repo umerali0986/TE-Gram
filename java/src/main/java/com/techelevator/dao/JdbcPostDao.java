@@ -86,6 +86,22 @@ public class JdbcPostDao implements PostDao {
         return post;
     }
 
+    @Override
+    public List<Post> getPostsByCreator(String creator) {
+        List<Post> creatorPosts = new ArrayList<>();
+
+        String sql = "SELECT * FROM posts WHERE post_creator = ?";
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, creator);
+            while(results.next()){
+                creatorPosts.add(mapRowToPost(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return creatorPosts;
+    }
+
     private int countPostLikes(int postId) {
         String sql = "SELECT COUNT(*) AS likes FROM likes WHERE post_id = ?;";
 
