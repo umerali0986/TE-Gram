@@ -32,7 +32,9 @@ public class JdbcPostDao implements PostDao {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
 
             while (result.next()) {
-                posts.add(mapRowToPost(result));
+                Post post = mapRowToPost(result);
+                posts.add(post);
+                post.setTotalLikes(countPostLikes(post.getId()));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -143,13 +145,13 @@ public class JdbcPostDao implements PostDao {
 
         try {
             int numberOfRows = 0;
-            numberOfRows = jdbcTemplate.update(sql, post.getCaption(), post.getPost_id());
+            numberOfRows = jdbcTemplate.update(sql, post.getCaption(), post.getId());
 
             if(numberOfRows == 0){
                 throw new DaoException("No number of rows affected");
             }
             else{
-                newPost = getPostById(post.getPost_id());
+                newPost = getPostById(post.getId());
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -165,7 +167,7 @@ public class JdbcPostDao implements PostDao {
         String sql = "INSERT INTO likes (post_id, author_name) values (?, ?)";
 
         try {
-            int postId = jdbcTemplate.update(sql, post.getPost_id(), author.getUsername());
+            int postId = jdbcTemplate.update(sql, post.getId(), author.getUsername());
             if (0 == postId) {
                 throw new DaoException("No like added");
             }
@@ -182,7 +184,7 @@ public class JdbcPostDao implements PostDao {
         String sql = "DELETE FROM likes WHERE post_id = ? AND author_name = ?";
 
         try {
-            int postId = jdbcTemplate.update(sql, post.getPost_id(), author.getUsername());
+            int postId = jdbcTemplate.update(sql, post.getId(), author.getUsername());
             if (0 == postId) {
                 throw new DaoException("No like removed");
             }
@@ -198,7 +200,8 @@ public class JdbcPostDao implements PostDao {
     public Post mapRowToPost(SqlRowSet result){
         Post post = new Post();
 
-        post.setPost_id(result.getInt("post_id"));
+        post.setId(result.getInt("post_id"));
+        post.setCreatedOn(result.getTimestamp("created_on"));
         post.setCaption(result.getString("caption"));
         post.setPostCreator(result.getString("post_creator"));
 

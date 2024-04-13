@@ -31,10 +31,10 @@ public class JdbcCommentDao implements CommentDao {
     public Comment createComment(Post post, User author, String text) {
 
         Comment newComment = null;
-        String sql = "INSERT INTO comments (post_id, text, author_name, created_on) values (?, ?, ?, NOW()) RETURNING comment_id";
+        String sql = "INSERT INTO comments (post_id, text, author_name) values (?, ?, ?) RETURNING comment_id";
 
         try {
-            int commentId = jdbcTemplate.queryForObject(sql, int.class, post.getPost_id(), text, author.getUsername());
+            int commentId = jdbcTemplate.queryForObject(sql, int.class, post.getId(), text, author.getUsername());
             newComment = getCommentById(commentId);
 
         } catch (CannotGetJdbcConnectionException e) {
@@ -133,7 +133,7 @@ public class JdbcCommentDao implements CommentDao {
         Comment comment = new Comment();
         comment.setCommentId(result.getInt("comment_id"));
         comment.setText(result.getString("text"));
-        comment.setCreatedOn(result.getDate("created_on"));
+        comment.setCreatedOn(result.getTimestamp("created_on"));
 
         User author = jdbcUserDao.mapRowToUser(result);
         comment.setAuthor(author);

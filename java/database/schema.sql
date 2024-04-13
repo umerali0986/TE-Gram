@@ -12,10 +12,11 @@ CREATE TABLE users (
 	CONSTRAINT PK_users PRIMARY KEY (user_id)
 );
 
-CREATE TABLE posts(
+CREATE TABLE posts (
 	post_id SERIAL,
 	caption text,
 	post_creator varchar(100) NOT NULL,
+    created_on timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT PK_posts PRIMARY KEY(post_id),
 	CONSTRAINT FK_posts_users FOREIGN KEY(post_creator) REFERENCES users(username)
 );
@@ -34,7 +35,7 @@ CREATE TABLE comments(
 	post_id int NOT NULL,
     text varchar(200) NOT NULL,
     author_name varchar(100) NOT NULL,
-    created_on timestamp NOT NULL ,
+    created_on timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT FK_comments_posts FOREIGN KEY(post_id) REFERENCES posts(post_id),
     CONSTRAINT FK_comments_users FOREIGN KEY(author_name) REFERENCES users(username),
 	CONSTRAINT PK_comments PRIMARY KEY (comment_id)
@@ -52,7 +53,7 @@ INSERT INTO users (username, password_hash, email, avatar, name, role) VALUES ('
 INSERT INTO users (username, password_hash, email, avatar, name, role) VALUES ('ben', '1234billy1', 'ben@email.com', '', '', 'USER');
 INSERT INTO posts (caption, post_creator) VALUES ('this is post 1', 'billy');
 INSERT INTO likes (post_id, author_name) VALUES (1, 'ben');
-INSERT INTO comments (post_id, author_name, text, created_on) VALUES (1, 'ben', 'This is fabulous!!', NOW());
+INSERT INTO comments (post_id, author_name, text) VALUES (1, 'ben', 'This is fabulous!!');
 INSERT INTO images (image_type, post_id) VALUES ('jpeg', 1);
 
 COMMIT TRANSACTION;

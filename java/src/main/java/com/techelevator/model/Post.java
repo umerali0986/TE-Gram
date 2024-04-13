@@ -1,30 +1,43 @@
 package com.techelevator.model;
 
+import java.util.Date;
+
 public class Post {
 
-    private int post_id;
+    private int id;
     private String caption;
     private String postCreator;
     private int totalLikes;
     /** True if the current user has liked the post. */
     private boolean liked;
+    private Date createdOn;
 
     public Post() {
     }
 
-    public Post(int post_id, String caption, String postCreator, int totalLikes) {
-        this.post_id = post_id;
+    public Post(int post_id, String caption, String postCreator, int totalLikes, boolean isLiked, Date createdOn) {
+        this.id = post_id;
         this.caption = caption;
         this.postCreator = postCreator;
         this. totalLikes = totalLikes;
+        this.liked = isLiked;
+        this.createdOn = createdOn;
     }
 
-    public int getPost_id() {
-        return post_id;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
-    public void setPost_id(int post_id) {
-        this.post_id = post_id;
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCaption() {
