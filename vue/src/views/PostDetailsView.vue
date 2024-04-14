@@ -143,12 +143,14 @@
           <div class="h-52 mb-2 w-full flex flex-col gap-3 pt-2">
               <div class="flex w-full justify-between">
                 <div class="flex gap-2 items-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                 <button @click="handleLike">
+                  <svg width="24" height="24" viewBox="0 0 24 24" :fill="post.liked ? 'currentColor' : 'none'" xmlns="http://www.w3.org/2000/svg">
                     <rect width="24" height="24" fill="none"/>
                     <path d="M20.4201 4.58002C19.9184 4.07659 19.3223 3.67716 18.6659 3.40461C18.0095 3.13206 17.3058 2.99176 16.5951 2.99176C15.8844 2.99176 15.1806 3.13206 14.5243 3.40461C13.8679 3.67716 13.2718 4.07659 12.7701 4.58002L12.0001 5.36002L11.2301 4.58002C10.7284 4.07659 10.1323 3.67716 9.47591 3.40461C8.81953 3.13206 8.1158 2.99176 7.40509 2.99176C6.69437 2.99176 5.99065 3.13206 5.33427 3.40461C4.67789 3.67716 4.08176 4.07659 3.58009 4.58002C1.46009 6.70002 1.33009 10.28 4.00009 13L12.0001 21L20.0001 13C22.6701 10.28 22.5401 6.70002 20.4201 4.58002Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
+                </button>
 
-                  <span class="text-black text-sm font-normal leading-tight">83</span>
+                  <span class="text-black text-sm font-normal leading-tight">{{ post.totalLikes }}</span>
                 </div>
 
                 <div class="flex gap-2 items-center">
@@ -157,7 +159,7 @@
                   </svg>
 
 
-                  <span class="text-black text-sm font-normal leading-tight">83</span>
+                  <span class="text-black text-sm font-normal leading-tight">{{ post.comments.length }}</span>
                 </div>
 
                 <div class="flex gap-2 items-center">
@@ -171,7 +173,7 @@
               </div>
 
             <Textarea class="h-24 resize-none" placeholder="Type your comment here..." v-model="comment.text"/>
-            <Button class="mx-40" v-on:click="onSaveComment">Save</Button>
+            <Button class="mx-40"  v-on:click="onSaveComment">Post</Button>
           </div>
         </div>
         
@@ -217,10 +219,11 @@ export default {
      },
 
      onSaveComment(){
-
       commentService.save(this.$route.params.id, this.comment)
       .then(response => {
         if(response.status === 200){
+         
+        this.post.comments.unshift(response.data);
           toast('Comment saved successfully.');
             // setTimeout(() => {
             //   window.location.reload();
@@ -231,7 +234,28 @@ export default {
         console.error('Error: ', error);
       })
       
+     },
 
+     handleLike(){
+     
+      if (this.post.liked) {
+        postService.unlikePostById(this.post.id).then(response => {
+          if (response.status === 204) {
+              this.$store.commit("SET_LIKED", this.post.id);
+              this.post.liked = false;
+              this.post.totalLikes -= 1; 
+          }
+        })
+      } else {
+        
+        postService.likePostById(this.post.id).then(response => {
+          if (response.status === 204) {
+            this.$store.commit("SET_LIKED", this.post.id);
+            this.post.liked = true;
+            this.post.totalLikes += 1; 
+          }
+        })
+      }
 
      }
    },
