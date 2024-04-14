@@ -33,7 +33,7 @@ CREATE TABLE images(
 CREATE TABLE comments(
 	comment_id SERIAL,
 	post_id int NOT NULL,
-    text varchar(200) NOT NULL,
+    text text NOT NULL,
     author_name varchar(100) NOT NULL,
     created_on timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT FK_comments_posts FOREIGN KEY(post_id) REFERENCES posts(post_id),

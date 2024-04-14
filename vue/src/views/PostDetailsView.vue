@@ -1,5 +1,6 @@
 <template>
     <div class="flex w-full container px-4 pt-5 flex-wrap md:flex-nowrap">
+      <Toaster />
         <div class="flex-[2] aspect-square min-w-[28rem] max-w-[48.5rem]">
             <img class="w-full aspect-square rounded-lg" :alt="post.image.altDesc" :src="`http://localhost:9000/posts/${post.id}/image`">
         </div>
@@ -24,7 +25,8 @@
             </div>
 
           <div class="flex-1 w-full h-[35rem]  py-4 px-4 overflow-y-scroll gap-4 flex flex-col">
-            <div class="w-full">
+            <CommentCard v-for="(commentInfo, index) in post.comments" :key="index" :commentInfo="commentInfo"/>
+            <!-- <div class="w-full">
               <div class="flex gap-2">
                 <Avatar>
                   <AvatarImage src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" alt="@radix-vue" />
@@ -134,7 +136,7 @@
                   <p class="text-sm font-medium opacity-50">9 hrs ago</p>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
 
 
@@ -168,10 +170,13 @@
                 </div>
               </div>
 
-            <Textarea class="h-24 resize-none" placeholder="Type your comment here..." />
+            <Textarea class="h-24 resize-none" placeholder="Type your comment here..." v-model="comment.text"/>
+            <Button class="mx-40" v-on:click="onSaveComment">Save</Button>
           </div>
         </div>
+        
     </div>
+    
 </template>
 
 <script>
@@ -179,32 +184,63 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Separator} from "@/components/ui/separator";
 import {Textarea} from "@/components/ui/textarea";
-import postService from '../services/PostService'
+import postService from '../services/PostService';
+import commentService from '../services/CommentService';
+import { Button } from "@/components/ui/button";
 import moment from "moment";
+import CommentCard from "@/components/CommentCard.vue";
+import {toast, Toaster} from 'vue-sonner'
+
+
+
+
 
 
 export default {
-    components: {Textarea, Separator, Avatar, AvatarFallback, AvatarImage},
+    components: { Textarea, Separator, Avatar, AvatarFallback, AvatarImage, Button, Toaster, CommentCard },
   computed: {
     moment() {
       return moment
-    }
+    },
+  
   },
    methods: {
      getPost() {
        postService.getByRouteParam(this.$route.params.id).then(response => {
          if (response.status === 200) {
            this.post = response.data
-           console.log(this.post)
+           console.log(this.post.comments)
          }
        }).catch(error => {
          console.error('Error: ', error)
        })
      },
+
+     onSaveComment(){
+
+      commentService.save(this.$route.params.id, this.comment)
+      .then(response => {
+        if(response.status === 200){
+          toast('Comment saved successfully.');
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 100)
+          this.comment = {}
+        }
+      }).catch(error => {
+        console.error('Error: ', error);
+      })
+      
+
+
+     }
    },
     data() {
         return {
-            post: {}
+            post: {},
+            comment:{
+              text:''
+            },
         }
     },
     created() {

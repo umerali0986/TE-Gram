@@ -22,11 +22,11 @@ public class FileUploadController {
     @Autowired
     private JdbcImageDao jdbcImageDao;
 
-    @RequestMapping(path = "/{postId}",method = RequestMethod.POST)
-    public Image createImage(@RequestParam("image") MultipartFile file, @PathVariable int postId){
-
-        return jdbcImageDao.createImage(file,postId);
-    }
+//    @RequestMapping(path = "/{postId}",method = RequestMethod.POST)
+//    public Image createImage(@RequestParam("image") MultipartFile file, @PathVariable int postId){
+//
+//        return jdbcImageDao.createImage(file,postId);
+//    }
 
     @RequestMapping(path="/{postId}", method=RequestMethod.GET)
     public Image getImageByPostId(@PathVariable int postId){
