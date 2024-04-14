@@ -4,15 +4,36 @@ import java.util.Date;
 
 public class Post {
 
-    private int id;
+    private int post_id;
     private String caption;
     private String postCreator;
+
     private int totalLikes;
     /** True if the current user has liked the post. */
     private boolean liked;
+
     private Date createdOn;
 
+
     public Post() {
+    }
+
+    public Post(int post_id, String caption, String postCreator) {
+        this.post_id = post_id;
+        this.caption = caption;
+        this.postCreator = postCreator;
+    }
+
+    public Post(String caption, String postCreator) {
+        this.caption = caption;
+        this.postCreator = postCreator;
+    }
+
+    public Post(int post_id, String caption, String postCreator, int totalLikes) {
+        this.post_id = post_id;
+        this.caption = caption;
+        this.postCreator = postCreator;
+        this. totalLikes = totalLikes;
     }
 
     public Post(int post_id, String caption, String postCreator, int totalLikes, boolean isLiked, Date createdOn) {
@@ -30,14 +51,15 @@ public class Post {
 
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
+
     }
 
     public int getId() {
-        return id;
+        return post_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.post_id = id;
     }
 
     public String getCaption() {
@@ -56,6 +78,7 @@ public class Post {
         this.postCreator = postCreator;
     }
 
+
     public int getTotalLikes() {
         return totalLikes;
     }
@@ -71,4 +94,5 @@ public class Post {
     public void setLiked(boolean liked) {
         this.liked = liked;
     }
+
 }
