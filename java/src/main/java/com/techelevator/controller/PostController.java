@@ -20,9 +20,9 @@ import java.nio.file.Files;
 import java.security.Principal;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/posts")
-@CrossOrigin
 public class PostController {
 
     @Autowired
@@ -100,6 +100,11 @@ public class PostController {
 
         // Return both post info + image info + comments.
         return new PostWithImage(postInfo, image, comments);
+    }
+
+    @RequestMapping(path="/{username}/posts", method=RequestMethod.GET)
+    public List<Post> getPostsByUsername(@PathVariable String username){
+        return jdbcPostDao.getPostsByCreator(username);
     }
 
     @RequestMapping(path = "/{postId}/image", method = RequestMethod.GET)
