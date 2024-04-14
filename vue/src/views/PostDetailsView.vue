@@ -1,21 +1,21 @@
 <template>
-    <div class="flex w-full h-[49rem] px-4">
-        <div class="aspect-square  flex items-center justify-center  w-[40rem]">
-            <img class="w-full aspect-square rounded-lg" :src="post.path">
+    <div class="flex w-full container px-4 pt-5 flex-wrap md:flex-nowrap">
+        <div class="flex-[2] aspect-square min-w-[28rem] max-w-[48.5rem]">
+            <img class="w-full aspect-square rounded-lg" :alt="post.image.altDesc" :src="`http://localhost:9000/posts/${post.id}/image`">
         </div>
 
-        <div class="w-full px-8">
+        <div class="flex-[1] xl:px-8 pt-8 md:pt-0">
             <div class="flex flex-col">
-              <div class="flex w-full py-4">
+              <div class="flex w-full pb-4">
                 <div class="flex gap-2">
-                  <Avatar class="h-14 w-14">
+                  <Avatar @click="loger" class="h-14 w-14">
                     <AvatarImage src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" alt="@radix-vue" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
 
                   <div class="flex flex-col gap-0 justify-center">
                     <h5 class="font-semibold text-lg leading-[1rem]">shadcn</h5>
-                    <p class="">9 hrs ago</p>
+                    <p class="">{{ moment(post.createdOn).utc().local().fromNow()  }}</p>
                   </div>
                 </div>
               </div>
@@ -23,7 +23,7 @@
               <Separator class="bg-foreground/20"/>
             </div>
 
-          <div class="flex-1 w-full h-[36rem]  py-4 px-4 overflow-y-scroll gap-4 flex flex-col">
+          <div class="flex-1 w-full h-[35rem]  py-4 px-4 overflow-y-scroll gap-4 flex flex-col">
             <div class="w-full">
               <div class="flex gap-2">
                 <Avatar>
@@ -138,7 +138,7 @@
           </div>
 
 
-          <div class="h-fit w-full flex flex-col gap-3 pt-2">
+          <div class="h-52 mb-2 w-full flex flex-col gap-3 pt-2">
               <div class="flex w-full justify-between">
                 <div class="flex gap-2 items-center">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -179,14 +179,36 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Separator} from "@/components/ui/separator";
 import {Textarea} from "@/components/ui/textarea";
+import postService from '../services/PostService'
+import moment from "moment";
+
 
 export default {
     components: {Textarea, Separator, Avatar, AvatarFallback, AvatarImage},
+  computed: {
+    moment() {
+      return moment
+    }
+  },
+   methods: {
+     getPost() {
+       postService.getByRouteParam(this.$route.params.id).then(response => {
+         if (response.status === 200) {
+           this.post = response.data
+           console.log(this.post)
+         }
+       }).catch(error => {
+         console.error('Error: ', error)
+       })
+     },
+   },
     data() {
         return {
-            post: this.$store.state.imageCollections[this.$route.params.id-1]
+            post: {}
         }
-    }
-
+    },
+    created() {
+      this.getPost()
+    },
 }
 </script>

@@ -1,20 +1,5 @@
 package com.techelevator.controller;
 
-<<<<<<< HEAD
-import com.techelevator.dao.JdbcImageDao;
-import com.techelevator.dao.JdbcPostDao;
-import com.techelevator.dao.JdbcUserDao;
-import com.techelevator.model.Post;
-import com.techelevator.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-
-@RestController
-@RequestMapping(path = "/posts")
-=======
 import com.techelevator.dao.JdbcCommentDao;
 import com.techelevator.dao.JdbcImageDao;
 import com.techelevator.dao.JdbcPostDao;
@@ -38,7 +23,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/posts")
 @CrossOrigin
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
 public class PostController {
 
     @Autowired
@@ -47,16 +31,6 @@ public class PostController {
     @Autowired
     private JdbcUserDao jdbcUserDao;
 
-<<<<<<< HEAD
-
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(method = RequestMethod.POST)
-    public Post createPost(@RequestBody Post post, Principal principal){
-        User currentUser = jdbcUserDao.getUserByUsername(principal.getName());
-        post.setPostCreator(currentUser.getUsername());
-
-        return jdbcPostDao.createPost(post,currentUser.getId());
-=======
     @Autowired
     private JdbcImageDao jdbcImageDao;
 
@@ -87,15 +61,27 @@ public class PostController {
         Post postInfo = jdbcPostDao.createPost(post, currentUser.getId());
 
         // 2. Upload the post image.
-        Image image = jdbcImageDao.createImage(file, postInfo.getPost_id(), altDesc);
+        Image image = jdbcImageDao.createImage(file, postInfo.getId(), altDesc);
 
         // Return both post info + image info.
         return new PostWithImage(postInfo, image);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Post> getAllPosts() {
-        return jdbcPostDao.getAllPosts();
+    public List<Post> getAllPosts(Principal principal) {
+        List<Post> posts = jdbcPostDao.getAllPosts();
+
+        if (principal != null) {
+            User currentUser = jdbcUserDao.getUserByUsername(principal.getName());
+
+            for (Post post : posts) {
+                if (null != currentUser) {
+                    post.setLiked(jdbcPostDao.hasUserLikedPostById(post.getId(), currentUser.getUsername()));
+                }
+            }
+        }
+
+        return posts;
     }
 
     @RequestMapping(path = "/{postId}", method = RequestMethod.GET)
@@ -110,7 +96,7 @@ public class PostController {
         }
 
         // 3. Get comments.
-        List<Comment> comments = jdbcCommentDao.getCommentsByPostId(postInfo.getPost_id());
+        List<Comment> comments = jdbcCommentDao.getCommentsByPostId(postInfo.getId());
 
         // Return both post info + image info + comments.
         return new PostWithImage(postInfo, image, comments);
@@ -152,7 +138,6 @@ public class PostController {
         Post postInfo = jdbcPostDao.getPostById(postId);
         User currentUser = jdbcUserDao.getUserByUsername(principal.getName());
         return jdbcCommentDao.createComment(postInfo, currentUser, comment.getText());
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
     }
 
 }

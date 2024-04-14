@@ -16,16 +16,7 @@ public class Image {
         this.imageId = imageId;
         this.imageType = imageType;
         this.postId = postId;
-<<<<<<< HEAD
-    }
-
-    public Image(String imagePath, String imageType,int postId) {
-        this.imagePath = imagePath;
-        this.imageType = imageType;
-        this.postId = postId;
-=======
         this.altDesc = altDesc;
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
     }
 
     public int getImageId() {

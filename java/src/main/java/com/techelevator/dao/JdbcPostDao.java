@@ -7,17 +7,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-<<<<<<< HEAD
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
-
-import java.security.Principal;
-=======
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
 
 @Component
 public class JdbcPostDao implements PostDao {
@@ -31,8 +24,6 @@ public class JdbcPostDao implements PostDao {
 
 
     @Override
-<<<<<<< HEAD
-=======
     public List<Post> getAllPosts() throws DaoException {
         List<Post> posts = new ArrayList<>();
         String sql = "SELECT * FROM posts";
@@ -41,7 +32,9 @@ public class JdbcPostDao implements PostDao {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
 
             while (result.next()) {
-                posts.add(mapRowToPost(result));
+                Post post = mapRowToPost(result);
+                posts.add(post);
+                post.setTotalLikes(countPostLikes(post.getId()));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -51,7 +44,6 @@ public class JdbcPostDao implements PostDao {
     }
 
     @Override
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
     public Post createPost(Post post,int userId) {
 
         Post newPost = null;
@@ -89,14 +81,6 @@ public class JdbcPostDao implements PostDao {
 
         }
 
-<<<<<<< HEAD
-        return post;
-    }
-
-    @Override
-    public void deletePostById(int id) {
-
-=======
         // Compute likes.
         post.setTotalLikes(countPostLikes(id));
         return post;
@@ -151,27 +135,23 @@ public class JdbcPostDao implements PostDao {
         }
 
         return numberOfRows;
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
     }
 
     @Override
     public Post updatePost(Post post) {
-<<<<<<< HEAD
-        return null;
-=======
         Post newPost = null;
 
         String sql = "UPDATE posts SET caption = ? WHERE post_id = ?";
 
         try {
             int numberOfRows = 0;
-            numberOfRows = jdbcTemplate.update(sql, post.getCaption(), post.getPost_id());
+            numberOfRows = jdbcTemplate.update(sql, post.getCaption(), post.getId());
 
             if(numberOfRows == 0){
                 throw new DaoException("No number of rows affected");
             }
             else{
-                newPost = getPostById(post.getPost_id());
+                newPost = getPostById(post.getId());
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -187,7 +167,7 @@ public class JdbcPostDao implements PostDao {
         String sql = "INSERT INTO likes (post_id, author_name) values (?, ?)";
 
         try {
-            int postId = jdbcTemplate.update(sql, post.getPost_id(), author.getUsername());
+            int postId = jdbcTemplate.update(sql, post.getId(), author.getUsername());
             if (0 == postId) {
                 throw new DaoException("No like added");
             }
@@ -204,7 +184,7 @@ public class JdbcPostDao implements PostDao {
         String sql = "DELETE FROM likes WHERE post_id = ? AND author_name = ?";
 
         try {
-            int postId = jdbcTemplate.update(sql, post.getPost_id(), author.getUsername());
+            int postId = jdbcTemplate.update(sql, post.getId(), author.getUsername());
             if (0 == postId) {
                 throw new DaoException("No like removed");
             }
@@ -214,14 +194,14 @@ public class JdbcPostDao implements PostDao {
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
     }
 
 
     public Post mapRowToPost(SqlRowSet result){
         Post post = new Post();
 
-        post.setPost_id(result.getInt("post_id"));
+        post.setId(result.getInt("post_id"));
+        post.setCreatedOn(result.getTimestamp("created_on"));
         post.setCaption(result.getString("caption"));
         post.setPostCreator(result.getString("post_creator"));
 

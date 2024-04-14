@@ -1,15 +1,14 @@
 <template>
-  <!--  v-if="$store.state.isValidated"-->
-
   <div
       class="h-full bg-background px-4 pb-16 md:flex lg:w-80 xl:w-96"
       :class="{'hidden' : show }"
+      v-if="$store.state.isValidated"
   >
     <div class="h-full w-full pb-2 ">
       <Toaster />
       <nav class="flex flex-col w-full h-full md:pt-4 items-center justify-between">
         <div class="flex flex-col items-center gap-2">
-          <a href="/app">
+          <router-link to='/'>
             <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -20,7 +19,7 @@
               </svg>
               Home
             </button>
-          </a>
+          </router-link>
           <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -154,9 +153,10 @@
                   </Button>
                 </a>
 
-                <Button v-on:click="handleSubmit">
+                <Button v-on:click.prevent="handleSubmit">
                   Submit
                 </Button>
+                
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -214,12 +214,14 @@ import {Textarea} from "@/components/ui/textarea";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
-import axios from "axios";
+import postService from '../services/PostService';
+import { RouterLink } from "vue-router";
 import {toast, Toaster} from 'vue-sonner'
 
 
 export default {
   components: {
+    RouterLink,
     Toaster,
     Switch,
     Label,
@@ -248,6 +250,8 @@ export default {
   methods: {
     logout(){
       this.$store.commit("TOGGLE_VALIDATION_STATUS");
+      this.$store.commit("LOGOUT")
+      window.location.reload()
     },
     selectFile(event) {
       const files = event.target.files;
@@ -267,7 +271,7 @@ export default {
         formData.append('caption', this.post.caption);
         formData.append('alt_desc', this.post.altDescription);
 
-        axios.post('/posts', formData).then(response => {
+        postService.post(formData).then(response => {
           if (response.status === 200) {
             toast('Picture uploaded successfully.');
             setTimeout(() => {

@@ -2,11 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Image;
-<<<<<<< HEAD
-import com.techelevator.model.Post;
-=======
 import com.techelevator.util.ImageFileProvider;
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -30,14 +26,7 @@ public class JdbcImageDao implements ImageDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-<<<<<<< HEAD
-
-
-
-    public Image createImage(MultipartFile file, int postId) {
-=======
     public Image createImage(MultipartFile file, int postId, String altDesc) {
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
 
         Image createdImage = null;
 
@@ -45,16 +34,6 @@ public class JdbcImageDao implements ImageDao{
         if (null == contentType)
             throw new IllegalArgumentException("Unsupported content type");
 
-<<<<<<< HEAD
-
-        Image image = new Image(filePath,file.getContentType(),postId);
-
-        String sql = "INSERT INTO images (image_path, image_type, post_id) VALUES (?,?,?) RETURNING image_id;";
-
-        try{
-
-            int imageId = jdbcTemplate.queryForObject(sql, int.class, image.getImagePath(), image.getImageType(), image.getPostId());
-=======
         String imageType = contentType.split("/")[1];
 
         String sql = "INSERT INTO images (image_type, post_id, alt_desc) VALUES (?,?, ?) RETURNING image_id;";
@@ -62,7 +41,6 @@ public class JdbcImageDao implements ImageDao{
         try{
 
             int imageId = jdbcTemplate.queryForObject(sql, int.class, imageType, postId, altDesc);
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
 
             createdImage = getImageById(imageId);
 
@@ -124,17 +102,6 @@ public class JdbcImageDao implements ImageDao{
         return image;
     }
 
-<<<<<<< HEAD
-
-//    public byte[] getImageByUUID(String fileName) throws IOException {
-//        Optional<FileData> fileData = fileDataRepository.findByName(fileName);
-//        String filePath=fileData.get().getFilePath();
-//        byte[] images = Files.readAllBytes(new File(filePath).toPath());
-//        return images;
-//    }
-
-=======
->>>>>>> 10eee9847abd85a99ffab8938981a32e5c4647fd
     public Image mapRowToImage(SqlRowSet result){
         Image image = new Image();
         image.setImageId(result.getInt("image_id"));
