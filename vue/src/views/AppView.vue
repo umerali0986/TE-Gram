@@ -6,7 +6,7 @@
     <div
         class="container grid grid-cols-1 xl:grid-cols-2 w-full h-full gap-10"
     >
-
+   
     <PostCard v-for="post in $store.state.postCollection" :key="post.id" :post="post" />
     </div>
 
