@@ -3,8 +3,8 @@
       class="flex flex-col min-w-[376px] max-w-[576px] w-full mx-auto"
   >
       <div class="max-h-[588px] bg-foreground/20 rounded-md overflow-hidden">
-        <router-link :to="{path:`app/post/${post.id}`, params:{id:post.id}}">
-        <img :src="`http://localhost:9000/posts/${post.id}/image`" alt="Nature Picture" class="h-full w-full aspect-square" />
+        <router-link :to="{path:`app/post/${post.id}`, params:{id:post.id}} " @click="handleImage">
+        <img :src="`http://localhost:9000/posts/${post.id}/image`" alt="Nature Picture" class="h-full w-full aspect-square"   />
         </router-link>
       </div>
      <div class="flex my-4">
@@ -129,6 +129,16 @@ export default defineComponent({
 
       console.log()
 
+    },
+    handleImage(){
+      
+      if (!this.$store.state.isValidated) {
+        console.log('clicked')
+        this.togglePrompt = true;
+        return;
+      }
+
+      console.log()
     },
     handleLike() {
       if (!this.$store.state.isValidated) {

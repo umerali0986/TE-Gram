@@ -37,7 +37,7 @@ public class Post {
     }
 
     public Post(int post_id, String caption, String postCreator, int totalLikes, boolean isLiked, Date createdOn) {
-        this.id = post_id;
+        this.post_id = post_id;
         this.caption = caption;
         this.postCreator = postCreator;
         this. totalLikes = totalLikes;
