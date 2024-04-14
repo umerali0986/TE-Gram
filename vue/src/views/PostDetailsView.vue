@@ -25,7 +25,6 @@
             </div>
 
           <div class="flex-1 w-full h-[35rem]  py-4 px-4 overflow-y-scroll gap-4 flex flex-col">
-
             <CommentCard v-for="(commentInfo, index) in post.comments" :key="index" :commentInfo="commentInfo"/>
             <!-- <div class="w-full">
               <div class="flex gap-2">
