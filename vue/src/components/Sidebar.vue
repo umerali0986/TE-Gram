@@ -153,7 +153,7 @@
                   </Button>
                 </a>
 
-                <Button v-on:click.prevent="handleSubmit">
+                <Button v-on:click="handleSubmit">
                   Submit
                 </Button>
                 
@@ -249,9 +249,10 @@ export default {
   props: ['show'],
   methods: {
     logout(){
+      this.$router.push('/');
       this.$store.commit("TOGGLE_VALIDATION_STATUS");
       this.$store.commit("LOGOUT")
-      window.location.reload()
+      // window.location.reload()
     },
     selectFile(event) {
       const files = event.target.files;
@@ -274,12 +275,20 @@ export default {
         postService.post(formData).then(response => {
           if (response.status === 200) {
             toast('Picture uploaded successfully.');
-            setTimeout(() => {
-              window.location.reload();
-            }, 100)
+            //after image upload the page gets reload which cause a user to log out automatically, that's why I commented out
+           
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 100)
+
+            // displaying the latest post to on the webpage, without leaving the webpage
+            this.$store.commit('ADD_CREATED_POST_TO_POSTCOLLECTIONS',response.data);
+          
+            
             // Optionally emit an event or handle response
             console.log('Post created successfully!');
           } else {
+            toast('Failed image upload.');
             console.error('Failed to create post.');
           }
         }).catch(error => {
