@@ -4,7 +4,7 @@
       :class="{'container px-0 bg-transparent' : $route.path === '/', ' bg-background' : $route.path === '/app'}"
 
   >
-    <div v-if="$route.path === '/app' && $store.state.isValidated" class="flex mr-3 md:hidden items-center justify-end">
+    <div v-if="$route.path.includes('/app') && $store.state.token" class="flex mr-3 md:hidden items-center justify-end">
       <Sheet>
         <SheetTrigger>
           <HamburgerMenuIcon class="h-5 w-5"/>
@@ -27,35 +27,35 @@
         class="md:flex hidden gap-2 items-center"
         :class="{'flex-1 justify-end' : $route.path === '/app'}"
     >
-<!--      <DropdownMenu>-->
-<!--        <DropdownMenuTrigger as-child>-->
-<!--          <Button variant="outline">-->
-<!--            <MoonIcon class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />-->
-<!--            <SunIcon class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />-->
-<!--            <span class="sr-only">Toggle theme</span>-->
-<!--          </Button>-->
-<!--        </DropdownMenuTrigger>-->
-<!--        <DropdownMenuContent align="end">-->
-<!--          <DropdownMenuItem @click="mode = 'light'">-->
-<!--            Light-->
-<!--          </DropdownMenuItem>-->
-<!--          <DropdownMenuItem @click="mode = 'dark'">-->
-<!--            Dark-->
-<!--          </DropdownMenuItem>-->
-<!--          <DropdownMenuItem @click="mode = 'auto'">-->
-<!--            System-->
-<!--          </DropdownMenuItem>-->
-<!--        </DropdownMenuContent>-->
-<!--      </DropdownMenu>-->
+      <DropdownMenu>
+        <DropdownMenuTrigger as-child>
+          <Button variant="outline">
+            <MoonIcon class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <SunIcon class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span class="sr-only">Toggle theme</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem @click="mode = 'light'">
+            Light
+          </DropdownMenuItem>
+          <DropdownMenuItem @click="mode = 'dark'">
+            Dark
+          </DropdownMenuItem>
+          <DropdownMenuItem @click="mode = 'auto'">
+            System
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
-      <router-link :to="{name: 'register'}" v-if="$route.path === '/app' && !$store.state.isValidated" >
+      <router-link :to="{name: 'register'}" v-if="$route.path === '/app' && !$store.state.token" >
         <Button  variant="outline" >
           Register
         </Button>
       </router-link>
 
       <router-link :to="{name: 'login'}" >
-        <Button v-if="!$store.state.isValidated" :variant="$route.path === '/' ? 'ghost' : ''">
+        <Button v-if="!$store.state.token" :variant="$route.path === '/' ? 'ghost' : ''">
           Login
         </Button>
       </router-link>
@@ -87,7 +87,7 @@
             Team
           </Button>
 
-          <a v-if="!$store.state.isValidated" href="/login">
+          <a v-if="!$store.state.token" href="/login">
             <Button variant="link" class="text-3xl">
               Login
             </Button>

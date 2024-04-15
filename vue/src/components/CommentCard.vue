@@ -1,11 +1,13 @@
 <template>
     <div class="w-full">
         <div class="flex gap-2">
+          <router-link :to="`/app/profile/${commentInfo.author.username}`">
             <Avatar>
                 <AvatarImage src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
                     alt="@radix-vue" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>{{commentInfo.author.username.charAt(0).toUpperCase()}}</AvatarFallback>
             </Avatar>
+          </router-link>
 
             <div class="flex flex-col gap-0 justify-center">
                 <div class="flex-">
@@ -20,7 +22,9 @@
 
 <script>
 import moment from "moment";
+import {Avatar} from "@/components/ui/avatar";
 export default {
+  components: {Avatar},
 
     props: ['commentInfo'],
 

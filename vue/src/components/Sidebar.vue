@@ -1,14 +1,14 @@
 <template>
   <div
-      class="h-full bg-background px-4 pb-16 md:flex lg:w-80 xl:w-96"
+      class="h-full bg-background px-4 pb-2 md:flex lg:w-80 xl:w-96"
       :class="{'hidden' : show }"
-      v-if="$store.state.isValidated"
+      v-if="$store.state.token"
   >
     <div class="h-full w-full pb-2 ">
       <Toaster />
       <nav class="flex flex-col w-full h-full md:pt-4 items-center justify-between">
         <div class="flex flex-col items-center gap-2">
-          <router-link to='/'>
+          <router-link to='/app'>
             <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -20,6 +20,18 @@
               Home
             </button>
           </router-link>
+          <router-link :to="`/app/profile/${$store.state.user.username}`">
+            <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 21V19C19 17.9391 18.5786 16.9217 17.8284 16.1716C17.0783 15.4214 16.0609 15 15 15H9C7.93913 15 6.92172 15.4214 6.17157 16.1716C5.42143 16.9217 5 17.9391 5 19V21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
+              Profile
+            </button>
+          </router-link>
+
+          <router-link to="/app/favorites">
           <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -29,6 +41,9 @@
 
             Saved
           </button>
+          </router-link>
+
+          <router-link to="/app/likes">
           <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -38,6 +53,7 @@
 
             Likes
           </button>
+          </router-link>
 
           <Dialog>
             <DialogTrigger>
@@ -172,8 +188,6 @@
                   d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
                   stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-
-
             Settings
           </button>
 
@@ -186,8 +200,6 @@
                     stroke-linejoin="round"/>
               <path d="M21 12H9" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-
-
             Logout
           </button>
         </div>

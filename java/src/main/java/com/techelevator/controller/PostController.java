@@ -77,6 +77,7 @@ public class PostController {
             for (Post post : posts) {
                 if (null != currentUser) {
                     post.setLiked(jdbcPostDao.hasUserLikedPostById(post.getId(), currentUser.getUsername()));
+                    post.setFavorite(jdbcFavoriteDao.hasUserFavoritePostById(post.getId(), currentUser.getId()));
                 }
             }
         }
@@ -96,10 +97,6 @@ public class PostController {
             postInfo.setFavorite(jdbcFavoriteDao.hasUserFavoritePostById(postId, currentUser.getId()));
             postInfo.setLiked(jdbcPostDao.hasUserLikedPostById(postId, currentUser.getUsername()));
         }
-
-
-
-
 
         // 3. Get comments.
         List<Comment> comments = jdbcCommentDao.getCommentsByPostId(postInfo.getId());
