@@ -8,6 +8,8 @@ public interface FavoriteDao {
 
     List<Favorite> getFavoritesByUserId(int userId);
 
+    boolean hasUserFavoritePostById(int postId, int userId);
+
     void createFavoriteByUserIdAndPostId(int userId, int postId);
 
     void deleteFavoriteByUserIdAndPostId(int userId, int postId);
