@@ -1,5 +1,5 @@
 <template>
-    <div class="flex py-40 lg:py-60 mt-4 relative items-center justify-center overflow-hidden">
+    <div class="flex py-40 lg:py-56 mt-4 relative items-center justify-center overflow-hidden">
       <div class="flex flex-col text-center justify-between items-center px-10 lg:px-80 gap-6 z-20">
         <h1 class="text-5xl font-bold">
           Elevate your Tech Elevator experience with Chat-TE. 

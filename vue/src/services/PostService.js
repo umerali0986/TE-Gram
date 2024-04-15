@@ -24,5 +24,13 @@ export default {
 
     unlikePostById(id){
         return axios.post(`posts/${id}/unlike`);
+    },
+
+    bookmarkPostById(id){
+        return axios.post(`favorites/${id}/favorite`);
+    },
+
+    removeBookmarkPostById(id){
+        return axios.delete(`favorites/${id}/unfavorite`);
     }
 }

@@ -1,21 +1,23 @@
 <template>
-    <div class="flex w-full container px-4 pt-5 flex-wrap md:flex-nowrap">
+    <div class="flex w-full container px-4 pt-5 flex-wrap lg:flex-nowrap overflow-y-scroll">
       <Toaster />
-        <div class="flex-[2] aspect-square min-w-[28rem] max-w-[48.5rem]">
-            <img class="w-full aspect-square rounded-lg" :alt="post.image.altDesc" :src="`http://localhost:9000/posts/${post.id}/image`">
+        <div class="flex-[2] aspect-square min-w-[28rem] lg:max-w-[20rem] xl:max-w-[48.5rem]">
+            <img class="w-full aspect-square rounded-lg" :alt="post.image.altDesc || ''" :src="`http://localhost:9000/posts/${post.id}/image`">
         </div>
 
-        <div class="flex-[1] xl:px-8 pt-8 md:pt-0">
+        <div class="flex-[1] min-w-[20rem] lg:min-w-fit lg:px-8 pt-8">
             <div class="flex flex-col">
               <div class="flex w-full pb-4">
                 <div class="flex gap-2">
-                  <Avatar @click="loger" class="h-14 w-14">
-                    <AvatarImage src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" alt="@radix-vue" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+                  <router-link :to="`/app/profile/${$store.state.user.username}`">
+                    <Avatar class="h-14 w-14">
+                      <AvatarImage src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" alt="@radix-vue" />
+                      <AvatarFallback>{{post.postCreator.charAt(0).toUpperCase()}}</AvatarFallback>
+                    </Avatar>
+                  </router-link>
 
                   <div class="flex flex-col gap-0 justify-center">
-                    <h5 class="font-semibold text-lg leading-[1rem]">shadcn</h5>
+                    <h5 class="font-semibold text-lg leading-[1rem]">{{ post.postCreator }}</h5>
                     <p class="">{{ moment(post.createdOn).utc().local().fromNow()  }}</p>
                   </div>
                 </div>
@@ -24,7 +26,7 @@
               <Separator class="bg-foreground/20"/>
             </div>
 
-          <div class="flex-1 w-full h-[35rem]  py-4 px-4 overflow-y-scroll gap-4 flex flex-col">
+          <div class="flex-1 w-full h-[33.5rem]  py-4 px-4 overflow-y-scroll gap-4 flex flex-col">
             <CommentCard v-for="(commentInfo, index) in post.comments" :key="index" :commentInfo="commentInfo"/>
             <!-- <div class="w-full">
               <div class="flex gap-2">
@@ -163,17 +165,19 @@
                 </div>
 
                 <div class="flex gap-2 items-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 21L12 17L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <button @click="handleBookmark">
+                    <svg width="16" height="20" viewBox="0 0 16 20" :fill="post.favorite ? 'currentColor' : 'none'"xmlns="http://www.w3.org/2000/svg">
+                      <path d="M15 19L8 15L1 19V3C1 2.46957 1.21071 1.96086 1.58579 1.58579C1.96086 1.21071 2.46957 1 3 1H13C13.5304 1 14.0391 1.21071 14.4142 1.58579C14.7893 1.96086 15 2.46957 15 3V19Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
 
 
-                  <span class="text-black text-sm font-normal leading-tight">83</span>
+                  <span class="text-black text-sm font-normal leading-tight">{{ post.totalFavorites }}</span>
                 </div>
               </div>
 
             <Textarea class="h-24 resize-none" placeholder="Type your comment here..." v-model="comment.text"/>
-            <Button class="mx-40"  v-on:click="onSaveComment">Post</Button>
+            <Button class="mx-auto"  v-on:click="onSaveComment">Post</Button>
           </div>
         </div>
         
@@ -204,7 +208,6 @@ export default {
     moment() {
       return moment
     },
-  
   },
    methods: {
      getPost() {
@@ -233,9 +236,31 @@ export default {
       }).catch(error => {
         console.error('Error: ', error);
       })
-      
      },
+     handleBookmark() {
+       if (!this.$store.state.token) {
+         this.togglePrompt = true;
+         return;
+       }
 
+       if (!this.post.favorite) {
+         postService.bookmarkPostById(this.post.id).then(response => {
+           if (response.status === 204) {
+             this.$store.commit("SET_FAVORITE", this.post.id);
+             this.post.favorite = true;
+             this.post.totalFavorites += 1;
+           }
+         })
+       } else {
+         postService.removeBookmarkPostById(this.post.id).then(response => {
+           if (response.status === 204) {
+             this.$store.commit("SET_FAVORITE", this.post.id);
+             this.post.favorite = false;
+             this.post.totalFavorites -= 1;
+           }
+         })
+       }
+     },
      handleLike(){
      
       if (this.post.liked) {
@@ -269,6 +294,7 @@ export default {
     },
     created() {
       this.getPost()
+      console.log(this.post)
     },
 }
 </script>

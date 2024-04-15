@@ -8,7 +8,7 @@
       <div class="w-full h-full flex flex-col items-center justify-center gap-5 px-20 md:px-40 lg:px-20 2xl:px-56">
         <div class="flex flex-col items-center gap-2">
           <h2 class="text-5xl font-extrabold leading-[48px]">Sign In</h2>
-          <p class="w-[450px] text-center text-slate-900 text-xl font-normal leading-relaxed">Enter your info below to sign into your account.</p>
+          <p class="w-[450px] text-center text-primary text-xl font-normal leading-relaxed">Enter your info below to sign into your account.</p>
         </div>
 
         <form class="flex flex-col w-[450px] justify-start" @submit.prevent="login">

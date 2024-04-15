@@ -41,7 +41,7 @@ export default defineComponent({
   },
   created() {
     this.getPosts()
-    console.log(this.$store.state.postCollection);
+    console.log(this.$store.state.postCollection)
   },
 })
 </script>
