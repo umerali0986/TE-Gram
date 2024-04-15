@@ -111,7 +111,19 @@ public class PostController {
 
     @RequestMapping(path="/{username}/posts", method=RequestMethod.GET)
     public List<Post> getPostsByUsername(@PathVariable String username){
-        return jdbcPostDao.getPostsByCreator(username);
+        List<Post> posts = jdbcPostDao.getPostsByCreator(username);
+
+        User currentUser = jdbcUserDao.getUserByUsername(username);
+
+        if (currentUser != null) {
+
+            for (Post post : posts) {
+                    post.setLiked(jdbcPostDao.hasUserLikedPostById(post.getId(), currentUser.getUsername()));
+                    post.setFavorite(jdbcFavoriteDao.hasUserFavoritePostById(post.getId(), currentUser.getId()));
+            }
+        }
+
+        return posts;
     }
 
     @RequestMapping(path = "/{postId}/image", method = RequestMethod.GET)
