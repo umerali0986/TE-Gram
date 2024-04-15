@@ -12,7 +12,7 @@
       </div>
      <div class="flex my-4">
        <div class="flex gap-2">
-        <router-link :to="`/app/profile/${$store.state.user.username}`">
+        <router-link :to="`/app/profile/${post.postCreator}`">
           <Avatar>
             <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
             <AvatarFallback>CN</AvatarFallback>
