@@ -97,7 +97,6 @@ export default {
   },
   methods: {
     register() {
-      this.$store.commit("SET_LOADING", true);
       if (this.user.username === ''){
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter username.';
@@ -118,6 +117,7 @@ export default {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
       } else {
+        this.$store.commit("SET_LOADING", true);
         authService
           .register(this.user)
           .then((response) => {
