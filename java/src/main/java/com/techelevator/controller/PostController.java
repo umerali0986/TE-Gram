@@ -109,17 +109,20 @@ public class PostController {
         return new PostWithImage(postInfo, image, comments);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(path="/{username}/posts", method=RequestMethod.GET)
-    public List<Post> getPostsByUsername(@PathVariable String username){
+    public List<Post> getPostsByUsername(@PathVariable String username, Principal principal){
         List<Post> posts = jdbcPostDao.getPostsByCreator(username);
 
-        User currentUser = jdbcUserDao.getUserByUsername(username);
+        User currentUser = jdbcUserDao.getUserByUsername(principal.getName());
 
         if (currentUser != null) {
 
             for (Post post : posts) {
                     post.setLiked(jdbcPostDao.hasUserLikedPostById(post.getId(), currentUser.getUsername()));
                     post.setFavorite(jdbcFavoriteDao.hasUserFavoritePostById(post.getId(), currentUser.getId()));
+                    post.setTotalLikes(jdbcPostDao.countPostLikes(post.getId()));
+                    post.setTotalFavorites(jdbcPostDao.countPostFavorites(post.getId()));
             }
         }
 
