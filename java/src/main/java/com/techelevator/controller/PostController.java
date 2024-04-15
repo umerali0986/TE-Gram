@@ -98,6 +98,10 @@ public class PostController {
             postInfo.setLiked(jdbcPostDao.hasUserLikedPostById(postId, currentUser.getUsername()));
         }
 
+
+
+
+
         // 3. Get comments.
         List<Comment> comments = jdbcCommentDao.getCommentsByPostId(postInfo.getId());
 
