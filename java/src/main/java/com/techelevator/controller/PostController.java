@@ -1,9 +1,6 @@
 package com.techelevator.controller;
 
-import com.techelevator.dao.JdbcCommentDao;
-import com.techelevator.dao.JdbcImageDao;
-import com.techelevator.dao.JdbcPostDao;
-import com.techelevator.dao.JdbcUserDao;
+import com.techelevator.dao.*;
 import com.techelevator.model.*;
 import com.techelevator.util.ImageFileProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,9 @@ public class PostController {
 
     @Autowired
     private JdbcImageDao jdbcImageDao;
+
+    @Autowired
+    private JdbcFavoriteDao jdbcFavoriteDao;
 
     @Autowired
     private JdbcCommentDao jdbcCommentDao;
@@ -84,6 +84,7 @@ public class PostController {
         return posts;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(path = "/{postId}", method = RequestMethod.GET)
     public PostWithImage getPostById(@PathVariable int postId, Principal principal) {
         Post postInfo = jdbcPostDao.getPostById(postId);
@@ -91,9 +92,14 @@ public class PostController {
 
         // Check if the current user has liked the post.
         User currentUser = jdbcUserDao.getUserByUsername(principal.getName());
-        if (null != currentUser) {
+        if ( currentUser != null) {
+            postInfo.setFavorite(jdbcFavoriteDao.hasUserFavoritePostById(postId, currentUser.getId()));
             postInfo.setLiked(jdbcPostDao.hasUserLikedPostById(postId, currentUser.getUsername()));
         }
+
+
+
+
 
         // 3. Get comments.
         List<Comment> comments = jdbcCommentDao.getCommentsByPostId(postInfo.getId());
