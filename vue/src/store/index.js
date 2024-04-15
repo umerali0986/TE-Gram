@@ -54,6 +54,9 @@ export function createStore(currentToken, currentUser) {
       },
       TOGGLE_VALIDATION_STATUS(state){
         state.isValidated = !state.isValidated; 
+      },
+      ADD_CREATED_POST_TO_POSTCOLLECTIONS(state, newPost){
+        state.postCollection.push(newPost);
       }
     },
   });

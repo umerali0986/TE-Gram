@@ -3,9 +3,12 @@
       class="flex flex-col min-w-[376px] max-w-[576px] w-full mx-auto"
   >
       <div class="max-h-[588px] bg-foreground/20 rounded-md overflow-hidden">
-        <router-link :to="{path:`app/post/${post.id}`, params:{id:post.id}}">
-        <img :src="`http://localhost:9000/posts/${post.id}/image`" alt="Nature Picture" class="h-full w-full aspect-square" />
-        </router-link>
+        <!-- <router-link :to="{path:`app/post/${post.id}`, params:{id:post.id}} " @click="handleImage">
+        <img :src="`http://localhost:9000/posts/${post.id}/image`" alt="Nature Picture" class="h-full w-full aspect-square"   />
+        </router-link> -->
+        
+        <img  @click="handleImage" :src="`http://localhost:9000/posts/${post.id}/image`" alt="Nature Picture" class="h-full w-full aspect-square cursor-pointer"   />
+      
       </div>
      <div class="flex my-4">
        <div class="flex gap-2">
@@ -33,9 +36,9 @@
          <AlertDialog default-open v-if="togglePrompt">
            <AlertDialogContent>
              <AlertDialogHeader>
-               <AlertDialogTitle>You need to have an account</AlertDialogTitle>
+               <AlertDialogTitle>Log in required</AlertDialogTitle>
                <AlertDialogDescription>
-                 You need to have an account before liking a post. Please proceed to create an account or log in before continuing.
+                 You need to log in before continuing. Please proceed to log in  or create an account if you do not have an account.
                </AlertDialogDescription>
              </AlertDialogHeader>
              <AlertDialogFooter>
@@ -118,6 +121,8 @@ export default defineComponent({
         this.togglePrompt = true;
         return;
       }
+     
+      this.$router.push(`/app/post/${this.post.id}`)
 
       console.log()
     },
@@ -129,6 +134,17 @@ export default defineComponent({
 
       console.log()
 
+    },
+    handleImage(){
+      
+      if (!this.$store.state.isValidated) {
+        this.togglePrompt = true;
+        return;
+      }
+
+      this.$router.push(`/app/post/${this.post.id}`);
+
+      console.log()
     },
     handleLike() {
       if (!this.$store.state.isValidated) {
