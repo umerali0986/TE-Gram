@@ -9,6 +9,7 @@ public class Post {
     private String postCreator;
 
     private int totalLikes;
+    private int totalFavorites;
     /** True if the current user has liked the post. */
     private boolean liked;
 
@@ -33,14 +34,15 @@ public class Post {
         this.postCreator = postCreator;
     }
 
-    public Post(int post_id, String caption, String postCreator, int totalLikes) {
+    public Post(int post_id, String caption, String postCreator, int totalLikes, int totalFavorites, Date createdOn) {
         this.post_id = post_id;
         this.caption = caption;
         this.postCreator = postCreator;
         this. totalLikes = totalLikes;
+        this.totalFavorites = totalFavorites;
     }
 
-    public Post(int post_id, String caption, String postCreator, int totalLikes, boolean isLiked, Date createdOn, boolean favorite) {
+    public Post(int post_id, String caption, String postCreator, int totalLikes, boolean isLiked, Date createdOn, boolean favorite, int totalFavorites) {
         this.post_id = post_id;
         this.caption = caption;
         this.postCreator = postCreator;
@@ -48,6 +50,7 @@ public class Post {
         this.liked = isLiked;
         this.createdOn = createdOn;
         this.favorite = favorite;
+        this.totalFavorites = totalFavorites;
     }
 
     public Date getCreatedOn() {
@@ -91,6 +94,10 @@ public class Post {
     public void setTotalLikes(int totalLikes) {
         this.totalLikes = totalLikes;
     }
+
+    public int getTotalFavorites() { return totalFavorites; }
+
+    public void setTotalFavorites(int totalFavorites) { this.totalFavorites = totalFavorites; }
 
     public boolean isLiked() {
         return liked;

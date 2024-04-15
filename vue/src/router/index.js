@@ -9,6 +9,8 @@ import RegisterView from '../views/RegisterView.vue';
 import AppView from '../views/AppView.vue';
 import PostDetailsView from '../views/PostDetailsView.vue';
 import UserProfileView from '../views/UserProfileView.vue'
+import LikedPostsView from "@/views/LikedPostsView.vue";
+import FavoritedPostsView from "@/views/FavoritedPostsView.vue";
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -52,9 +54,28 @@ const routes = [
     ],
   },
   {
-    path: '/profile/:username',
+    path: '/app/likes',
+    name: 'likedPosts',
+    component: () => import('@/layouts/AppLayout.vue'),
+    children: [
+      { path: '', name: 'likedPosts', component: LikedPostsView }
+    ],
+  },
+  {
+    path: '/app/favorites',
+    name: 'favoritedPosts',
+    component: () => import('@/layouts/AppLayout.vue'),
+    children: [
+      { path: '', name: 'favoritesPosts', component: FavoritedPostsView }
+    ],
+  },
+  {
+    path: '/app/profile/:username',
     name: 'userProfile',
-    component: UserProfileView
+    component: () => import('@/layouts/AppLayout.vue'),
+    children: [
+      { path: '', name: 'userProfileView', component: UserProfileView }
+    ],
   },
   {
     path: "/logout",

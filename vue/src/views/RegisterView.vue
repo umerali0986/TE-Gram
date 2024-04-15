@@ -2,6 +2,8 @@
 <!-- eslint-disable no-undef -->
 <template>
   <div class="w-full min-h-screen flex items-center justify-center p-3 gap-3">
+
+<!--    TODO: Add Error Message -->
     <div class="self-stretch w-full lg:w-1/2 flex flex-col">
       <a href="/">
         <h1 class="pr-4 font-bold text-2xl mx-2">LOGO</h1>
@@ -119,7 +121,7 @@ export default {
         authService
           .register(this.user)
           .then((response) => {
-            if (response.status == 201) {
+            if (response.status === 201) {
               this.$store.commit("TOGGLE_VALIDATION_STATUS");
               this.$store.commit("SET_LOADING", false);
               this.$router.push({

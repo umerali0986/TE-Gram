@@ -13,7 +13,7 @@ public class PostWithImage extends Post {
     }
 
     public PostWithImage(Post post, Image image, List<Comment> comments) {
-        super(post.getId(), post.getCaption(), post.getPostCreator(), post.getTotalLikes(), post.isLiked(), post.getCreatedOn(), post.isFavorite());
+        super(post.getId(), post.getCaption(), post.getPostCreator(), post.getTotalLikes(), post.isLiked(), post.getCreatedOn(), post.isFavorite(), post.getTotalFavorites());
         this.image = image;
         this.comments = comments;
     }

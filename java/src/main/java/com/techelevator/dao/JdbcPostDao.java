@@ -37,6 +37,7 @@ public class JdbcPostDao implements PostDao {
                 Post post = mapRowToPost(result);
                 posts.add(post);
                 post.setTotalLikes(countPostLikes(post.getId()));
+                post.setTotalFavorites(countPostFavorites(post.getId()));
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -85,6 +86,7 @@ public class JdbcPostDao implements PostDao {
 
         // Compute likes.
         post.setTotalLikes(countPostLikes(id));
+        post.setTotalFavorites(countPostFavorites(id));
         return post;
     }
 
@@ -112,6 +114,24 @@ public class JdbcPostDao implements PostDao {
 
             if (result.next()) {
                 return result.getInt("likes");
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+
+        }
+
+        return 0;
+    }
+
+    private int countPostFavorites(int postId) {
+        String sql = "SELECT COUNT(*) AS favorrites FROM favorites WHERE post_id = ?;";
+
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, postId);
+
+            if (result.next()) {
+                return result.getInt("favorrites");
             }
 
         } catch (CannotGetJdbcConnectionException e) {
