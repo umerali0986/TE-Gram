@@ -106,7 +106,7 @@ public class JdbcPostDao implements PostDao {
         return creatorPosts;
     }
 
-    private int countPostLikes(int postId) {
+    public int countPostLikes(int postId) {
         String sql = "SELECT COUNT(*) AS likes FROM likes WHERE post_id = ?;";
 
         try {
@@ -124,7 +124,7 @@ public class JdbcPostDao implements PostDao {
         return 0;
     }
 
-    private int countPostFavorites(int postId) {
+    public int countPostFavorites(int postId) {
         String sql = "SELECT COUNT(*) AS favorrites FROM favorites WHERE post_id = ?;";
 
         try {

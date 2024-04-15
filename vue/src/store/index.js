@@ -42,7 +42,7 @@ export function createStore(currentToken, currentUser) {
         const image = state.postCollection.find(post => post.id === id);
         if (image) {
           image.favorite = !image.favorite;
-          if (image.liked) {
+          if (image.favorite) {
             image.totalFavorites += 1;
           } else {
             image.totalFavorites -= 1;
