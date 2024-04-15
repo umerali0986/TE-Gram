@@ -102,6 +102,7 @@
                 </svg>
 
                 <Input
+                    
                     ref="uploadInput"
                     id="picture"
                     type="file"
