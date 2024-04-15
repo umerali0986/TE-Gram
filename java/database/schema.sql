@@ -1,5 +1,5 @@
 BEGIN TRANSACTION;
-DROP TABLE IF EXISTS users, images, posts, comments, likes CASCADE;
+DROP TABLE IF EXISTS users, images, posts, comments, likes, favorites CASCADE;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -49,12 +49,21 @@ CREATE TABLE likes(
 	CONSTRAINT PK_likes PRIMARY KEY (post_id, author_name)
 );
 
+CREATE TABLE favorites(
+	post_id int NOT NULL,
+	user_id int NOT NULL,
+	CONSTRAINT PK_favorites PRIMARY KEY(post_id, user_id),
+	CONSTRAINT FK_favorites_posts FOREIGN KEY(post_id) REFERENCES posts(post_id),
+	CONSTRAINT FK_favorites_users FOREIGN KEY(user_id) REFERENCES users(user_id)
+);
+
 INSERT INTO users (username, password_hash, email, avatar, name, role) VALUES ('billy', '1234billy1', 'billy@email.com', '', '', 'USER');
 INSERT INTO users (username, password_hash, email, avatar, name, role) VALUES ('ben', '1234billy1', 'ben@email.com', '', '', 'USER');
 INSERT INTO posts (caption, post_creator) VALUES ('this is post 1', 'billy');
 INSERT INTO likes (post_id, author_name) VALUES (1, 'ben');
 INSERT INTO comments (post_id, author_name, text) VALUES (1, 'ben', 'This is fabulous!!');
 INSERT INTO images (image_type, post_id) VALUES ('jpeg', 1);
+INSERT INTO favorites(post_id, user_id) VALUES (1, 1);
 
 COMMIT TRANSACTION;
 --ROLLBACK;
