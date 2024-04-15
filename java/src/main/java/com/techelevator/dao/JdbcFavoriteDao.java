@@ -75,6 +75,25 @@ public class JdbcFavoriteDao implements FavoriteDao {
         }
     }
 
+    @Override
+    public boolean hasUserFavoritePostById(int postId, int userId) {
+        String sql = "SELECT COUNT(*) AS favorite FROM favorites WHERE post_id = ? AND user_id = ?;";
+
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, postId, userId);
+            if (result.next()) {
+                return result.getInt("favorite") > 0;
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+
+        }
+
+        return false;
+    }
+
+
     public Favorite mapRowToFavorite(SqlRowSet rowSet){
         Favorite favorite = new Favorite();
         favorite.setPostId(rowSet.getInt("post_id"));
