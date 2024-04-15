@@ -6,7 +6,7 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {},
-      postCollection: [],
+      postCollection: null,
       loading: false,
       isValidated: false,
       imageCollections : [
@@ -35,6 +35,17 @@ export function createStore(currentToken, currentUser) {
             image.totalLikes += 1;
           } else {
             image.totalLikes -= 1;
+          }
+        }
+      },
+      SET_FAVORITE(state, id) {
+        const image = state.postCollection.find(post => post.id === id);
+        if (image) {
+          image.favorite = !image.favorite;
+          if (image.liked) {
+            image.totalFavorites += 1;
+          } else {
+            image.totalFavorites -= 1;
           }
         }
       },

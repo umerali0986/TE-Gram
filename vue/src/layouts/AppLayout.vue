@@ -1,9 +1,9 @@
 <template>
   <div class="h-screen flex flex-col overflow-hidden">
     <div class="h-14"><SiteHeader/></div>
-    <div class="flex bg-foreground/5 h-full">
+    <div class="flex bg-foreground/5 h-full overflow-y-scroll">
       <Sidebar :show="true"/>
-      <div class="h-full overflow-y-scroll flex w-full justify-center">
+      <div class="h-full  flex w-full justify-center">
         <router-view/>
       </div>
     </div>
