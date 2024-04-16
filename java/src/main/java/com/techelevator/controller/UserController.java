@@ -27,6 +27,7 @@ public class UserController {
     @Autowired
     private JdbcImageDao jdbcImageDao;
 
+
     @RequestMapping(path = "/all",method = RequestMethod.GET)
     public List<User> getUsers(){
         return userDao.getUsers();
