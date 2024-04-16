@@ -111,19 +111,8 @@
                     stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
 
-<<<<<<< HEAD
                 <Input ref="uploadInput" id="picture" type="file" accept="image/jpg, image/jpeg, image/png, image/gif"
                   @change="selectFile" />
-=======
-                <Input
-                    
-                    ref="uploadInput"
-                    id="picture"
-                    type="file"
-                    accept="image/jpg, image/jpeg, image/png, image/gif"
-                    @change="selectFile"
-                />
->>>>>>> 03c421764e0f9cf48d13f602e468baba7cdd70f3
               </div>
 
               <div v-if="isShowModal" class="flex w-fit gap-10">
@@ -393,7 +382,7 @@ export default {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
       } else {
-
+          
   
         // authService
         //   .register(this.user)
