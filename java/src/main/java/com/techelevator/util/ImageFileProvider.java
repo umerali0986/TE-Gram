@@ -8,12 +8,11 @@ public class ImageFileProvider {
 
     private static final String DEFAULT_ABSOLUTE_PATH = "C:/Users/Student/workspace/java-gray-finalcapstone-team2/java/src/ImageFiles/";
 
-    public File createImageFile(Image image) {
+    public File createImageFile(Image image, boolean isImage) {
         File imageUploadsDir = createImageUploadsDir();
-        String imageFileName = String.format("image-%d.%s", image.getImageId(), image.getImageType());
+        String imageFileName = isImage ? String.format("image-%d.%s", image.getImageId(), image.getImageType()) : String.format("avatar-%s.%s", image.getAvatarId(), image.getImageType());
         return new File(imageUploadsDir, imageFileName);
     }
-
 
 
     private File createImageUploadsDir() {
