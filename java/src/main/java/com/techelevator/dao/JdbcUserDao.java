@@ -109,16 +109,19 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(User user, int currentUserId) {
+        if(user.getId() != currentUserId){
+            throw new DaoException("Not valid user");
+        }
         User updatedUser = null;
 
-        String sql = "UPDATE users SET username = ?, email = ?, avatar = ?, name = ? " +
+        String sql = "UPDATE users SET email = ?, name = ? " +
                 "WHERE user_id = ?";
 
         try{
             int numberOfRows = 0;
-            numberOfRows = jdbcTemplate.update(sql, user.getUsername(), user.getEmail()
-                    , user.getAvatar(), user.getName(), user.getId());
+            numberOfRows = jdbcTemplate.update(sql, user.getEmail()
+                    , user.getName(), user.getId());
 
             if(numberOfRows == 0){
                 throw new DaoException("No number of rows affected");
