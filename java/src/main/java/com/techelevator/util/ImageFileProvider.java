@@ -14,6 +14,8 @@ public class ImageFileProvider {
         return new File(imageUploadsDir, imageFileName);
     }
 
+
+
     private File createImageUploadsDir() {
         String absolutePath = System.getenv("UPLOADS_DIR");
         if (null == absolutePath || absolutePath.isBlank())

@@ -5,6 +5,7 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class UserController {
     public UserController(UserDao userDao){
         this.userDao = userDao;
     }
+
 
 
     @RequestMapping(path = "/all",method = RequestMethod.GET)
@@ -40,9 +42,16 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.PUT)
     public User updateUser(@RequestBody User updatedUser){
+
         System.out.println("User's password: " + updatedUser.getPassword());
         return  userDao.updateUser(updatedUser);
     }
+
+//    @RequestMapping(method = RequestMethod.PUT)
+//    public User updateUserAvatar(@RequestParam("image") MultipartFile file){
+//
+//        return  userDao.updateUser(updatedUser);
+//    }
 
     @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
     public void deleteUserById(@PathVariable int id){
