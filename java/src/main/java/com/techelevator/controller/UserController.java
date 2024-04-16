@@ -69,21 +69,31 @@ public class UserController {
                 String path = String.format("avatar-%s.%s", avatarId, imageType);
                 currentUser.setAvatar(path);
 
-                userDao.updateUser(currentUser);
+                userDao.updateUser(currentUser, currentUser.getId());
             }
         }
 
         return userDao.getUserByUsername(principal.getName());
 }
 
+<<<<<<< HEAD
 //    @RequestMapping(method = RequestMethod.PUT)
 //    public User updateUserAvatar(@RequestParam("image") MultipartFile file){
 //
 //        return  userDao.updateUser(updatedUser);
 //    }
+=======
+>>>>>>> ee5a07728d27a5c5d4903bc012573aeb8d4c2c15
 
     @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
     public void deleteUserById(@PathVariable int id){
         userDao.deleteUserById(id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path="/update", method=RequestMethod.PUT)
+    public void updateUser(@RequestBody User user, Principal principal){
+        int currentUserId = userDao.getUserByUsername(principal.getName()).getId();
+        userDao.updateUser(user, currentUserId);
     }
 }
