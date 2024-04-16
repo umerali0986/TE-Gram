@@ -13,10 +13,6 @@ public class Image {
     public Image() {
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ab4e92aa4e2c51e8ceb65e91093f8042f4d8313
     public Image(String avatarId, String imageType) {
         this.avatarId = avatarId;
         this.imageType = imageType;

@@ -21,6 +21,8 @@ public class User {
 
    private String avatar; // This is a file path
 
+   private String newPassword;
+
    public User() { }
 
    public User(int id, String username, String name, String password, String authorities, String email, String avatar) {
@@ -96,6 +98,14 @@ public class User {
 
    public void setAuthorities(Set<Authority> authorities) {
       this.authorities = authorities;
+   }
+
+   public String getNewPassword() {
+      return newPassword;
+   }
+
+   public void setNewPassword(String newPassword) {
+      this.newPassword = newPassword;
    }
 
    public void setAuthorities(String authorities) {
