@@ -1,12 +1,17 @@
 package com.techelevator.controller;
 
+import com.techelevator.dao.JdbcImageDao;
 import com.techelevator.dao.JdbcUserDao;
 import com.techelevator.dao.UserDao;
+import com.techelevator.model.Image;
 import com.techelevator.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin
@@ -19,7 +24,8 @@ public class UserController {
         this.userDao = userDao;
     }
 
-
+    @Autowired
+    private JdbcImageDao jdbcImageDao;
 
     @RequestMapping(path = "/all",method = RequestMethod.GET)
     public List<User> getUsers(){
@@ -40,18 +46,34 @@ public class UserController {
         return userDao.getUserByUsername(username);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public User updateUser(@RequestBody User updatedUser){
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path="/avatar" ,method = RequestMethod.PUT)
+    public User updateUserAvatar(
+            @RequestParam(value = "image", required = false) MultipartFile file,
+            Principal principal
+    ){
+        User currentUser = userDao.getUserByUsername(principal.getName());
 
-        System.out.println("User's password: " + updatedUser.getPassword());
-        return  userDao.updateUser(updatedUser);
-    }
+        if (currentUser != null) {
+            if (file != null) {
+                String contentType = file.getContentType();
 
-//    @RequestMapping(method = RequestMethod.PUT)
-//    public User updateUserAvatar(@RequestParam("image") MultipartFile file){
-//
-//        return  userDao.updateUser(updatedUser);
-//    }
+                if (null == contentType)
+                    throw new IllegalArgumentException("Unsupported content type");
+
+                String imageType = contentType.split("/")[1];
+
+                String avatarId = jdbcImageDao.createUserAvatar(file, imageType);
+
+                String path = String.format("avatar-%s.%s", avatarId, imageType);
+                currentUser.setAvatar(path);
+
+                userDao.updateUser(currentUser);
+            }
+        }
+
+        return userDao.getUserByUsername(principal.getName());
+}
 
     @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
     public void deleteUserById(@PathVariable int id){

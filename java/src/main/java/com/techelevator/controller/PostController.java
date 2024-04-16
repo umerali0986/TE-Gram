@@ -98,10 +98,6 @@ public class PostController {
             postInfo.setLiked(jdbcPostDao.hasUserLikedPostById(postId, currentUser.getUsername()));
         }
 
-
-
-
-
         // 3. Get comments.
         List<Comment> comments = jdbcCommentDao.getCommentsByPostId(postInfo.getId());
 
@@ -132,7 +128,7 @@ public class PostController {
     @RequestMapping(path = "/{postId}/image", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getPostImageById(@PathVariable int postId) throws IOException {
         Image image = jdbcImageDao.getImageByPostId(postId);
-        File imageFile = new ImageFileProvider().createImageFile(image);
+        File imageFile = new ImageFileProvider().createImageFile(image, true);
         byte[] imageData = Files.readAllBytes(imageFile.toPath());
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(String.format("image/%s", image.getImageType())))
