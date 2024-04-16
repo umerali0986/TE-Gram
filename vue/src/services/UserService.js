@@ -4,6 +4,14 @@ export default {
 
     getUserByUsername(username) {
         return axios.get(`/users/profile/${username}`); 
+    },
+
+    updateUserAvatar(formData){
+        return axios.put(`users/avatar`, formData);
+    },
+
+    updateUserInfo(user){
+        return axios.put('users/update', user);
     }
     
 }

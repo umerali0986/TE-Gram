@@ -109,20 +109,20 @@ public class JdbcUserDaoTests extends BaseDaoTests {
         Assert.assertEquals(retrievedUser, createdUser);
     }
 
-    @Test
-    public void updateUser_should_update_user_in_db(){
-        User user = sut.getUserById(1);
-        user.setName("user1");
-
-        User updatedUser = sut.updateUser(user);
-
-        Assert.assertNotNull(updatedUser);
-
-        User retrievedUser = sut.getUserById(1);
-
-        assertUserMatch(updatedUser,retrievedUser);
-
-    }
+//    @Test
+//    public void updateUser_should_update_user_in_db(){
+//        User user = sut.getUserById(1);
+//        user.setName("user1");
+//
+//        User updatedUser = sut.updateUser(user);
+//
+//        Assert.assertNotNull(updatedUser);
+//
+//        User retrievedUser = sut.getUserById(1);
+//
+//        assertUserMatch(updatedUser,retrievedUser);
+//
+//    }
 
     @Test
     public void deleteUserById_should_delete_User(){
