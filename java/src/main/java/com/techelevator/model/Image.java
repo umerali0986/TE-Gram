@@ -8,12 +8,18 @@ public class Image {
     private int postId;
 
     private String altDesc;
+    private String avatarId;
 
     public Image() {
     }
 
+<<<<<<< HEAD
     public Image(int imageId, String imageType) {
         this.imageId = imageId;
+=======
+    public Image(String avatarId, String imageType) {
+        this.avatarId = avatarId;
+>>>>>>> e6c78f01d744b7efc9e22cdcb6b24c8423b0d98e
         this.imageType = imageType;
     }
 
@@ -22,6 +28,14 @@ public class Image {
         this.imageType = imageType;
         this.postId = postId;
         this.altDesc = altDesc;
+    }
+
+    public String getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(String avatarId) {
+        this.avatarId = avatarId;
     }
 
     public int getImageId() {

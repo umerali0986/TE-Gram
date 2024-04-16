@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.UUID;
 
 @Component
 public class JdbcImageDao implements ImageDao{
@@ -26,10 +28,23 @@ public class JdbcImageDao implements ImageDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-//    public void createUserAvatar(MultipartFile file){
-//        File imageFile = new ImageFileProvider().createImageFile(createdImage);
-//        file.transferTo(imageFile);
-//    }
+    public String createUserAvatar(MultipartFile file, String imageType) {
+        Image createdImage = new Image();
+        String uuid = UUID.randomUUID().toString();
+
+        try {
+            createdImage.setAvatarId(uuid);
+            createdImage.setImageType(imageType);
+
+            File imageFile = new ImageFileProvider().createImageFile(createdImage, false);
+            file.transferTo(imageFile);
+
+        } catch (IOException e) {
+            throw new DaoException("Something went wrong please try it again", e);
+        }
+
+        return uuid;
+    }
 
     public Image createImage(MultipartFile file, int postId, String altDesc) {
 
@@ -49,7 +64,7 @@ public class JdbcImageDao implements ImageDao{
 
             createdImage = getImageById(imageId);
 
-            File imageFile = new ImageFileProvider().createImageFile(createdImage);
+            File imageFile = new ImageFileProvider().createImageFile(createdImage, true);
             file.transferTo(imageFile);
 
         } catch (CannotGetJdbcConnectionException e) {
