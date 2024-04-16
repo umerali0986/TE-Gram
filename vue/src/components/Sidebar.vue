@@ -111,19 +111,8 @@
                     stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
 
-<<<<<<< HEAD
                 <Input ref="uploadInput" id="picture" type="file" accept="image/jpg, image/jpeg, image/png, image/gif"
                   @change="selectFile" />
-=======
-                <Input
-                    
-                    ref="uploadInput"
-                    id="picture"
-                    type="file"
-                    accept="image/jpg, image/jpeg, image/png, image/gif"
-                    @change="selectFile"
-                />
->>>>>>> 03c421764e0f9cf48d13f602e468baba7cdd70f3
               </div>
 
               <div v-if="isShowModal" class="flex w-fit gap-10">
@@ -217,7 +206,12 @@
                 </DialogDescription>
               </DialogHeader>
               <div>
-                <form class="flex flex-col w-[450px] justify-start" @submit.prevent="handleSetting">
+
+                <!--////////////////////-->
+                <!--UPDATE USER SETTINGS-->
+                <!--////////////////////-->
+
+                <form class="flex flex-col w-[450px] justify-start" @submit.prevent="handleUpdate">
                   <FormField name="username">
                     <FormItem class="mb-3">
                       <FormLabel>Profile picture</FormLabel>
@@ -286,6 +280,7 @@
 </template>
 
 <script>
+import userService from "@/services/UserService";
 import {
   Dialog,
   DialogContent,
@@ -371,50 +366,88 @@ export default {
       reader.readAsDataURL(files[0]);
     },
 
-    handleSetting() {
+    handleUpdate(e) {
 
-      if (this.userInfo.name === ''){
-        this.registrationErrors = true;
-        this.registrationErrorMsg = 'Please enter name.';
-      }
-      else if (this.userInfo.email === ''){
-        this.registrationErrors = true;
-        this.registrationErrorMsg = 'Please enter email.';
-      }
-      else if (this.userInfo.password === ''){
-        this.registrationErrors = true;
-        this.registrationErrorMsg = 'Please enter password.';
-      }
-      else if (this.userInfo.confirmPassword === ''){
-        this.registrationErrors = true;
-        this.registrationErrorMsg = 'Please confirm password.';
-      }
-      else if (this.userInfo.password != this.user.confirmPassword) {
-        this.registrationErrors = true;
-        this.registrationErrorMsg = 'Password & Confirm Password do not match.';
-      } else {
+      // if (this.userInfo.name === ''){
+      //   this.registrationErrors = true;
+      //   this.registrationErrorMsg = 'Please enter name.';
+      // }
+      // else if (this.userInfo.email === ''){
+      //   this.registrationErrors = true;
+      //   this.registrationErrorMsg = 'Please enter email.';
+      // }
+      // else if (this.userInfo.password === ''){
+      //   this.registrationErrors = true;
+      //   this.registrationErrorMsg = 'Please enter password.';
+      // }
+      // else if (this.userInfo.confirmPassword === ''){
+      //   this.registrationErrors = true;
+      //   this.registrationErrorMsg = 'Please confirm password.';
+      // }
+      // else if (this.userInfo.password != this.user.confirmPassword) {
+      //   this.registrationErrors = true;
+      //   this.registrationErrorMsg = 'Password & Confirm Password do not match.';
+      // } else {
 
+      //   if(this.pic){
+      //     userService.updateUserAvatar(this.pic)
+      //     .then(response => {
+      //       if(response.status === 200){
+      //         console.log('update avatar successful');
+      //       }
+      //     })
+      //     .catch(err => console.log(err))
+      //   } 
+
+      //   userService.updateUserInfo(this.userInfo)
+      //   .then(response => {
+      //       if(response.status === 200){
+      //         console.log('update profile successful');
+      //       }
+      //     })
+      //     .catch(err => console.log(err))
   
-        // authService
-        //   .register(this.user)
-        //   .then((response) => {
-        //     if (response.status === 201) {
-        //       this.$store.commit("TOGGLE_VALIDATION_STATUS");
-        //       this.$store.commit("SET_LOADING", false);
-        //       this.$router.push({
-        //         path: '/app',
-        //         query: { registration: 'success' },
-        //       });
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     const response = error.response;
-        //     this.registrationErrors = true;
-        //     if (response.status === 400) {
-        //       this.registrationErrorMsg = 'Bad Request: Validation Errors';
-        //     }
-        //   });
-      }
+      //   // authService
+      //   //   .register(this.user)
+      //   //   .then((response) => {
+      //   //     if (response.status === 201) {
+      //   //       this.$store.commit("TOGGLE_VALIDATION_STATUS");
+      //   //       this.$store.commit("SET_LOADING", false);
+      //   //       this.$router.push({
+      //   //         path: '/app',
+      //   //         query: { registration: 'success' },
+      //   //       });
+      //   //     }
+      //   //   })
+      //   //   .catch((error) => {
+      //   //     const response = error.response;
+      //   //     this.registrationErrors = true;
+      //   //     if (response.status === 400) {
+      //   //       this.registrationErrorMsg = 'Bad Request: Validation Errors';
+      //   //     }
+      //   //   });
+      // }
+      if(this.pic){
+        console.log(e.target)
+        let img = e.target.files[0]
+        const formData = new FormData(); 
+        formData.append('image', img);
+        userService.updateUserAvatar(formData)
+        .then(response => {
+          if(response.status === 200){
+            console.log('update avatar successful');
+          }
+        })
+        .catch(err => console.log(err))
+      } 
+
+        userService.updateUserInfo(this.userInfo)
+        .then(response => {
+            if(response.status === 200){
+              console.log('update profile successful');
+            }
+          })
+          .catch(err => console.log(err))
     },
     handleSubmit() {
       const { canvas } = this.$refs.cropper.getResult();
