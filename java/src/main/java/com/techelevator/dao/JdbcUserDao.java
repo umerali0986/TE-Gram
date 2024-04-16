@@ -115,12 +115,14 @@ public class JdbcUserDao implements UserDao {
 //        }
         User updatedUser = null;
 
-        String sql = "UPDATE users SET email = ?, name = ?, avatar = ? " +
+        String password_hash = new BCryptPasswordEncoder().encode(user.getNewPassword());
+
+        String sql = "UPDATE users SET email = ?, password_hash = ?, name = ?, avatar = ? " +
                 "WHERE user_id = ?";
 
         try{
             int numberOfRows = 0;
-            numberOfRows = jdbcTemplate.update(sql, user.getEmail()
+            numberOfRows = jdbcTemplate.update(sql, user.getEmail(),password_hash
                     , user.getName(), user.getAvatar(), currentUserId);
 
             if(numberOfRows == 0){

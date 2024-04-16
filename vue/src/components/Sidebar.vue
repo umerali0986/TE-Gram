@@ -183,7 +183,7 @@
         <div class="pb-16 flex flex-col items-center gap-2">
           <Dialog>
             <DialogTrigger>
-              <button  class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
+              <button @click="showUpdateModal" class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
                 <svg class="text-primary" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -238,14 +238,14 @@
                     <FormItem class="mt-4">
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="*************" v-model="userInfo.password"/>
+                        <Input type="password" placeholder="*************" v-model="userInfo.newPassword"/>
                       </FormControl>
                     </FormItem>
 
                     <FormItem class="mt-4">
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="*************"  v-model="userInfo.confirmPassword"/>
+                        <Input type="password" placeholder="*************"  v-model="userInfo.confirmNewPassword"/>
                       </FormControl>
                     </FormItem>
                     <p class="text-red-500" v-if="registrationErrors">{{ registrationErrorMsg }}</p>
@@ -341,10 +341,11 @@ export default {
       userInfo:{
         name:'',
         email:'',
-        password:'',
-        confirmPassword:''
+        newPassword:'',
+        confirmNewPassword:''
       },
-      registrationErrorMsg:''
+      registrationErrorMsg:'',
+      registrationErrors:false
     }
   },
   props: ['show'],
@@ -365,9 +366,14 @@ export default {
       };
       reader.readAsDataURL(files[0]);
     },
+    showUpdateModal(){
 
-<<<<<<< HEAD
-    handleSetting() {
+      let currentUser = this.$store.state.user;
+      this.userInfo.email = currentUser.email;
+      this.userInfo.name = currentUser.name;
+    },
+
+    handleUpdate(e) {
 
       if (this.userInfo.name === ''){
         this.registrationErrors = true;
@@ -377,95 +383,29 @@ export default {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter email.';
       }
-      else if (this.userInfo.password === ''){
+      else if (this.userInfo.newPassword === ''){
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter password.';
       }
-      else if (this.userInfo.confirmPassword === ''){
+      else if (this.userInfo.confirmNewPassword === ''){
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Please confirm password.';
       }
-      else if (this.userInfo.password != this.user.confirmPassword) {
+      else if (this.userInfo.newPassword != this.userInfo.confirmNewPassword) {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
       } else {
-          
-=======
-    handleUpdate(e) {
 
-      // if (this.userInfo.name === ''){
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Please enter name.';
-      // }
-      // else if (this.userInfo.email === ''){
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Please enter email.';
-      // }
-      // else if (this.userInfo.password === ''){
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Please enter password.';
-      // }
-      // else if (this.userInfo.confirmPassword === ''){
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Please confirm password.';
-      // }
-      // else if (this.userInfo.password != this.user.confirmPassword) {
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Password & Confirm Password do not match.';
-      // } else {
 
-      //   if(this.pic){
-      //     userService.updateUserAvatar(this.pic)
-      //     .then(response => {
-      //       if(response.status === 200){
-      //         console.log('update avatar successful');
-      //       }
-      //     })
-      //     .catch(err => console.log(err))
-      //   } 
-
-      //   userService.updateUserInfo(this.userInfo)
-      //   .then(response => {
-      //       if(response.status === 200){
-      //         console.log('update profile successful');
-      //       }
-      //     })
-      //     .catch(err => console.log(err))
->>>>>>> ee5a07728d27a5c5d4903bc012573aeb8d4c2c15
-  
-      //   // authService
-      //   //   .register(this.user)
-      //   //   .then((response) => {
-      //   //     if (response.status === 201) {
-      //   //       this.$store.commit("TOGGLE_VALIDATION_STATUS");
-      //   //       this.$store.commit("SET_LOADING", false);
-      //   //       this.$router.push({
-      //   //         path: '/app',
-      //   //         query: { registration: 'success' },
-      //   //       });
-      //   //     }
-      //   //   })
-      //   //   .catch((error) => {
-      //   //     const response = error.response;
-      //   //     this.registrationErrors = true;
-      //   //     if (response.status === 400) {
-      //   //       this.registrationErrorMsg = 'Bad Request: Validation Errors';
-      //   //     }
-      //   //   });
-      // }
-      if(this.pic){
-        console.log(e.target)
-        let img = e.target.files[0]
-        const formData = new FormData(); 
-        formData.append('image', img);
-        userService.updateUserAvatar(formData)
-        .then(response => {
-          if(response.status === 200){
-            console.log('update avatar successful');
-          }
-        })
-        .catch(err => console.log(err))
-      } 
+        // if(this.pic){
+        //   userService.updateUserAvatar(this.pic)
+        //   .then(response => {
+        //     if(response.status === 200){
+        //       console.log('update avatar successful');
+        //     }
+        //   })
+        //   .catch(err => console.log(err))
+        // } 
 
         userService.updateUserInfo(this.userInfo)
         .then(response => {
@@ -474,6 +414,48 @@ export default {
             }
           })
           .catch(err => console.log(err))
+  
+        // authService
+        //   .register(this.user)
+        //   .then((response) => {
+        //     if (response.status === 201) {
+        //       this.$store.commit("TOGGLE_VALIDATION_STATUS");
+        //       this.$store.commit("SET_LOADING", false);
+        //       this.$router.push({
+        //         path: '/app',
+        //         query: { registration: 'success' },
+        //       });
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     const response = error.response;
+        //     this.registrationErrors = true;
+        //     if (response.status === 400) {
+        //       this.registrationErrorMsg = 'Bad Request: Validation Errors';
+        //     }
+        //   });
+      }
+      // if(this.pic){
+      //   console.log(e.target)
+      //   let img = e.target.files[0]
+      //   const formData = new FormData(); 
+      //   formData.append('image', img);
+      //   userService.updateUserAvatar(formData)
+      //   .then(response => {
+      //     if(response.status === 200){
+      //       console.log('update avatar successful');
+      //     }
+      //   })
+      //   .catch(err => console.log(err))
+      // } 
+
+        // userService.updateUserInfo(this.userInfo)
+        // .then(response => {
+        //     if(response.status === 200){
+        //       console.log('update profile successful');
+        //     }
+        //   })
+        //   .catch(err => console.log(err))
     },
     handleSubmit() {
       const { canvas } = this.$refs.cropper.getResult();
