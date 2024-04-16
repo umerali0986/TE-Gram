@@ -26,6 +26,11 @@ public class JdbcImageDao implements ImageDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+//    public void createUserAvatar(MultipartFile file){
+//        File imageFile = new ImageFileProvider().createImageFile(createdImage);
+//        file.transferTo(imageFile);
+//    }
+
     public Image createImage(MultipartFile file, int postId, String altDesc) {
 
         Image createdImage = null;
