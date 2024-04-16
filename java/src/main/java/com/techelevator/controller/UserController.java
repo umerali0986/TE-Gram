@@ -81,4 +81,11 @@ public class UserController {
     public void deleteUserById(@PathVariable int id){
         userDao.deleteUserById(id);
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path="/update", method=RequestMethod.PUT)
+    public void updateUser(@RequestBody User user, Principal principal){
+        int currentUserId = userDao.getUserByUsername(principal.getName()).getId();
+        userDao.updateUser(user, currentUserId);
+    }
 }
