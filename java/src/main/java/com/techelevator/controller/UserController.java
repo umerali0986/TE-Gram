@@ -27,6 +27,7 @@ public class UserController {
     @Autowired
     private JdbcImageDao jdbcImageDao;
 
+
     @RequestMapping(path = "/all",method = RequestMethod.GET)
     public List<User> getUsers(){
         return userDao.getUsers();
@@ -75,16 +76,8 @@ public class UserController {
         return userDao.getUserByUsername(principal.getName());
 }
 
-
     @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
     public void deleteUserById(@PathVariable int id){
         userDao.deleteUserById(id);
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(path="/update", method=RequestMethod.PUT)
-    public void updateUser(@RequestBody User user, Principal principal){
-        int currentUserId = userDao.getUserByUsername(principal.getName()).getId();
-        userDao.updateUser(user, currentUserId);
     }
 }
