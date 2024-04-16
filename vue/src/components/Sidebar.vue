@@ -366,6 +366,31 @@ export default {
       reader.readAsDataURL(files[0]);
     },
 
+<<<<<<< HEAD
+    handleSetting() {
+
+      if (this.userInfo.name === ''){
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Please enter name.';
+      }
+      else if (this.userInfo.email === ''){
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Please enter email.';
+      }
+      else if (this.userInfo.password === ''){
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Please enter password.';
+      }
+      else if (this.userInfo.confirmPassword === ''){
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Please confirm password.';
+      }
+      else if (this.userInfo.password != this.user.confirmPassword) {
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Password & Confirm Password do not match.';
+      } else {
+          
+=======
     handleUpdate(e) {
 
       // if (this.userInfo.name === ''){
@@ -406,6 +431,7 @@ export default {
       //       }
       //     })
       //     .catch(err => console.log(err))
+>>>>>>> ee5a07728d27a5c5d4903bc012573aeb8d4c2c15
   
       //   // authService
       //   //   .register(this.user)
