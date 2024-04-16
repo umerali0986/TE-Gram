@@ -76,16 +76,6 @@ public class UserController {
         return userDao.getUserByUsername(principal.getName());
 }
 
-
-
-//    @RequestMapping(method = RequestMethod.PUT)
-//    public User updateUserAvatar(@RequestParam("image") MultipartFile file){
-//
-//        return  userDao.updateUser(updatedUser);
-//    }
-
-
-
     @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
     public void deleteUserById(@PathVariable int id){
         userDao.deleteUserById(id);
