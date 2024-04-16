@@ -27,6 +27,7 @@ public class UserController {
     @Autowired
     private JdbcImageDao jdbcImageDao;
 
+
     @RequestMapping(path = "/all",method = RequestMethod.GET)
     public List<User> getUsers(){
         return userDao.getUsers();
@@ -74,6 +75,12 @@ public class UserController {
 
         return userDao.getUserByUsername(principal.getName());
 }
+
+//    @RequestMapping(method = RequestMethod.PUT)
+//    public User updateUserAvatar(@RequestParam("image") MultipartFile file){
+//
+//        return  userDao.updateUser(updatedUser);
+//    }
 
     @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
     public void deleteUserById(@PathVariable int id){
