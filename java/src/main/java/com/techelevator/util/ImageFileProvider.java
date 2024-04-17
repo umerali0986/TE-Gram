@@ -14,6 +14,11 @@ public class ImageFileProvider {
         return new File(imageUploadsDir, imageFileName);
     }
 
+    public File createAvatarImageFile(String imageFileName) {
+        File imageUploadsDir = createImageUploadsDir();
+        return new File(imageUploadsDir, imageFileName);
+    }
+
 
     private File createImageUploadsDir() {
         String absolutePath = System.getenv("UPLOADS_DIR");
