@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import postService from "@/services/PostService";
+// import postService from "@/services/PostService";
 
 export default {
   components: {PostCard},
