@@ -32,5 +32,9 @@ export default {
 
     removeBookmarkPostById(id){
         return axios.delete(`favorites/${id}/unfavorite`);
+    },
+
+    deletePostById(id){
+        return axios.delete(`posts/delete/${id}`);
     }
 }
