@@ -410,7 +410,8 @@ export default {
         userService.updateUserInfo(this.userInfo)
         .then(response => {
             if(response.status === 200){
-              console.log('update profile successful');
+              toast('profile updated successfully');
+
             }
           })
           .catch(err => console.log(err))
