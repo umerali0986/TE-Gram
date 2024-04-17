@@ -7,7 +7,7 @@
         class="container grid grid-cols-1 xl:grid-cols-2 w-full h-full gap-10"
     >
 
-      <PostCard v-for="post in likedPosts" :key="post.id" :post="post" />
+      <PostCard v-for="post in showLikedPosts" :key="post.id" :post="post" />
     </div>
 
   </div>
@@ -22,22 +22,27 @@ export default {
       likedPosts: []
     }
   },
-  methods: {
-    getPosts() {
-      postService.get().then(response => {
-        if (response.status === 200) {
-          this.$store.commit("SET_CONTENT", JSON.parse(JSON.stringify(response.data)));
-          console.log("runs")
-          this.likedPosts = this.$store.state.postCollection.filter((post) => post.liked)
-        }
-      }).catch(error => {
-        console.error('Error: ', error)
-      })
-    }
+  computed:{
+      showLikedPosts(){
+       let likedPost = this.$store.state.postCollection.filter((post) => post.liked)
+        return likedPost;
+      }
   },
-  created() {
-      this.getPosts()
-  }
+  // methods: {
+  //   getPosts() {
+  //     postService.get().then(response => {
+  //       if (response.status === 200) {
+  //         this.$store.commit("SET_CONTENT", JSON.parse(JSON.stringify(response.data)));
+  //         this.likedPosts = this.$store.state.postCollection.filter((post) => post.liked)
+  //       }
+  //     }).catch(error => {
+  //       console.error('Error: ', error)
+  //     })
+  //   }
+  // },
+  // created() {
+  //     this.getPosts()
+  // }
 }
 import PostCard from "@/components/PostCard.vue";
 </script>
