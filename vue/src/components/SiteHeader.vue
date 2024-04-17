@@ -1,10 +1,10 @@
 <template>
   <header
       class="top-0 h-14 flex items-center px-6 border-b z-10"
-      :class="{'container px-0 bg-transparent' : $route.path === '/', ' bg-background' : $route.path === '/app'}"
+      :class="{'container px-0' : $route.path === '/', ' bg-background' : $route.path === '/app'}"
 
   >
-    <div v-if="$route.path.includes('/app') && $store.state.token" class="flex mr-3 md:hidden items-center justify-end">
+    <div v-if="$route.path.includes('/app') && $store.state.token" class="flex bg-background mr-3 md:hidden items-center justify-end">
       <Sheet>
         <SheetTrigger>
           <HamburgerMenuIcon class="h-5 w-5"/>
@@ -16,7 +16,7 @@
     </div>
 
       <a href="/">
-        <h1 class="pr-4 font-bold text-2xl">Logo</h1>
+        <h1 class="pr-4 font-bold inline-block text-2xl text-foreground/90">Chat<b class="text-purple-500">TE</b></h1>
       </a>
 
     <div class="flex-1 hidden md:flex">
