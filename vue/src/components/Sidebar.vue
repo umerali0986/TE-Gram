@@ -253,6 +253,9 @@
                   <Button type="submit" class="mt-6 mx-[10%] py-2">
                     Done
                   </Button>
+                  <button @click="handleDeleteAccount" class="text-red-500">
+                    delete account
+                  </button>
                  
                 </form>
 
@@ -350,6 +353,15 @@ export default {
   },
   props: ['show'],
   methods: {
+    handleDeleteAccount(){
+      if(confirm('Are you sure you want to delete your account') === true){
+        console.log('account deleted');
+        this.$router.push('/');
+      } else {
+        console.log('thank you for staying');
+        
+      }
+    },
     logout() {
       this.$router.push('/');
       this.$store.commit("TOGGLE_VALIDATION_STATUS");
