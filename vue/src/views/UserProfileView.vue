@@ -2,9 +2,9 @@
   <div class="w-full h-full flex flex-col items-center container md:px-14 lg:px-32 xl:px-40">
     <div class="flex w-full gap-4 md:gap-8 lg:gap-12 xl:gap-20 pt-4">
       <div class="flex gap-2">
-        <Avatar class="w-24 h-24  lg:w-32 lg:h-32">
-          <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
-          <AvatarFallback>CN</AvatarFallback>
+        <Avatar class="w-24 h-24  lg:w-32 lg:h-32 bg-muted-foreground/30">
+          <AvatarImage :src="`http://localhost:9000/users/${user.username}/image`" alt="" />
+          <AvatarFallback>{{user.username.charAt(0).toUpperCase()}}</AvatarFallback>
         </Avatar>
       </div>
 
@@ -40,7 +40,7 @@ import userService from '@/services/UserService';
 import postService from '../services/PostService';
 import PostCard from '@/components/PostCard.vue';
 import axios from 'axios';
-import { Avatar } from "@/components/ui/avatar";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
 export default {
@@ -59,7 +59,9 @@ export default {
   components: {
     Separator,
     Avatar,
-    PostCard
+    PostCard,
+    AvatarImage,
+    AvatarFallback
   },
   computed: {
 

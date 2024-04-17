@@ -19,6 +19,8 @@ public interface UserDao {
 
     User updateUser(User user, int currentUserId);
 
+    User updateUserAvatar(User user);
+
     int deleteUserById(int userId);
 
 
