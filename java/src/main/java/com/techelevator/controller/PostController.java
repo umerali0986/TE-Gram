@@ -163,4 +163,17 @@ public class PostController {
         return jdbcCommentDao.createComment(postInfo, currentUser, comment.getText());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(path = "/{postId}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePostById(@PathVariable int postId){
+        jdbcPostDao.deletePostById(postId);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(path = "/comment/{commentId}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCommentById(@PathVariable int commentId){
+        jdbcPostDao.deleteCommentById(commentId);
+    }
 }
