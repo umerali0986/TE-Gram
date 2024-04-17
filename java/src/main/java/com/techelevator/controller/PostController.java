@@ -163,4 +163,11 @@ public class PostController {
         return jdbcCommentDao.createComment(postInfo, currentUser, comment.getText());
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path="/delete/{postId}", method=RequestMethod.DELETE)
+    public void deletePostById(@PathVariable int postId){
+        jdbcPostDao.deletePostById(postId);
+    }
+
 }

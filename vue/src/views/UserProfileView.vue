@@ -21,7 +21,7 @@
 
     <Separator class="mt-4" />
     <div class="flex-1 grid grid-cols-1 pt-4 xl:grid-cols-2 w-full h-full gap-10">
-      <PostCard v-for="(post,index) in $store.state.postCollection" :key="index" :post="post" />
+      <PostCard v-for="(post,index) in $store.state.postCollection" :key="index" :post="post" @toggleChange="receiveEmit" />
     </div>
 
 
@@ -50,6 +50,11 @@ export default {
       user: {},
       
     }
+  },
+  methods: {
+    receiveEmit(){
+      this.$router.go();
+    },
   },
   components: {
     Separator,
