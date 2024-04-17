@@ -368,82 +368,6 @@ export default {
     },
     showUpdateModal(){
 
-<<<<<<< HEAD
-    handleUpdate(e) {
-
-      // if (this.userInfo.name === ''){
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Please enter name.';
-      // }
-      // else if (this.userInfo.email === ''){
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Please enter email.';
-      // }
-      // else if (this.userInfo.password === ''){
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Please enter password.';
-      // }
-      // else if (this.userInfo.confirmPassword === ''){
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Please confirm password.';
-      // }
-      // else if (this.userInfo.password != this.user.confirmPassword) {
-      //   this.registrationErrors = true;
-      //   this.registrationErrorMsg = 'Password & Confirm Password do not match.';
-      // } else {
-
-      //   if(this.pic){
-      //     userService.updateUserAvatar(this.pic)
-      //     .then(response => {
-      //       if(response.status === 200){
-      //         console.log('update avatar successful');
-      //       }
-      //     })
-      //     .catch(err => console.log(err))
-      //   } 
-
-      //   userService.updateUserInfo(this.userInfo)
-      //   .then(response => {
-      //       if(response.status === 200){
-      //         console.log('update profile successful');
-      //       }
-      //     })
-      //     .catch(err => console.log(err))
-  
-      //   // authService
-      //   //   .register(this.user)
-      //   //   .then((response) => {
-      //   //     if (response.status === 201) {
-      //   //       this.$store.commit("TOGGLE_VALIDATION_STATUS");
-      //   //       this.$store.commit("SET_LOADING", false);
-      //   //       this.$router.push({
-      //   //         path: '/app',
-      //   //         query: { registration: 'success' },
-      //   //       });
-      //   //     }
-      //   //   })
-      //   //   .catch((error) => {
-      //   //     const response = error.response;
-      //   //     this.registrationErrors = true;
-      //   //     if (response.status === 400) {
-      //   //       this.registrationErrorMsg = 'Bad Request: Validation Errors';
-      //   //     }
-      //   //   });
-      // }
-      if(this.pic){
-        console.log(e.target)
-        let img = e.target.files[0]
-        const formData = new FormData(); 
-        formData.append('image', img);
-        userService.updateUserAvatar(formData)
-        .then(response => {
-          if(response.status === 200){
-            console.log('update avatar successful');
-          }
-        })
-        .catch(err => console.log(err))
-      } 
-=======
       let currentUser = this.$store.state.user;
       this.userInfo.email = currentUser.email;
       this.userInfo.name = currentUser.name;
@@ -482,7 +406,6 @@ export default {
         //   })
         //   .catch(err => console.log(err))
         // } 
->>>>>>> b2d36f736f4a6a5fd5ec4331fa8acb862c7be756
 
         userService.updateUserInfo(this.userInfo)
         .then(response => {

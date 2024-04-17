@@ -7,7 +7,7 @@
         class="container grid grid-cols-1 xl:grid-cols-2 w-full h-full gap-10"
     >
    
-    <PostCard v-for="post in $store.state.postCollection" :key="post.id" :post="post" />
+    <PostCard v-for="post in $store.state.postCollection" :key="post.id" :post="post" @toggleChange="receiveEmit" />
     </div>
 
   </div>
@@ -23,6 +23,9 @@ import postService from '../services/PostService.js';
 export default defineComponent({
   components: { PostCard},
   methods: {
+    receiveEmit(){
+      this.$router.go();
+    },
     getPosts() {
       postService.get().then(response => {
         if (response.status === 200) {
