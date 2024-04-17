@@ -115,14 +115,33 @@ public class JdbcUserDao implements UserDao {
 //        }
         User updatedUser = null;
 
-        String sql = "UPDATE users SET email = ?, name = ?, avatar = ? " +
-                "WHERE user_id = ?";
+        String password_hash = "";
+
+        String sql = "";
+
+        if(user.getNewPassword() != null){
+
+            password_hash = new BCryptPasswordEncoder().encode(user.getNewPassword());
+
+            sql = "UPDATE users SET email = ?, password_hash = ?, name = ?, avatar = ? " +
+                    "WHERE user_id = ?";
+        }
+        else{
+            sql = "UPDATE users SET email = ?, name = ?, avatar = ? " +
+                    "WHERE user_id = ?";
+        }
+
 
         try{
             int numberOfRows = 0;
-            numberOfRows = jdbcTemplate.update(sql, user.getEmail()
-                    , user.getName(), user.getAvatar(), currentUserId);
-
+            if(!password_hash.equals("")) {
+                numberOfRows = jdbcTemplate.update(sql, user.getEmail(), password_hash
+                        , user.getName(), user.getAvatar(), currentUserId);
+            }
+            else{
+                numberOfRows = jdbcTemplate.update(sql, user.getEmail()
+                        , user.getName(), user.getAvatar(), currentUserId);
+            }
             if(numberOfRows == 0){
                 throw new DaoException("No number of rows affected");
             }
@@ -137,6 +156,38 @@ public class JdbcUserDao implements UserDao {
 
         return updatedUser;
     }
+
+//    @Override
+//    public User updateUser(User user, int currentUserId) {
+////        if(user.getId() != currentUserId){
+////            throw new DaoException("Not valid user");
+////        }
+//        User updatedUser = null;
+//
+//        String password_hash = new BCryptPasswordEncoder().encode(user.getNewPassword());
+//
+//        String sql = "UPDATE users SET email = ?, password_hash = ?, name = ?, avatar = ? " +
+//                "WHERE user_id = ?";
+//
+//        try{
+//            int numberOfRows = 0;
+//            numberOfRows = jdbcTemplate.update(sql, user.getEmail(),password_hash
+//                    , user.getName(), user.getAvatar(), currentUserId);
+//
+//            if(numberOfRows == 0){
+//                throw new DaoException("No number of rows affected");
+//            }
+//            else{
+//                updatedUser = getUserById(user.getId());
+//            }
+//        } catch (CannotGetJdbcConnectionException e) {
+//            throw new DaoException("Unable to connect to server or database", e);
+//        } catch (DataIntegrityViolationException e) {
+//            throw new DaoException("Data integrity violation", e);
+//        }
+//
+//        return updatedUser;
+//    }
 
     @Override
     public int deleteUserById(int userId) {
