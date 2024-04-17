@@ -24,4 +24,8 @@ public interface PostDao {
     void addLike(Post post, User author);
 
     void removeLike(Post post, User author);
+
+    Post makePostPrivateById(int postId);
+
+    Post makePostPublicById(int postId);
 }

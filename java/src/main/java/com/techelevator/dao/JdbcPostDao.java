@@ -261,6 +261,56 @@ public class JdbcPostDao implements PostDao {
         }
     }
 
+    @Override
+    public Post makePostPrivateById(int postId) {
+        Post newPost = null;
+
+        String sql = "UPDATE posts SET is_private = 'true' WHERE post_id = ?";
+
+        try {
+            int numberOfRows = 0;
+            numberOfRows = jdbcTemplate.update(sql, postId);
+
+            if(numberOfRows == 0){
+                throw new DaoException("No number of rows affected");
+            }
+            else{
+                newPost = getPostById(postId);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
+        return newPost;
+    }
+
+    @Override
+    public Post makePostPublicById(int postId) {
+        Post newPost = null;
+
+        String sql = "UPDATE posts SET is_private = 'false' WHERE post_id = ?";
+
+        try {
+            int numberOfRows = 0;
+            numberOfRows = jdbcTemplate.update(sql, postId);
+
+            if(numberOfRows == 0){
+                throw new DaoException("No number of rows affected");
+            }
+            else{
+                newPost = getPostById(postId);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
+        return newPost;
+    }
+
 
     public Post mapRowToPost(SqlRowSet result){
         Post post = new Post();
@@ -269,6 +319,7 @@ public class JdbcPostDao implements PostDao {
         post.setCreatedOn(result.getTimestamp("created_on"));
         post.setCaption(result.getString("caption"));
         post.setPostCreator(result.getString("post_creator"));
+        post.setPrivate(result.getBoolean("is_private"));
 
         return post;
     }
