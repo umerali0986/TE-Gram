@@ -166,11 +166,13 @@ public class JdbcPostDao implements PostDao {
     @Override
     public int deletePostById(int post_id) {
         int numberOfRows = 0;
+
         String sql = "DELETE from comments where post_id = ?; " +
                      "DELETE FROM favorites WHERE post_id = ?; " +
                      "DELETE FROM likes WHERE post_id = ?; " +
                      "DELETE FROM images WHERE post_id = ?; " +
                      "DELETE FROM posts WHERE post_id = ?;";
+
         try{
             numberOfRows = jdbcTemplate.update(sql, post_id,post_id,post_id,post_id,post_id);
         } catch (CannotGetJdbcConnectionException e) {
@@ -181,6 +183,7 @@ public class JdbcPostDao implements PostDao {
 
         return numberOfRows;
     }
+
 
     @Override
     public int deleteCommentById(int comment_id) {
