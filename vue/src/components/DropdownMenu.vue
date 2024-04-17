@@ -15,9 +15,13 @@
         <DropdownMenuCheckboxItem @click="handleDelete(post.id)" v-if="post.postCreator === this.$store.state.user.username">
           <span class="text-red-500">Delete Post</span>
         </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem>
-          Add Function
+        <DropdownMenuCheckboxItem v-if="!post.private && post.postCreator === this.$store.state.user.username" @click="handleTogglePrivate(post.id)">
+            Make Private
         </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem v-else-if="post.private && post.postCreator === this.$store.state.user.username"  @click="handleTogglePublic(post.id)">
+            Make Public
+        </DropdownMenuCheckboxItem> 
+        
         <DropdownMenuCheckboxItem>
           Add Function
         </DropdownMenuCheckboxItem>
@@ -56,6 +60,24 @@
                         }
                     })
                     .catch(err => console.log(err));
+            },
+            handleTogglePrivate(postId){
+                postService.makePostPrivateById(postId)
+                    .then(response => {
+                        if(response.status === 202){
+                            console.log('successful');
+                            this.$router.go();
+                        }
+                    }).catch(err => console.log(err));
+            },
+            handleTogglePublic(postId){
+                postService.makePostPublicById(postId)
+                    .then(response => {
+                        if(response.status === 202){
+                            console.log('successful');
+                            this.$router.go();
+                        }
+                    }).then(err => console.log(err));
             }
         },
         props: ['post'],
@@ -66,6 +88,7 @@
             DropdownMenuLabel,
             DropdownMenuSeparator,
             DropdownMenuTrigger
-        }
+        },
+    
     }
 </script>
