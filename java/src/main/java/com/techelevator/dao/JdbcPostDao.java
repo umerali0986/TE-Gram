@@ -181,7 +181,7 @@ public class JdbcPostDao implements PostDao {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
-        } 
+        }
 
         return numberOfRows;
     }
