@@ -5,12 +5,19 @@ import com.techelevator.dao.JdbcUserDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Image;
 import com.techelevator.model.User;
+import com.techelevator.util.ImageFileProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.security.Principal;
 import java.util.List;
 
@@ -69,14 +76,28 @@ public class UserController {
                 String path = String.format("avatar-%s.%s", avatarId, imageType);
                 currentUser.setAvatar(path);
 
-                userDao.updateUser(currentUser, currentUser.getId());
+                userDao.updateUserAvatar(currentUser);
             }
         }
 
         return userDao.getUserByUsername(principal.getName());
 }
 
+    @RequestMapping(path = "/{username}/image", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getAvatarImageByUsername(@PathVariable String username) throws IOException {
+       User user = userDao.getUserByUsername(username);
 
+       if (user.getAvatar() == null || user.getAvatar().isEmpty()) {
+           return null;
+       }
+
+        File imageFile = new ImageFileProvider().createAvatarImageFile(user.getAvatar());
+        String imageType = user.getAvatar().split("\\.")[1];
+        byte[] imageData = Files.readAllBytes(imageFile.toPath());
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf(String.format("image/%s", imageType)))
+                .body(imageData);
+    }
 
     @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
     public void deleteUserById(@PathVariable int id){

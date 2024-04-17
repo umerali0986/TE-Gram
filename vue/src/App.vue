@@ -1,6 +1,6 @@
 <template>
   <LoadingView/>
-  <div id="capstone-app" class="font-geist scroll-smooth">
+  <div id="capstone-app" class="font-geist scroll-smooth bg-gradient-to-b from-background via-background to-primary/20">
     <router-view />
   </div>
 </template>
