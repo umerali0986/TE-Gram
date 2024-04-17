@@ -16,6 +16,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping(path="/upload")
+@CrossOrigin
 public class FileUploadController {
     @Autowired
     private JdbcUserDao jdbcUserDao;
