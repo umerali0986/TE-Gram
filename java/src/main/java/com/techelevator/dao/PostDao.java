@@ -17,6 +17,7 @@ public interface PostDao {
     boolean hasUserLikedPostById(int postId, String authorName);
 
     int deletePostById(int id);
+    int deleteCommentById(int comment_id);
 
     Post updatePost(Post post);
 
