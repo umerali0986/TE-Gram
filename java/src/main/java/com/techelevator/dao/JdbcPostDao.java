@@ -10,6 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,6 +166,7 @@ public class JdbcPostDao implements PostDao {
     @Override
     public int deletePostById(int post_id) {
         int numberOfRows = 0;
+<<<<<<< HEAD
         String sql = "DELETE from comments where post_id = ?; " +
                      "DELETE FROM favorites WHERE post_id = ?; " +
                      "DELETE FROM likes WHERE post_id = ?; " +
@@ -186,11 +190,24 @@ public class JdbcPostDao implements PostDao {
 
         try{
             numberOfRows = jdbcTemplate.update(sql, comment_id);
+=======
+        String deleteFavoritesSql = "DELETE FROM favorites WHERE post_id = ?";
+        String deleteLikesSql = "DELETE FROM likes WHERE post_id = ?";
+        String deleteCommentsSql = "DELETE FROM comments WHERE post_id = ?";
+        String deleteImageSql = "DELETE FROM images WHERE post_id = ?";
+        String sql = "DELETE FROM posts WHERE post_id = ?";
+        try{
+            jdbcTemplate.update(deleteFavoritesSql, id);
+            jdbcTemplate.update(deleteLikesSql, id);
+            jdbcTemplate.update(deleteCommentsSql, id);
+            jdbcTemplate.update(deleteImageSql, id);
+            numberOfRows = jdbcTemplate.update(sql, id);
+>>>>>>> 410b7ca6f0dafe805607dd6279774e916c68df19
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
-        }
+        } 
 
         return numberOfRows;
     }
