@@ -3,7 +3,7 @@
     <div class="h-14 bg-background"><SiteHeader/></div>
     <div class="flex bg-muted h-full overflow-y-scroll">
       <Sidebar :show="true"/>
-      <div class="h-fit flex overflow-scroll w-full justify-center">
+      <div class="h-fit flex overflow-scroll w-full justify-center no-scrollbar">
         <router-view />
       </div>
     </div>
