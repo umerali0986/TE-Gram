@@ -21,7 +21,6 @@ public interface UserDao {
 
     User updateUserAvatar(User user);
 
-    int deleteUserById(int userId);
 
-
+    int deleteUserByUsername(String username);
 }

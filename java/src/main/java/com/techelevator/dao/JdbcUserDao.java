@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Objects;
 
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.Post;
 import com.techelevator.model.RegisterUserDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +20,8 @@ import com.techelevator.model.User;
 @Component
 public class JdbcUserDao implements UserDao {
 
+    @Autowired
+    private JdbcPostDao jdbcPostDao;
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcUserDao(JdbcTemplate jdbcTemplate) {
@@ -179,11 +183,19 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public int deleteUserById(int userId) {
+    public int deleteUserByUsername(String username) {
+
+        List<Post> userPosts = jdbcPostDao.getPostsByCreator(username);
+        if(userPosts != null){
+            for(Post post : userPosts ){
+                jdbcPostDao.deletePostById(post.getId());
+            }
+        }
         int numberOfRows = 0;
-        String sql = "DELETE FROM users WHERE user_id = ?";
+        String sql = "DELETE FROM comments WHERE author_name = ?;" +
+                     "DELETE FROM users WHERE username = ?";
         try{
-            numberOfRows = jdbcTemplate.update(sql, userId);
+            numberOfRows = jdbcTemplate.update(sql, username,username);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
