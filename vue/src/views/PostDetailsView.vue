@@ -18,7 +18,8 @@
 
                   <div class="flex flex-col gap-0 justify-center">
                     <h5 class="font-semibold text-lg leading-[1rem]">{{ post.postCreator }}</h5>
-                    <p class="">{{ moment(post.createdOn).utc().local().fromNow()  }}</p>
+                    <p class="text-base text-muted-foreground">{{post.caption}}</p>
+                    <p class="text-sm leading-none">{{ moment(post.createdOn).utc().local().fromNow()  }}</p>
                   </div>
                 </div>
               </div>
@@ -26,7 +27,7 @@
               <Separator class="bg-foreground/20"/>
             </div>
 
-          <div class="flex-1 w-full h-[33.5rem]  py-4 px-4 overflow-y-scroll gap-4 flex flex-col">
+          <div class="flex-1 w-full h-[33.5rem]  py-4 px-4 overflow-y-scroll gap-4 flex flex-col no-scrollbar">
             <CommentCard v-for="(commentInfo, index) in post.comments" :key="index" :commentInfo="commentInfo"/>
             <!-- <div class="w-full">
               <div class="flex gap-2">

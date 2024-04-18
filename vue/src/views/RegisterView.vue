@@ -1,12 +1,12 @@
 <!-- eslint-disable no-undef -->
 <!-- eslint-disable no-undef -->
 <template>
-  <div class="w-full min-h-screen flex items-center justify-center p-3 gap-3">
+  <div class="w-full min-h-screen flex items-center justify-center bg-background p-3 gap-3">
 
     <!--    TODO: Add Error Message -->
     <div class="self-stretch w-full lg:w-1/2 flex flex-col">
       <a href="/">
-        <h1 class="pr-4 font-bold text-2xl mx-2">LOGO</h1>
+        <h1 class="pr-4 font-bold inline-block text-2xl text-foreground/90">Chat<b class="text-purple-500">TE</b></h1>
       </a>
       <div class="w-full h-full flex flex-col items-center justify-center gap-5 px-20 md:px-40 lg:px-20 2xl:px-56">
         <div class="flex flex-col items-center gap-2">
