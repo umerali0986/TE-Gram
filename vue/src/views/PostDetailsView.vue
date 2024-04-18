@@ -1,5 +1,5 @@
 <template>
-    <div class="flex w-full container px-4 pt-5 flex-wrap lg:flex-nowrap overflow-y-scroll">
+    <div  class="no-scrollbar flex w-full container px-4 pt-5 flex-wrap lg:flex-nowrap overflow-y-scroll">
       <Toaster />
         <div class="flex-[2] aspect-square min-w-[28rem] lg:max-w-[20rem] xl:max-w-[48.5rem]">
             <img class="w-full aspect-square rounded-lg" :alt="post.image.altDesc || ''" :src="`http://localhost:9000/posts/${post.id}/image`">

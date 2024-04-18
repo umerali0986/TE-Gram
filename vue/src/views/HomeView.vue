@@ -105,7 +105,9 @@
            </div>
 
            <div class="w-full min-w-[372px] h-fit leading-7">
-             <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md">
+              <img src="https://i.imgur.com/VVCiWkt.jpeg" alt="">
+             </div>
              <h4 class="text-2xl font-semibold mt-3">Enrique Cedeno</h4>
              <h5 class="font-medium text-lg">Git Ninja</h5>
              <p class="mt-1">
@@ -114,7 +116,8 @@
            </div>
 
            <div class="w-full min-w-[372px] h-fit leading-7">
-             <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md">
+             </div>
              <h4 class="text-2xl font-semibold mt-3">Umer Abubeker</h4>
              <h5 class="font-medium text-lg">Server Sensei</h5>
              <p class="mt-1">
