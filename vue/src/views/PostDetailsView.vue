@@ -228,7 +228,7 @@ export default {
         if(response.status === 200){
          
         this.post.comments.unshift(response.data);
-          toast('Comment saved successfully.');
+          toast('Comment added successfully.');
             // setTimeout(() => {
             //   window.location.reload();
             // }, 100)

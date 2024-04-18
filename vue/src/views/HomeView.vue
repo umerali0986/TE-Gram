@@ -96,7 +96,10 @@
        <Motion :animate="{ x: location }">
          <div class="flex w-full h-fit gap-12 flex-wrap md:flex-nowrap">
            <div class="w-full min-w-[372px] h-fit leading-7">
-             <div class="w-full h-[395px] bg-foreground/20 rounded-md"></div>
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md">
+               <img class="min-h-full object-cover" src="https://i.imgur.com/uid7l7U.jpeg" alt="Picture of Dustin">
+
+             </div>
              <h4 class="text-2xl font-semibold mt-3">Dustin Dobos</h4>
              <h5 class="font-medium text-lg">Bug Chaser</h5>
              <p class="mt-1">
@@ -105,18 +108,20 @@
            </div>
 
            <div class="w-full min-w-[372px] h-fit leading-7">
-             <div class="w-full h-[395px] bg-foreground/20 rounded-md">
-              <img src="https://i.imgur.com/VVCiWkt.jpeg" alt="">
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md overflow-hidden flex items-center pt-36">
+              <img src="https://i.imgur.com/VVCiWkt.jpeg" class="object-cover" alt="Picture of Enrique">
              </div>
              <h4 class="text-2xl font-semibold mt-3">Enrique Cedeno</h4>
              <h5 class="font-medium text-lg">Git Ninja</h5>
              <p class="mt-1">
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+               Results-driven junior developer with a background in language research, adept at problem-solving and app development.
              </p>
            </div>
 
            <div class="w-full min-w-[372px] h-fit leading-7">
-             <div class="w-full h-[395px] bg-foreground/20 rounded-md">
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md overflow-hidden">
+               <img src="https://i.imgur.com/ErSxxAa.jpeg" class="object-cover" alt="Picture of Umer">
+
              </div>
              <h4 class="text-2xl font-semibold mt-3">Umer Abubeker</h4>
              <h5 class="font-medium text-lg">Server Sensei</h5>
