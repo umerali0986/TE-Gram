@@ -12,6 +12,10 @@ export default {
 
     updateUserInfo(user){
         return axios.put('users/update', user);
+    },
+
+    deleteUserByUsername(username){
+        return axios.delete(`/users/${username}`);
     }
     
 }
