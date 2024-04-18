@@ -139,7 +139,8 @@
                       <AccordionContent class="flex flex-col gap-2">
                         <div class="w-full flex justify-between">
                           <Label for="make-private">Make picture private</Label>
-                          <Switch id="make-private" />
+                          <Switch :checked="isPrivate" aria-readonly @update:checked="togglePrivate" />
+                          <!-- <Switch id="make-private" /> -->
                         </div>
 
                         <p class="text-sm">
@@ -257,14 +258,15 @@
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>Are you sure you want to delete your account? Please know that once you done this action, you can not undo </AlertDialogDescription>
+                        <AlertDialogDescription>Are you sure you want to delete your account? Please know that once you
+                          done this action, you can not undo </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>
-                            Cancel
+                          Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction>
-                            <Button va @click="handleDeleteAccount">Delete</Button>
+                          <Button va @click="handleDeleteAccount">Delete</Button>
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
@@ -371,6 +373,7 @@ export default {
   },
   data() {
     return {
+      isPrivate: false,
       isShowModal: false,
       pic: null,
       avatar: null,
@@ -390,17 +393,29 @@ export default {
   },
   props: ['show'],
   methods: {
+
+    togglePrivate() {
+      if (this.isPrivate) {
+        this.isPrivate = false;
+        console.log(this.isPrivate);
+      } else {
+        this.isPrivate = true;
+        console.log(this.isPrivate);
+      }
+
+    },
+
     handleDeleteAccount() {
       let currentUsername = this.$store.state.user.username;
       userService.deleteUserByUsername(currentUsername)
-      .then(response => {
-        if(response.status === 204){
-          this.$store.state.token='';
-          localStorage.removeItem('token');
-          this.$router.push('/'); 
-          toast('Account deleted successfully');
-        }
-      })
+        .then(response => {
+          if (response.status === 204) {
+            this.$store.state.token = '';
+            localStorage.removeItem('token');
+            this.$router.push('/');
+            toast('Account deleted successfully');
+          }
+        })
     },
     logout() {
       this.$router.push('/');
@@ -534,19 +549,41 @@ export default {
         postService.post(formData).then(response => {
           if (response.status === 200) {
             toast('Picture uploaded successfully.');
-            //after image upload the page gets reload which cause a user to log out automatically, that's why I commented out
-
-            setTimeout(() => {
-              window.location.reload();
-            }, 100)
 
             // displaying the latest post to on the webpage, without leaving the webpage
             this.$store.commit('ADD_CREATED_POST_TO_POSTCOLLECTIONS', response.data);
 
+            let createdPost = response.data;
 
             // Optionally emit an event or handle response
             console.log('Post created successfully!');
-          } else {
+
+            // make the post private
+            if (this.isPrivate) {
+              postService.makePostPrivateById(createdPost.id)
+                .then(response => {
+                  if (response.status === 202) {
+                    console.log(response.data);
+                
+                  }
+                }).catch(err => console.log(err));
+            }
+            //make the post public
+            else{
+            postService.makePostPublicById(createdPost.id)
+              .then(response => {
+                if (response.status === 202) {
+                  console.log(response.data);
+                }
+              }).then(err => console.log(err));
+            }
+
+            //after image upload the page gets reload which cause a user to log out automatically, that's why I commented out
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 100)
+          } 
+          else {
             toast('Failed image upload.');
             console.error('Failed to create post.');
           }
