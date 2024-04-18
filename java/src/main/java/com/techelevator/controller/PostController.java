@@ -163,8 +163,8 @@ public class PostController {
         return jdbcCommentDao.createComment(postInfo, currentUser, comment.getText());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(path = "/{postId}", method = RequestMethod.DELETE)
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path = "/delete/{postId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePostById(@PathVariable int postId){
         jdbcPostDao.deletePostById(postId);
@@ -176,6 +176,20 @@ public class PostController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentById(@PathVariable int commentId){
         jdbcPostDao.deleteCommentById(commentId);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path = "/{postId}/private", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Post makePostPrivateById(@PathVariable int postId){
+        return jdbcPostDao.makePostPrivateById(postId);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(path = "/{postId}/public", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Post makePostPublicById(@PathVariable int postId){
+        return jdbcPostDao.makePostPublicById(postId);
     }
 
 }

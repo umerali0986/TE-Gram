@@ -17,6 +17,7 @@ CREATE TABLE posts (
 	caption text,
 	post_creator varchar(100) NOT NULL,
     created_on timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+	is_private boolean DEFAULT 'false', 
 	CONSTRAINT PK_posts PRIMARY KEY(post_id),
 	CONSTRAINT FK_posts_users FOREIGN KEY(post_creator) REFERENCES users(username)
 );

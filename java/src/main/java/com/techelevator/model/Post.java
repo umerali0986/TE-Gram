@@ -15,6 +15,8 @@ public class Post {
 
     private boolean favorite;
 
+    private boolean isPrivate;
+
 
 
     private Date createdOn;
@@ -115,4 +117,11 @@ public class Post {
         this.favorite = favorite;
     }
 
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
 }

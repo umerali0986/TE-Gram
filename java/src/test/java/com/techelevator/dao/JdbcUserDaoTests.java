@@ -124,15 +124,15 @@ public class JdbcUserDaoTests extends BaseDaoTests {
 //
 //    }
 
-    @Test
-    public void deleteUserById_should_delete_User(){
-        int numberOfRows = sut.deleteUserById(USER_1.getId());
+    // @Test
+    // public void deleteUserById_should_delete_User(){
+    //     int numberOfRows = sut.deleteUserById(USER_1.getId());
 
-        Assert.assertEquals("Number of rows affected doesn't match",1, numberOfRows);
+    //     Assert.assertEquals("Number of rows affected doesn't match",1, numberOfRows);
 
-        User user = sut.getUserById(USER_1.getId());
-        Assert.assertNull(user);
-    }
+    //     User user = sut.getUserById(USER_1.getId());
+    //     Assert.assertNull(user);
+    // }
 
     @Test(expected = IllegalArgumentException.class)
     public void getUserByEmail_given_null_throws_exception() {

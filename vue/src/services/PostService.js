@@ -36,5 +36,13 @@ export default {
 
     deletePostById(id){
         return axios.delete(`posts/delete/${id}`);
+    },
+
+    makePostPrivateById(id){
+        return axios.put(`posts/${id}/private`);
+    },
+
+    makePostPublicById(id){
+        return axios.put(`posts/${id}/public`);
     }
 }

@@ -21,17 +21,9 @@
 
     <Separator class="mt-4" />
     <div class="flex-1 grid grid-cols-1 pt-4 xl:grid-cols-2 w-full h-full gap-10">
-      <PostCard v-for="(post,index) in $store.state.postCollection" :key="index" :post="post" @toggleChange="receiveEmit" />
+      <PostCard v-for="(post,index) in $store.state.postCollection" :key="index" :post="post" />
     </div>
 
-
-
-
-    <!--        <h1>This is {{ user.username }}'s profile!</h1>-->
-    <!--        <div v-if="userPosts[0] !== ''">-->
-    <!--            These are {{ user.username }}'s photos! -->
-    <!--            <PostCard v-for="(post, index) in userPosts" :key="index" :post="post"></PostCard>-->
-    <!--        </div>-->
   </div>
 </template>
 
@@ -39,7 +31,6 @@
 import userService from '@/services/UserService';
 import postService from '../services/PostService';
 import PostCard from '@/components/PostCard.vue';
-import axios from 'axios';
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
@@ -50,11 +41,6 @@ export default {
       user: {},
       
     }
-  },
-  methods: {
-    receiveEmit(){
-      this.$router.go();
-    },
   },
   components: {
     Separator,
