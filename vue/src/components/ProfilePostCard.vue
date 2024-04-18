@@ -7,7 +7,7 @@
       <img :src="`http://localhost:9000/posts/${post.id}/image`" alt="Nature Picture" class="h-full w-full aspect-square"   />
       </router-link> -->
 
-      <img  @click="handleImage" :src="`http://localhost:9000/posts/${post.id}/image`" alt="Nature Picture" class="h-full w-full aspect-square cursor-pointer"   />
+      <img  @click="handleImage" :src="`http://localhost:9000/posts/${post.id}/image`" :alt="post.image.altDesc || ''" class="h-full w-full aspect-square cursor-pointer"   />
 
     </div>
     <div class="flex my-4">

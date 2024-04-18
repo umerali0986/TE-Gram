@@ -60,9 +60,9 @@
             </button>
           </router-link>
 
-          <Dialog>
+          <Dialog :open="showUploadForm" >
             <DialogTrigger>
-              <button class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
+              <button @click="showUploadForm = true" class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
                 <svg class="text-foreground" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -373,6 +373,7 @@ export default {
   },
   data() {
     return {
+      showUploadForm: false,
       isPrivate: false,
       isShowModal: false,
       pic: null,
@@ -402,7 +403,6 @@ export default {
         this.isPrivate = true;
         console.log(this.isPrivate);
       }
-
     },
 
     handleDeleteAccount() {
@@ -475,16 +475,6 @@ export default {
           })
         }
 
-        // if(this.pic){
-        //   userService.updateUserAvatar(this.pic)
-        //   .then(response => {
-        //     if(response.status === 200){
-        //       console.log('update avatar successful');
-        //     }
-        //   })
-        //   .catch(err => console.log(err))
-        // } 
-
         userService.updateUserInfo(this.userInfo)
           .then(response => {
             if (response.status === 200) {
@@ -549,7 +539,6 @@ export default {
         postService.post(formData).then(response => {
           if (response.status === 200) {
             toast('Picture uploaded successfully.');
-
             // displaying the latest post to on the webpage, without leaving the webpage
             this.$store.commit('ADD_CREATED_POST_TO_POSTCOLLECTIONS', response.data);
 
@@ -564,7 +553,7 @@ export default {
                 .then(response => {
                   if (response.status === 202) {
                     console.log(response.data);
-                
+
                   }
                 }).catch(err => console.log(err));
             }
@@ -578,11 +567,8 @@ export default {
               }).then(err => console.log(err));
             }
 
-            //after image upload the page gets reload which cause a user to log out automatically, that's why I commented out
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 100)
-          } 
+            this.showUploadForm = false;
+          }
           else {
             toast('Failed image upload.');
             console.error('Failed to create post.');
