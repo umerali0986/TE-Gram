@@ -83,6 +83,7 @@ public class UserController {
         return userDao.getUserByUsername(principal.getName());
 }
 
+
     @RequestMapping(path = "/{username}/image", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getAvatarImageByUsername(@PathVariable String username) throws IOException {
        User user = userDao.getUserByUsername(username);
@@ -99,9 +100,11 @@ public class UserController {
                 .body(imageData);
     }
 
-    @RequestMapping(path="/{id}", method= RequestMethod.DELETE)
-    public void deleteUserById(@PathVariable int id){
-        userDao.deleteUserById(id);
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(path="/{username}", method= RequestMethod.DELETE)
+    public void deleteUserByUsername(@PathVariable String username){
+        userDao.deleteUserByUsername(username);
     }
 
     @PreAuthorize("isAuthenticated()")

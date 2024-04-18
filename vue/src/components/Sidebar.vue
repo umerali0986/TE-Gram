@@ -177,7 +177,8 @@
         <div class="flex flex-col items-center gap-2">
           <Dialog>
             <DialogTrigger>
-              <button @click="showUpdateModal" class="py-2 px-4 flex gap-3 w-[280px] text-foreground rounded hover:bg-accent">
+              <button @click="showUpdateModal"
+                class="py-2 px-4 flex gap-3 w-[280px] text-foreground rounded hover:bg-accent">
                 <svg class="text-foreground" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -210,15 +211,15 @@
                     <FormItem class="mb-3">
                       <FormLabel>Profile picture</FormLabel>
                       <FormControl>
-                        <Input ref="uploadInput" id="picture" type="file" accept="image/jpg, image/jpeg, image/png, image/gif"
-                          @change="selectAvatar" />
+                        <Input ref="uploadInput" id="picture" type="file"
+                          accept="image/jpg, image/jpeg, image/png, image/gif" @change="selectAvatar" />
                       </FormControl>
                     </FormItem>
 
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="John Doe"  v-model="userInfo.name"/>
+                        <Input type="text" placeholder="John Doe" v-model="userInfo.name" />
                       </FormControl>
                     </FormItem>
 
@@ -232,14 +233,14 @@
                     <FormItem class="mt-4">
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="*************" v-model="userInfo.newPassword"/>
+                        <Input type="password" placeholder="*************" v-model="userInfo.newPassword" />
                       </FormControl>
                     </FormItem>
 
                     <FormItem class="mt-4">
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="*************"  v-model="userInfo.confirmNewPassword"/>
+                        <Input type="password" placeholder="*************" v-model="userInfo.confirmNewPassword" />
                       </FormControl>
                     </FormItem>
                     <p class="text-red-500" v-if="registrationErrors">{{ registrationErrorMsg }}</p>
@@ -247,16 +248,37 @@
                   <Button type="submit" class="mt-6 mx-[10%] py-2">
                     Done
                   </Button>
-                  <button @click="handleDeleteAccount" class="text-red-500">
-                    delete account
-                  </button>
-                 
+                  <AlertDialog>
+                    <AlertDialogTrigger>
+                      <Button  class="text-red-500 mt-3 px-20" variant="outline">
+                        Delete Account
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>Are you sure you want to delete your account? Please know that once you done this action, you can not undo </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>
+                            Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction>
+                            <Button va @click="handleDeleteAccount">Delete</Button>
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+
+                  </AlertDialog>
+
                 </form>
 
               </div>
 
             </DialogContent>
           </Dialog>
+
+
 
           <button v-on:click="logout" class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
             <svg class="text-foreground" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -286,6 +308,17 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogHeader,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Cropper } from 'vue-advanced-cropper'
@@ -304,12 +337,18 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form'
-import {AlertDialogCancel} from "@/components/ui/alert-dialog";
+// import AlertDialogTrigger from "./ui/alert-dialog/AlertDialogTrigger.vue";
 
 
 export default {
   components: {
+    AlertDialogHeader,
+    AlertDialogFooter,
+    AlertDialogTitle,
+    AlertDialogAction,
     AlertDialogCancel,
+    AlertDialogDescription,
+    AlertDialogContent, AlertDialog,
     RouterLink,
     Toaster,
     Switch,
@@ -327,7 +366,8 @@ export default {
     FormLabel,
     DialogFooter,
     Cropper,
-    Button, DialogDescription, DialogTitle, AvatarImage, AvatarFallback, DialogHeader, DialogContent, DialogTrigger, Dialog
+    Button, DialogDescription, DialogTitle, AvatarImage, AvatarFallback, DialogHeader, DialogContent, DialogTrigger, Dialog,
+    AlertDialogTrigger
   },
   data() {
     return {
@@ -338,26 +378,29 @@ export default {
         caption: '',
         altDescription: '',
       },
-      userInfo:{
-        name:'',
-        email:'',
-        newPassword:'',
-        confirmNewPassword:''
+      userInfo: {
+        name: '',
+        email: '',
+        newPassword: '',
+        confirmNewPassword: ''
       },
-      registrationErrorMsg:'',
-      registrationErrors:false
+      registrationErrorMsg: '',
+      registrationErrors: false
     }
   },
   props: ['show'],
   methods: {
-    handleDeleteAccount(){
-      if(confirm('Are you sure you want to delete your account') === true){
-        console.log('account deleted');
-        this.$router.push('/');
-      } else {
-        console.log('thank you for staying');
-        
-      }
+    handleDeleteAccount() {
+      let currentUsername = this.$store.state.user.username;
+      userService.deleteUserByUsername(currentUsername)
+      .then(response => {
+        if(response.status === 204){
+          this.$store.state.token='';
+          localStorage.removeItem('token');
+          this.$router.push('/'); 
+          toast('Account deleted successfully');
+        }
+      })
     },
     logout() {
       this.$router.push('/');
@@ -380,7 +423,7 @@ export default {
       this.avatar = files[0];
       console.log(this.avatar);
     },
-    showUpdateModal(){
+    showUpdateModal() {
 
       let currentUser = this.$store.state.user;
       this.userInfo.email = currentUser.email;
@@ -388,19 +431,19 @@ export default {
     },
 
     handleUpdate(e) {
-      if (this.userInfo.name === ''){
+      if (this.userInfo.name === '') {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter name.';
       }
-      else if (this.userInfo.email === ''){
+      else if (this.userInfo.email === '') {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter email.';
       }
-      else if (this.userInfo.newPassword === ''){
+      else if (this.userInfo.newPassword === '') {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Please enter password.';
       }
-      else if (this.userInfo.confirmNewPassword === ''){
+      else if (this.userInfo.confirmNewPassword === '') {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Please confirm password.';
       }
@@ -428,8 +471,8 @@ export default {
         // } 
 
         userService.updateUserInfo(this.userInfo)
-        .then(response => {
-            if(response.status === 200){
+          .then(response => {
+            if (response.status === 200) {
               toast('profile updated successfully');
               setTimeout(() => {
                 window.location.reload();
@@ -437,7 +480,7 @@ export default {
             }
           })
           .catch(err => console.log(err))
-  
+
         // authService
         //   .register(this.user)
         //   .then((response) => {
@@ -472,13 +515,13 @@ export default {
       //   .catch(err => console.log(err))
       // } 
 
-        // userService.updateUserInfo(this.userInfo)
-        // .then(response => {
-        //     if(response.status === 200){
-        //       console.log('update profile successful');
-        //     }
-        //   })
-        //   .catch(err => console.log(err))
+      // userService.updateUserInfo(this.userInfo)
+      // .then(response => {
+      //     if(response.status === 200){
+      //       console.log('update profile successful');
+      //     }
+      //   })
+      //   .catch(err => console.log(err))
     },
     handleSubmit() {
       const { canvas } = this.$refs.cropper.getResult();
