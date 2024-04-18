@@ -12,7 +12,13 @@
       <DropdownMenuContent class="w-56">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem @click="handleDelete(post.id)" v-if="post.postCreator === this.$store.state.user.username">
+        <DropdownMenuCheckboxItem >
+            <RouterLink :to="`/app/profile/${post.postCreator}`">
+                View Profile
+            </RouterLink>
+            
+        </DropdownMenuCheckboxItem> 
+        <DropdownMenuCheckboxItem @click="handleDelete(post.id)" v-if="post.postCreator === this.$store.state.user.username || this.$store.state.user.authorities[0].name === 'ROLE_ADMIN'">
           <span class="text-red-500">Delete Post</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem v-if="!post.private && post.postCreator === this.$store.state.user.username" @click="handleTogglePrivate(post.id)">
@@ -21,10 +27,7 @@
         <DropdownMenuCheckboxItem v-else-if="post.private && post.postCreator === this.$store.state.user.username"  @click="handleTogglePublic(post.id)">
             Make Public
         </DropdownMenuCheckboxItem> 
-        
-        <DropdownMenuCheckboxItem>
-          Add Function
-        </DropdownMenuCheckboxItem>
+    
       </DropdownMenuContent>
     </DropdownMenu>
   </template>

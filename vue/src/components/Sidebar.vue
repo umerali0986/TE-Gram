@@ -251,7 +251,7 @@
                   </Button>
                   <AlertDialog>
                     <AlertDialogTrigger>
-                      <Button class="text-red-500 mt-3 px-20" variant="outline">
+                      <Button  class="text-red-500 mt-3 px-20" variant="outline">
                         Delete Account
                       </Button>
                     </AlertDialogTrigger>
