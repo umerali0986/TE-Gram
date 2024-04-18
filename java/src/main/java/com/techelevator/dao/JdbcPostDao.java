@@ -31,7 +31,7 @@ public class JdbcPostDao implements PostDao {
     @Override
     public List<Post> getAllPosts() throws DaoException {
         List<Post> posts = new ArrayList<>();
-        String sql = "SELECT * FROM posts";
+        String sql = "SELECT * FROM posts ORDER BY post_id DESC;";
 
         try {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql);

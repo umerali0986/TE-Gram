@@ -136,8 +136,6 @@ export default defineComponent({
       }
      
       this.$router.push(`/app/post/${this.post.id}`)
-
-      console.log()
     },
     handleBookmark() {
       if (!this.$store.state.token) {
