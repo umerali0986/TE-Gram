@@ -102,13 +102,12 @@
              </div>
              <h4 class="text-2xl font-semibold mt-3">Dustin Dobos</h4>
              <h5 class="font-medium text-lg">Bug Chaser</h5>
-             <p class="mt-1">
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+             <p class="mt-1">Creative, self-driven US Army veteran with a passion for bringing imagination to life.
              </p>
            </div>
 
            <div class="w-full min-w-[372px] h-fit leading-7">
-             <div class="w-full h-[395px] bg-foreground/20 rounded-md overflow-hidden flex items-center pt-36">
+             <div class="w-full h-[395px] bg-foreground/20 rounded-md overflow-hidden flex items-center pt-36 relative">
               <img src="https://i.imgur.com/VVCiWkt.jpeg" class="object-cover" alt="Picture of Enrique">
              </div>
              <h4 class="text-2xl font-semibold mt-3">Enrique Cedeno</h4>
@@ -120,13 +119,13 @@
 
            <div class="w-full min-w-[372px] h-fit leading-7">
              <div class="w-full h-[395px] bg-foreground/20 rounded-md overflow-hidden">
-               <img src="https://i.imgur.com/ErSxxAa.jpeg" class="object-cover" alt="Picture of Umer">
+               <img src="https://i.imgur.com/ErSxxAa.jpeg" class="object-cover min-h-full" alt="Picture of Umer">
 
              </div>
              <h4 class="text-2xl font-semibold mt-3">Umer Abubeker</h4>
              <h5 class="font-medium text-lg">Server Sensei</h5>
              <p class="mt-1">
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+               Passionate full-stack junior developer with a strong foundation in solving complex problems through an innovative coding and analytical mindset.
              </p>
            </div>
          </div>
