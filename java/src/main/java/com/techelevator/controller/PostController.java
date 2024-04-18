@@ -57,6 +57,7 @@ public class PostController {
         Post post = new Post();
         post.setCaption(caption);
         User currentUser = jdbcUserDao.getUserByUsername(principal.getName());
+
         post.setPostCreator(currentUser.getUsername());
         Post postInfo = jdbcPostDao.createPost(post, currentUser.getId());
 
