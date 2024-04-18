@@ -60,9 +60,9 @@
             </button>
           </router-link>
 
-          <Dialog :open="showUploadForm" >
+          <Dialog :open="showPictureModal" >
             <DialogTrigger>
-              <button @click="showUploadForm = true" class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
+              <button @click="showPictureModal = true"  class="py-2 px-4 flex gap-3 w-[280px] rounded hover:bg-accent">
                 <svg class="text-foreground" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -85,7 +85,11 @@
               </button>
             </DialogTrigger>
 
-            <DialogContent class="max-w-fit">
+            <DialogOverlay>
+            <DialogContent class="max-w-fit"
+                           @interact-outside="(event) => {
+                            showPictureModal = false }"
+            >
               <DialogHeader>
                 <DialogTitle>Upload a Picture</DialogTitle>
                 <DialogDescription>
@@ -123,12 +127,12 @@
                 <div class="w-[30rem] flex px-4 flex-col gap-4">
                   <div class="flex h-fit gap-2 items-center">
                     <Avatar>
-                      <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
+                      <AvatarImage :src="`http://localhost:9000/users/${$store.state.user.username}/image`" alt="@radix-vue" />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
 
                     <div class="flex justify-center">
-                      <h5 class="font-semibold leading-[1rem]">shadcn</h5>
+                      <h5 class="font-semibold leading-[1rem]">{{$store.state.user.username}}</h5>
                     </div>
                   </div>
 
@@ -172,11 +176,14 @@
 
               </DialogFooter>
             </DialogContent>
+            </DialogOverlay>
+
           </Dialog>
         </div>
 
         <div class="flex flex-col items-center gap-2">
-          <Dialog>
+          <Dialog
+              :open="showSettingModal">
             <DialogTrigger>
               <button @click="showUpdateModal"
                 class="py-2 px-4 flex gap-3 w-[280px] text-foreground rounded hover:bg-accent">
@@ -192,7 +199,8 @@
                 Settings
               </button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent @interact-outside="(event) => {
+                            showSettingModal = false }">
               <DialogHeader>
                 <DialogTitle>
                   Settings
@@ -303,12 +311,12 @@
 <script>
 import userService from "@/services/UserService";
 import {
-  Dialog,
+  Dialog, DialogClose,
   DialogContent,
   DialogDescription, DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   AlertDialog,
@@ -339,11 +347,12 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form'
+import {DialogOverlay} from "radix-vue";
+import {ref} from "vue";
 // import AlertDialogTrigger from "./ui/alert-dialog/AlertDialogTrigger.vue";
-
-
 export default {
   components: {
+    DialogOverlay,
     AlertDialogHeader,
     AlertDialogFooter,
     AlertDialogTitle,
@@ -367,13 +376,15 @@ export default {
     FormItem,
     FormLabel,
     DialogFooter,
+    DialogClose,
     Cropper,
     Button, DialogDescription, DialogTitle, AvatarImage, AvatarFallback, DialogHeader, DialogContent, DialogTrigger, Dialog,
     AlertDialogTrigger
   },
   data() {
     return {
-      showUploadForm: false,
+      showPictureModal: false,
+      showSettingModal: false,
       isPrivate: false,
       isShowModal: false,
       pic: null,
@@ -421,7 +432,6 @@ export default {
       this.$router.push('/');
       this.$store.commit("TOGGLE_VALIDATION_STATUS");
       this.$store.commit("LOGOUT")
-      // window.location.reload()
     },
     selectFile(event) {
       const files = event.target.files;
@@ -439,6 +449,7 @@ export default {
       console.log(this.avatar);
     },
     showUpdateModal() {
+      this.showSettingModal = true;
 
       let currentUser = this.$store.state.user;
       this.userInfo.email = currentUser.email;
@@ -476,57 +487,14 @@ export default {
         }
 
         userService.updateUserInfo(this.userInfo)
-          .then(response => {
-            if (response.status === 200) {
-              toast('profile updated successfully');
-              setTimeout(() => {
-                window.location.reload();
-              }, 100)
-            }
-          })
-          .catch(err => console.log(err))
-
-        // authService
-        //   .register(this.user)
-        //   .then((response) => {
-        //     if (response.status === 201) {
-        //       this.$store.commit("TOGGLE_VALIDATION_STATUS");
-        //       this.$store.commit("SET_LOADING", false);
-        //       this.$router.push({
-        //         path: '/app',
-        //         query: { registration: 'success' },
-        //       });
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     const response = error.response;
-        //     this.registrationErrors = true;
-        //     if (response.status === 400) {
-        //       this.registrationErrorMsg = 'Bad Request: Validation Errors';
-        //     }
-        //   });
+            .then(response => {
+              if (response.status === 200) {
+                toast('Profile updated successfully.');
+                this.showSettingModal = false;
+              }
+            })
+            .catch(err => console.log(err))
       }
-      // if(this.pic){
-      //   console.log(e.target)
-      //   let img = e.target.files[0]
-      //   const formData = new FormData(); 
-      //   formData.append('image', img);
-      //   userService.updateUserAvatar(formData)
-      //   .then(response => {
-      //     if(response.status === 200){
-      //       console.log('update avatar successful');
-      //     }
-      //   })
-      //   .catch(err => console.log(err))
-      // } 
-
-      // userService.updateUserInfo(this.userInfo)
-      // .then(response => {
-      //     if(response.status === 200){
-      //       console.log('update profile successful');
-      //     }
-      //   })
-      //   .catch(err => console.log(err))
     },
     handleSubmit() {
       const { canvas } = this.$refs.cropper.getResult();
@@ -567,7 +535,8 @@ export default {
               }).then(err => console.log(err));
             }
 
-            this.showUploadForm = false;
+            this.showPictureModal = false;
+            this.isShowModal = false;
           }
           else {
             toast('Failed image upload.');
