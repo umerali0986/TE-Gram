@@ -97,7 +97,7 @@
          <div class="flex w-full h-fit gap-12 flex-wrap md:flex-nowrap">
            <div class="w-full min-w-[372px] h-fit leading-7">
              <div class="w-full h-[395px] bg-foreground/20 rounded-md">
-               <img class="min-h-full object-cover" src="https://i.imgur.com/uid7l7U.jpeg" alt="Picture of Dustin">
+               <img class="min-h-full object-cover" src="../assets/uid7l7U.jpeg" alt="Picture of Dustin">
 
              </div>
              <h4 class="text-2xl font-semibold mt-3">Dustin Dobos</h4>
@@ -108,7 +108,7 @@
 
            <div class="w-full min-w-[372px] h-fit leading-7">
              <div class="w-full h-[395px] bg-foreground/20 rounded-md overflow-hidden flex items-center pt-36 relative">
-              <img src="https://i.imgur.com/VVCiWkt.jpeg" class="object-cover" alt="Picture of Enrique">
+              <img src="../assets/VVCiWkt.jpeg" class="object-cover" alt="Picture of Enrique">
              </div>
              <h4 class="text-2xl font-semibold mt-3">Enrique Cedeno</h4>
              <h5 class="font-medium text-lg">Git Ninja</h5>
@@ -119,7 +119,7 @@
 
            <div class="w-full min-w-[372px] h-fit leading-7">
              <div class="w-full h-[395px] bg-foreground/20 rounded-md overflow-hidden">
-               <img src="https://i.imgur.com/ErSxxAa.jpeg" class="object-cover min-h-full" alt="Picture of Umer">
+               <img src="../assets/1647690482524.jpg" class="object-cover min-h-full" alt="Picture of Umer">
 
              </div>
              <h4 class="text-2xl font-semibold mt-3">Umer Abubeker</h4>
