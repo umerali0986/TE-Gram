@@ -1,4 +1,4 @@
-
+Here are a few screenshots from a project:
 ![signup_page](https://github.com/umerali0986/TE-Gram-App/assets/155697490/d209e802-15b9-4a47-9c09-7e0ab0784770)
 ![Signin_page](https://github.com/umerali0986/TE-Gram-App/assets/155697490/37e3a9f9-9dde-40b4-b1c9-fe9f4d6bde4a)
 ![homepage_dark_mode](https://github.com/umerali0986/TE-Gram-App/assets/155697490/4fb1fd7f-3387-4ad9-9623-f513cda3243d)
